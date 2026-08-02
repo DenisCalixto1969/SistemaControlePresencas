@@ -1,24 +1,964 @@
 "use strict";
 
+let membrosCarregados = [];
+let membroEmEdicaoId = null;
+let membroEmExclusaoId = null;
+
 function carregarModuloMembros() {
     return `
         <section class="cabecalho-pagina">
             <div>
                 <h2>Membros</h2>
+
                 <p>
-                    Cadastre, consulte e atualize os membros do Capítulo.
+                    Cadastre, consulte e gerencie os membros do Capítulo.
                 </p>
             </div>
 
-            <button type="button" class="botao-primario">
-                Novo membro
+            <button
+                type="button"
+                class="botao-primario"
+                id="botao-novo-membro"
+            >
+                + Novo membro
             </button>
         </section>
 
-        <section class="painel">
-            <p>
-                O cadastro de membros será desenvolvido na próxima etapa.
-            </p>
+        <section class="barra-ferramentas">
+            <div class="campo-pesquisa">
+                <label for="pesquisa-membro">
+                    Pesquisar
+                </label>
+
+                <input
+                    type="search"
+                    id="pesquisa-membro"
+                    placeholder="Digite o nome, CIR ou CIM"
+                    autocomplete="off"
+                >
+            </div>
+
+            <div class="contador-registros">
+                <span id="quantidade-membros">0 membros</span>
+            </div>
         </section>
+
+        <section class="painel painel-listagem">
+            <div class="lista-cabecalho lista-membros-grid">
+                <span>Nome</span>
+                <span>Grau</span>
+                <span>CIR</span>
+                <span>Situação</span>
+                <span>Ações</span>
+            </div>
+
+            <div id="lista-membros" class="lista-corpo">
+                <div class="estado-lista">
+                    Carregando membros...
+                </div>
+            </div>
+        </section>
+
+        ${criarModalMembro()}
+        ${criarModalExclusaoMembro()}
     `;
+}
+
+function criarModalMembro() {
+   const opcoesGraus = CONFIG.grausMembros
+        .map((grau) => {
+            return `
+                <option value="${grau}">
+                    Grau ${grau}
+                </option>
+            `;
+        })
+        .join("");
+
+    return `
+        <div
+            class="modal-fundo oculto"
+            id="modal-membro"
+            aria-hidden="true"
+        >
+            <section
+                class="modal"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="titulo-modal-membro"
+            >
+                <header class="modal-cabecalho">
+                    <div>
+                        <h3 id="titulo-modal-membro">
+                            Novo membro
+                        </h3>
+
+                        <p>
+                            Preencha os dados do membro.
+                        </p>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="botao-fechar-modal"
+                        id="botao-fechar-modal-membro"
+                        aria-label="Fechar formulário"
+                    >
+                        ×
+                    </button>
+                </header>
+
+                <form id="formulario-membro">
+                    <div class="formulario-grid">
+                        <div class="grupo-campo campo-largura-total">
+                            <label for="membro-nome">
+                                Nome <span class="obrigatorio">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                id="membro-nome"
+                                maxlength="150"
+                                autocomplete="off"
+                                required
+                            >
+                        </div>
+
+                        <div class="grupo-campo">
+                            <label for="membro-grau">
+                                Grau <span class="obrigatorio">*</span>
+                            </label>
+
+                            <select id="membro-grau" required>
+                                ${opcoesGraus}
+                            </select>
+                        </div>
+
+                        <div class="grupo-campo grupo-checkbox">
+                            <label for="membro-ativo">
+                                Situação
+                            </label>
+
+                            <label class="controle-checkbox">
+                                <input
+                                    type="checkbox"
+                                    id="membro-ativo"
+                                    checked
+                                >
+
+                                <span>Membro ativo</span>
+                            </label>
+                        </div>
+
+                        <div class="grupo-campo">
+                            <label for="membro-cir">
+                                CIR
+                            </label>
+
+                            <input
+                                type="text"
+                                id="membro-cir"
+                                maxlength="50"
+                                autocomplete="off"
+                            >
+                        </div>
+
+                        <div class="grupo-campo">
+                            <label for="membro-cim">
+                                CIM
+                            </label>
+
+                            <input
+                                type="text"
+                                id="membro-cim"
+                                maxlength="50"
+                                autocomplete="off"
+                            >
+                        </div>
+
+                        <div class="grupo-campo campo-largura-total">
+                            <label for="membro-observacoes">
+                                Observações
+                            </label>
+
+                            <textarea
+                                id="membro-observacoes"
+                                rows="4"
+                                maxlength="1000"
+                            ></textarea>
+                        </div>
+                    </div>
+
+                    <p
+                        class="mensagem-formulario oculto"
+                        id="mensagem-formulario-membro"
+                    ></p>
+
+                    <footer class="modal-acoes">
+                        <button
+                            type="button"
+                            class="botao-secundario"
+                            id="botao-cancelar-membro"
+                        >
+                            Cancelar
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="botao-primario"
+                            id="botao-salvar-membro"
+                        >
+                            Salvar membro
+                        </button>
+                    </footer>
+                </form>
+            </section>
+        </div>
+    `;
+}
+
+function criarModalExclusaoMembro() {
+    return `
+        <div
+            class="modal-fundo oculto"
+            id="modal-exclusao-membro"
+            aria-hidden="true"
+        >
+            <section
+                class="modal modal-confirmacao"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="titulo-exclusao-membro"
+            >
+                <header class="modal-cabecalho">
+                    <div>
+                        <h3 id="titulo-exclusao-membro">
+                            Excluir membro
+                        </h3>
+
+                        <p>
+                            Esta ação não poderá ser desfeita.
+                        </p>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="botao-fechar-modal"
+                        id="botao-fechar-exclusao-membro"
+                        aria-label="Fechar confirmação"
+                    >
+                        ×
+                    </button>
+                </header>
+
+                <div class="modal-confirmacao-conteudo">
+                    <p id="texto-exclusao-membro">
+                        Deseja realmente excluir este membro?
+                    </p>
+
+                    <footer class="modal-acoes">
+                        <button
+                            type="button"
+                            class="botao-secundario"
+                            id="botao-cancelar-exclusao-membro"
+                        >
+                            Cancelar
+                        </button>
+
+                        <button
+                            type="button"
+                            class="botao-excluir"
+                            id="botao-confirmar-exclusao-membro"
+                        >
+                            Excluir membro
+                        </button>
+                    </footer>
+                </div>
+            </section>
+        </div>
+    `;
+}
+
+
+async function inicializarModuloMembros() {
+    configurarEventosMembros();
+    await carregarMembros();
+}
+
+function configurarEventosMembros() {
+    const botaoNovo = document.querySelector("#botao-novo-membro");
+
+    const botaoFechar = document.querySelector(
+        "#botao-fechar-modal-membro"
+    );
+
+    const botaoCancelar = document.querySelector(
+        "#botao-cancelar-membro"
+    );
+
+    const formulario = document.querySelector("#formulario-membro");
+
+    const campoPesquisa = document.querySelector("#pesquisa-membro");
+
+    const modalMembro = document.querySelector("#modal-membro");
+
+    const listaMembros = document.querySelector("#lista-membros");
+
+    const modalExclusao = document.querySelector(
+        "#modal-exclusao-membro"
+    );
+
+    const botaoFecharExclusao = document.querySelector(
+        "#botao-fechar-exclusao-membro"
+    );
+
+    const botaoCancelarExclusao = document.querySelector(
+        "#botao-cancelar-exclusao-membro"
+    );
+
+    const botaoConfirmarExclusao = document.querySelector(
+        "#botao-confirmar-exclusao-membro"
+    );
+
+    botaoNovo.addEventListener("click", abrirModalNovoMembro);
+    botaoFechar.addEventListener("click", fecharModalMembro);
+    botaoCancelar.addEventListener("click", fecharModalMembro);
+
+    formulario.addEventListener("submit", salvarMembro);
+
+    campoPesquisa.addEventListener("input", () => {
+        filtrarMembros(campoPesquisa.value);
+    });
+
+    listaMembros.addEventListener("click", tratarAcaoMembro);
+
+    modalMembro.addEventListener("click", (evento) => {
+        if (evento.target === modalMembro) {
+            fecharModalMembro();
+        }
+    });
+
+    modalExclusao.addEventListener("click", (evento) => {
+        if (evento.target === modalExclusao) {
+            fecharModalExclusaoMembro();
+        }
+    });
+
+    botaoFecharExclusao.addEventListener(
+        "click",
+        fecharModalExclusaoMembro
+    );
+
+    botaoCancelarExclusao.addEventListener(
+        "click",
+        fecharModalExclusaoMembro
+    );
+
+    botaoConfirmarExclusao.addEventListener(
+        "click",
+        confirmarExclusaoMembro
+    );
+
+    document.addEventListener("keydown", tratarTeclaEscapeMembros);
+}
+
+function abrirModalNovoMembro() {
+    membroEmEdicaoId = null;
+
+    const modal = document.querySelector("#modal-membro");
+    const formulario = document.querySelector("#formulario-membro");
+    const campoAtivo = document.querySelector("#membro-ativo");
+    const mensagem = document.querySelector(
+        "#mensagem-formulario-membro"
+    );
+
+    document.querySelector(
+        "#titulo-modal-membro"
+    ).textContent = "Novo membro";
+
+    document.querySelector(
+        "#botao-salvar-membro"
+    ).textContent = "Salvar membro";
+
+    formulario.reset();
+
+    campoAtivo.checked = true;
+    mensagem.textContent = "";
+    mensagem.classList.add("oculto");
+
+    modal.classList.remove("oculto");
+    modal.setAttribute("aria-hidden", "false");
+
+    document.body.classList.add("modal-aberto");
+
+    window.setTimeout(() => {
+        document.querySelector("#membro-nome").focus();
+    }, 50);
+}
+async function abrirModalEditarMembro(id) {
+    const membro = await buscarRegistroPorId("membros", id);
+
+    if (!membro) {
+        mostrarMensagem(
+            "O membro selecionado não foi encontrado.",
+            "erro"
+        );
+
+        return;
+    }
+
+    membroEmEdicaoId = id;
+
+    document.querySelector(
+        "#titulo-modal-membro"
+    ).textContent = "Editar membro";
+
+    document.querySelector(
+        "#botao-salvar-membro"
+    ).textContent = "Salvar alterações";
+
+    document.querySelector("#membro-nome").value = membro.nome;
+    document.querySelector("#membro-grau").value = membro.grau;
+    document.querySelector("#membro-cir").value = membro.cir || "";
+    document.querySelector("#membro-cim").value = membro.cim || "";
+
+    document.querySelector(
+        "#membro-observacoes"
+    ).value = membro.observacoes || "";
+
+    document.querySelector("#membro-ativo").checked = membro.ativo;
+
+    const mensagem = document.querySelector(
+        "#mensagem-formulario-membro"
+    );
+
+    mensagem.textContent = "";
+    mensagem.classList.add("oculto");
+
+    const modal = document.querySelector("#modal-membro");
+
+    modal.classList.remove("oculto");
+    modal.setAttribute("aria-hidden", "false");
+
+    document.body.classList.add("modal-aberto");
+
+    window.setTimeout(() => {
+        document.querySelector("#membro-nome").focus();
+    }, 50);
+}
+
+function fecharModalMembro() {
+    const modal = document.querySelector("#modal-membro");
+
+    modal.classList.add("oculto");
+    modal.setAttribute("aria-hidden", "true");
+
+    membroEmEdicaoId = null;
+
+    atualizarEstadoBloqueioPagina();
+}
+
+async function salvarMembro(evento) {
+    evento.preventDefault();
+
+    const botaoSalvar = document.querySelector(
+        "#botao-salvar-membro"
+    );
+
+    const dados = obterDadosFormularioMembro();
+    const erroValidacao = validarDadosMembro(dados);
+
+    if (erroValidacao) {
+        mostrarErroFormularioMembro(erroValidacao);
+        return;
+    }
+
+    botaoSalvar.disabled = true;
+    botaoSalvar.textContent = "Salvando...";
+
+    try {
+        if (membroEmEdicaoId) {
+            await atualizarMembroExistente(dados);
+
+            mostrarMensagem(
+                "Membro atualizado com sucesso.",
+                "sucesso"
+            );
+        } else {
+            const novoMembro = new Membro(dados);
+
+            await adicionarRegistro("membros", novoMembro);
+
+            mostrarMensagem(
+                "Membro cadastrado com sucesso.",
+                "sucesso"
+            );
+        }
+
+        fecharModalMembro();
+        await carregarMembros();
+    } catch (erro) {
+        console.error("Erro ao salvar membro:", erro);
+
+        mostrarErroFormularioMembro(
+            "Não foi possível salvar o membro."
+        );
+    } finally {
+        botaoSalvar.disabled = false;
+
+        botaoSalvar.textContent = membroEmEdicaoId
+            ? "Salvar alterações"
+            : "Salvar membro";
+    }
+}
+
+async function atualizarMembroExistente(dados) {
+    const membroAtual = await buscarRegistroPorId(
+        "membros",
+        membroEmEdicaoId
+    );
+
+    if (!membroAtual) {
+        throw new Error("Membro não encontrado.");
+    }
+
+    const membroAtualizado = new Membro({
+        ...membroAtual,
+        ...dados,
+
+        id: membroAtual.id,
+
+        dataCadastro: membroAtual.dataCadastro,
+
+        dataUltimaAlteracao: new Date().toISOString()
+    });
+
+
+    await atualizarRegistro("membros", membroAtualizado);
+}
+
+function obterDadosFormularioMembro() {
+
+
+    return {
+        nome: document.querySelector("#membro-nome").value.trim(),
+
+        grau: Number(
+            document.querySelector("#membro-grau").value
+        ),
+
+        cir: document.querySelector("#membro-cir").value.trim(),
+
+        cim: document.querySelector("#membro-cim").value.trim(),
+
+        observacoes: document
+            .querySelector("#membro-observacoes")
+            .value
+            .trim(),
+
+        ativo: document.querySelector("#membro-ativo").checked
+    };
+}
+
+function validarDadosMembro(dados) {
+    if (!dados.nome) {
+        return "Informe o nome do membro.";
+    }
+
+    if (dados.nome.length < 3) {
+        return "O nome deve possuir pelo menos 3 caracteres.";
+    }
+
+   if (!CONFIG.grausMembros.includes(dados.grau))  {
+        return "Selecione um grau válido.";
+    }
+
+    return "";
+}
+
+function mostrarErroFormularioMembro(texto) {
+    const mensagem = document.querySelector(
+        "#mensagem-formulario-membro"
+    );
+
+    mensagem.textContent = texto;
+    mensagem.classList.remove("oculto");
+}
+
+async function carregarMembros() {
+    const lista = document.querySelector("#lista-membros");
+
+    lista.innerHTML = `
+        <div class="estado-lista">
+            Carregando membros...
+        </div>
+    `;
+
+    try {
+        membrosCarregados = await listarRegistros("membros");
+
+        membrosCarregados.sort((membroA, membroB) => {
+            return membroA.nome.localeCompare(
+                membroB.nome,
+                "pt-BR",
+                {
+                    sensitivity: "base"
+                }
+            );
+        });
+
+        renderizarMembros(membrosCarregados);
+    } catch (erro) {
+        console.error("Erro ao carregar membros:", erro);
+
+        lista.innerHTML = `
+            <div class="estado-lista estado-erro">
+                Não foi possível carregar os membros.
+            </div>
+        `;
+    }
+}
+
+function filtrarMembros(termoPesquisa) {
+    const termo = termoPesquisa
+        .trim()
+        .toLocaleLowerCase("pt-BR");
+
+    if (!termo) {
+        renderizarMembros(membrosCarregados);
+        return;
+    }
+
+    const membrosFiltrados = membrosCarregados.filter((membro) => {
+        const nome = membro.nome
+            .toLocaleLowerCase("pt-BR");
+
+        const cir = String(membro.cir || "")
+            .toLocaleLowerCase("pt-BR");
+
+        const cim = String(membro.cim || "")
+            .toLocaleLowerCase("pt-BR");
+
+        return (
+            nome.includes(termo) ||
+            cir.includes(termo) ||
+            cim.includes(termo)
+        );
+    });
+
+    renderizarMembros(membrosFiltrados);
+}
+
+function renderizarMembros(membros) {
+    const lista = document.querySelector("#lista-membros");
+    const contador = document.querySelector("#quantidade-membros");
+
+    contador.textContent = formatarQuantidadeMembros(membros.length);
+
+    if (membros.length === 0) {
+        lista.innerHTML = `
+            <div class="estado-lista">
+                Nenhum membro encontrado.
+            </div>
+        `;
+
+        return;
+    }
+
+    lista.innerHTML = membros
+        .map((membro) => criarLinhaMembro(membro))
+        .join("");
+}
+
+function criarLinhaMembro(membro) {
+    const classeSituacao = membro.ativo
+        ? "status-ativo"
+        : "status-inativo";
+
+    const textoSituacao = membro.ativo
+        ? "Ativo"
+        : "Inativo";
+
+    const textoAcaoStatus = membro.ativo
+        ? "Inativar membro"
+        : "Ativar membro";
+
+    const simboloStatus = membro.ativo
+        ? "●"
+        : "○";
+
+    const cir = membro.cir || "—";
+
+    return `
+        <article class="lista-linha lista-membros-grid">
+            <div class="coluna-principal">
+                <strong>${escaparHTML(membro.nome)}</strong>
+
+                <small>
+                    CIM: ${escaparHTML(membro.cim || "não informado")}
+                </small>
+            </div>
+
+            <span data-rotulo="Grau">
+                ${escaparHTML(membro.grau)}
+            </span>
+
+            <span data-rotulo="CIR">
+                ${escaparHTML(cir)}
+            </span>
+
+            <span data-rotulo="Situação">
+                <span class="status ${classeSituacao}">
+                    ${textoSituacao}
+                </span>
+            </span>
+
+            <div class="acoes-linha" data-rotulo="Ações">
+                <button
+                    type="button"
+                    class="botao-icone"
+                    data-acao="editar"
+                    data-id="${membro.id}"
+                    title="Editar membro"
+                    aria-label="Editar ${escaparHTML(membro.nome)}"
+                >
+                    ✎
+                </button>
+
+                <button
+                    type="button"
+                    class="botao-icone"
+                    data-acao="alternar-status"
+                    data-id="${membro.id}"
+                    title="${textoAcaoStatus}"
+                    aria-label="${textoAcaoStatus}"
+                >
+                    ${simboloStatus}
+                </button>
+
+                <button
+                    type="button"
+                    class="botao-icone botao-perigo"
+                    data-acao="excluir"
+                    data-id="${membro.id}"
+                    title="Excluir membro"
+                    aria-label="Excluir ${escaparHTML(membro.nome)}"
+                >
+                    ×
+                </button>
+            </div>
+        </article>
+    `;
+}
+
+function tratarAcaoMembro(evento) {
+    const botao = evento.target.closest("[data-acao]");
+
+    if (!botao) {
+        return;
+    }
+
+    const id = botao.dataset.id;
+    const acao = botao.dataset.acao;
+
+    if (acao === "editar") {
+        abrirModalEditarMembro(id);
+        return;
+    }
+
+    if (acao === "alternar-status") {
+        alternarStatusMembro(id);
+        return;
+    }
+
+    if (acao === "excluir") {
+        prepararExclusaoMembro(id);
+    }
+}
+
+async function alternarStatusMembro(id) {
+    try {
+        const membro = await buscarRegistroPorId("membros", id);
+
+        if (!membro) {
+            mostrarMensagem(
+                "O membro selecionado não foi encontrado.",
+                "erro"
+            );
+
+            return;
+        }
+
+        membro.ativo = !membro.ativo;
+        membro.dataUltimaAlteracao = new Date().toISOString();
+
+        await atualizarRegistro("membros", membro);
+        await carregarMembros();
+
+        const mensagem = membro.ativo
+            ? "Membro ativado com sucesso."
+            : "Membro inativado com sucesso.";
+
+        mostrarMensagem(mensagem, "sucesso");
+    } catch (erro) {
+        console.error("Erro ao alterar situação:", erro);
+
+        mostrarMensagem(
+            "Não foi possível alterar a situação do membro.",
+            "erro"
+        );
+    }
+}
+
+async function prepararExclusaoMembro(id) {
+    try {
+        const membro = await buscarRegistroPorId("membros", id);
+
+        if (!membro) {
+            mostrarMensagem(
+                "O membro selecionado não foi encontrado.",
+                "erro"
+            );
+
+            return;
+        }
+
+        const presencas = await listarRegistrosPorIndice(
+            "presencas",
+            "membroId",
+            id
+        );
+
+        if (presencas.length > 0) {
+            mostrarMensagem(
+                "Este membro possui histórico de presença. Inative o cadastro em vez de excluí-lo.",
+                "aviso"
+            );
+
+            return;
+        }
+
+        membroEmExclusaoId = id;
+
+        document.querySelector(
+            "#texto-exclusao-membro"
+        ).innerHTML = `
+            Deseja realmente excluir
+            <strong>${escaparHTML(membro.nome)}</strong>?
+        `;
+
+        const modal = document.querySelector(
+            "#modal-exclusao-membro"
+        );
+
+        modal.classList.remove("oculto");
+        modal.setAttribute("aria-hidden", "false");
+
+        document.body.classList.add("modal-aberto");
+    } catch (erro) {
+        console.error("Erro ao preparar exclusão:", erro);
+
+        mostrarMensagem(
+            "Não foi possível verificar o cadastro.",
+            "erro"
+        );
+    }
+}
+
+async function confirmarExclusaoMembro() {
+    if (!membroEmExclusaoId) {
+        return;
+    }
+
+    const botao = document.querySelector(
+        "#botao-confirmar-exclusao-membro"
+    );
+
+    botao.disabled = true;
+    botao.textContent = "Excluindo...";
+
+    try {
+        await excluirRegistro(
+            "membros",
+            membroEmExclusaoId
+        );
+
+        fecharModalExclusaoMembro();
+        await carregarMembros();
+
+        mostrarMensagem(
+            "Membro excluído com sucesso.",
+            "sucesso"
+        );
+    } catch (erro) {
+        console.error("Erro ao excluir membro:", erro);
+
+        mostrarMensagem(
+            "Não foi possível excluir o membro.",
+            "erro"
+        );
+    } finally {
+        botao.disabled = false;
+        botao.textContent = "Excluir membro";
+    }
+}
+
+function fecharModalExclusaoMembro() {
+    const modal = document.querySelector(
+        "#modal-exclusao-membro"
+    );
+
+    modal.classList.add("oculto");
+    modal.setAttribute("aria-hidden", "true");
+
+    membroEmExclusaoId = null;
+
+    atualizarEstadoBloqueioPagina();
+}
+
+function tratarTeclaEscapeMembros(evento) {
+    if (evento.key !== "Escape") {
+        return;
+    }
+
+    const modalMembro = document.querySelector("#modal-membro");
+
+    const modalExclusao = document.querySelector(
+        "#modal-exclusao-membro"
+    );
+
+    if (modalMembro && !modalMembro.classList.contains("oculto")) {
+        fecharModalMembro();
+        return;
+    }
+
+    if (
+        modalExclusao &&
+        !modalExclusao.classList.contains("oculto")
+    ) {
+        fecharModalExclusaoMembro();
+    }
+}
+
+function atualizarEstadoBloqueioPagina() {
+    const existeModalAberto = document.querySelector(
+        ".modal-fundo:not(.oculto)"
+    );
+
+    document.body.classList.toggle(
+        "modal-aberto",
+        Boolean(existeModalAberto)
+    );
+}
+
+
+
+
+
+function formatarQuantidadeMembros(quantidade) {
+    if (quantidade === 1) {
+        return "1 membro";
+    }
+
+    return `${quantidade} membros`;
 }

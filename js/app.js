@@ -54,8 +54,9 @@ function abrirModulo(nomeModulo) {
 
     switch (nomeModulo) {
         case "membros":
-            conteudoPrincipal.innerHTML = carregarModuloMembros();
-            break;
+             conteudoPrincipal.innerHTML = carregarModuloMembros();
+            inicializarModuloMembros();
+             break;
 
         case "sessoes":
             conteudoPrincipal.innerHTML = carregarModuloSessoes();

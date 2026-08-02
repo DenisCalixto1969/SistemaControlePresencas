@@ -268,3 +268,34 @@ async function contarRegistros(nomeTabela) {
         };
     });
 }
+
+async function listarRegistrosPorIndice(
+    nomeTabela,
+    nomeIndice,
+    valor
+) {
+    const banco = await abrirBanco();
+
+    return new Promise((resolve, reject) => {
+        const transacao = banco.transaction(
+            nomeTabela,
+            "readonly"
+        );
+
+        const tabela = transacao.objectStore(nomeTabela);
+        const indice = tabela.index(nomeIndice);
+        const requisicao = indice.getAll(valor);
+
+        requisicao.onsuccess = () => {
+            resolve(requisicao.result);
+        };
+
+        requisicao.onerror = () => {
+            reject(
+                new Error(
+                    `Não foi possível consultar os registros: ${requisicao.error}`
+                )
+            );
+        };
+    });
+}

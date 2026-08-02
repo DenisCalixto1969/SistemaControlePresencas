@@ -1,5 +1,3 @@
-"use strict";
-
 const CONFIG = {
     sistema: {
         nome: "Sistema Controle Presenças",
@@ -11,7 +9,34 @@ const CONFIG = {
         versao: 1
     },
 
-    graus: [4, 9, 12, 13, 14, 15, 17, 18],
+    grausMembros: [
+        4,
+        9,
+        12,
+        13,
+        14,
+        15,
+        17,
+        18,
+        19,
+        22,
+        28,
+        30,
+        31,
+        32,
+        33
+    ],
+
+    grausSessoes: [
+        4,
+        9,
+        12,
+        13,
+        14,
+        15,
+        17,
+        18
+    ],
 
     tiposSessao: [
         "Ordinária",
