@@ -2,11 +2,26 @@
 
 document.addEventListener("DOMContentLoaded", iniciarSistema);
 
-function iniciarSistema() {
-    configurarMenu();
-    abrirModulo("inicio");
+async function iniciarSistema() {
+    try {
+        await abrirBanco();
 
-    console.log("Sistema Controle Presenças iniciado.");
+        configurarMenu();
+        abrirModulo("inicio");
+
+        console.log(
+            "Sistema Controle Presenças iniciado."
+        );
+
+        console.log(
+            "Banco de dados aberto com sucesso."
+        );
+    } catch (erro) {
+        console.error(
+            "Erro ao iniciar o sistema:",
+            erro
+        );
+    }
 }
 
 function configurarMenu() {

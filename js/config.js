@@ -1,0 +1,20 @@
+"use strict";
+
+const CONFIG = {
+    sistema: {
+        nome: "Sistema Controle Presenças",
+        versao: "0.1.0"
+    },
+
+    banco: {
+        nome: "SistemaControlePresencasDB",
+        versao: 1
+    },
+
+    graus: [4, 9, 12, 13, 14, 15, 17, 18],
+
+    tiposSessao: [
+        "Ordinária",
+        "Magna"
+    ]
+};
