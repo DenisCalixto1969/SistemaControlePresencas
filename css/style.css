@@ -666,3 +666,52 @@ body.modal-aberto {
     opacity: 0.65;
 }
 
+
+.lista-sessoes-grid {
+    display: grid;
+    grid-template-columns:
+        minmax(70px, 0.55fr)
+        minmax(180px, 1.4fr)
+        minmax(70px, 0.6fr)
+        minmax(120px, 0.9fr)
+        minmax(130px, 0.8fr);
+    align-items: center;
+    gap: 16px;
+}
+
+.lista-linha.tipo-ordinaria {
+    border-left: 4px solid #315f8c;
+}
+
+.lista-linha.tipo-magna {
+    border-left: 4px solid #b18a2e;
+}
+
+.grupo-campo input[readonly] {
+    background-color: #eef2f5;
+    color: #52616b;
+    cursor: not-allowed;
+}
+
+@media (max-width: 760px) {
+    .lista-sessoes-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .lista-sessoes-grid > span,
+    .lista-sessoes-grid > strong,
+    .lista-sessoes-grid > div:not(.coluna-principal) {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+    }
+
+    .lista-sessoes-grid > [data-rotulo]::before {
+        color: #687984;
+        font-size: 13px;
+        font-weight: 700;
+        content: attr(data-rotulo);
+    }
+}
+

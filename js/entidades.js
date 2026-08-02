@@ -22,10 +22,12 @@ class Sessao {
         const agora = new Date().toISOString();
 
         this.id = dados.id || crypto.randomUUID();
+        this.numero = Number(dados.numero) || 0;
         this.data = dados.data || "";
         this.grau = Number(dados.grau) || 4;
         this.tipo = dados.tipo || "Ordinária";
         this.observacoes = dados.observacoes || "";
+        this.status = dados.status || "Aberta";
         this.dataCadastro = dados.dataCadastro || agora;
         this.dataUltimaAlteracao =
             dados.dataUltimaAlteracao || agora;

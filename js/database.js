@@ -15,12 +15,13 @@ function abrirBanco() {
         );
 
         requisicao.onupgradeneeded = (evento) => {
-            const banco = evento.target.result;
+    const banco = evento.target.result;
+    const transacao = evento.target.transaction;
 
-            criarTabelaMembros(banco);
-            criarTabelaSessoes(banco);
-            criarTabelaPresencas(banco);
-        };
+    criarTabelaMembros(banco);
+    criarTabelaSessoes(banco, transacao);
+    criarTabelaPresencas(banco);
+};
 
         requisicao.onsuccess = (evento) => {
             conexaoBanco = evento.target.result;
@@ -65,26 +66,40 @@ function criarTabelaMembros(banco) {
     });
 }
 
-function criarTabelaSessoes(banco) {
-    if (banco.objectStoreNames.contains("sessoes")) {
-        return;
+function criarTabelaSessoes(banco, transacao) {
+    let tabela;
+
+    if (!banco.objectStoreNames.contains("sessoes")) {
+        tabela = banco.createObjectStore("sessoes", {
+            keyPath: "id"
+        });
+    } else {
+        tabela = transacao.objectStore("sessoes");
     }
 
-    const tabela = banco.createObjectStore("sessoes", {
-        keyPath: "id"
-    });
+    if (!tabela.indexNames.contains("numero")) {
+        tabela.createIndex("numero", "numero", {
+            unique: true
+        });
+    }
 
-    tabela.createIndex("data", "data", {
-        unique: false
-    });
+    if (!tabela.indexNames.contains("data")) {
+        tabela.createIndex("data", "data", {
+            unique: false
+        });
+    }
 
-    tabela.createIndex("grau", "grau", {
-        unique: false
-    });
+    if (!tabela.indexNames.contains("grau")) {
+        tabela.createIndex("grau", "grau", {
+            unique: false
+        });
+    }
 
-    tabela.createIndex("tipo", "tipo", {
-        unique: false
-    });
+    if (!tabela.indexNames.contains("tipo")) {
+        tabela.createIndex("tipo", "tipo", {
+            unique: false
+        });
+    }
 }
 
 function criarTabelaPresencas(banco) {
@@ -294,6 +309,52 @@ async function listarRegistrosPorIndice(
             reject(
                 new Error(
                     `Não foi possível consultar os registros: ${requisicao.error}`
+                )
+            );
+        };
+    });
+}
+
+async function adicionarSessaoComPresencas(
+    sessao,
+    presencas
+) {
+    const banco = await abrirBanco();
+
+    return new Promise((resolve, reject) => {
+        const transacao = banco.transaction(
+            ["sessoes", "presencas"],
+            "readwrite"
+        );
+
+        const tabelaSessoes = transacao.objectStore("sessoes");
+        const tabelaPresencas = transacao.objectStore("presencas");
+
+        tabelaSessoes.add(sessao);
+
+        presencas.forEach((presenca) => {
+            tabelaPresencas.add(presenca);
+        });
+
+        transacao.oncomplete = () => {
+            resolve({
+                sessao,
+                quantidadePresencas: presencas.length
+            });
+        };
+
+        transacao.onerror = () => {
+            reject(
+                new Error(
+                    `Não foi possível salvar a sessão: ${transacao.error}`
+                )
+            );
+        };
+
+        transacao.onabort = () => {
+            reject(
+                new Error(
+                    `O salvamento da sessão foi cancelado: ${transacao.error}`
                 )
             );
         };

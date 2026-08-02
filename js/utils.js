@@ -35,3 +35,35 @@ function mostrarMensagem(texto, tipo = "sucesso") {
         mensagem.remove();
     }, 3400);
 }
+
+function formatarData(dataISO) {
+    if (!dataISO) {
+        return "—";
+    }
+
+    const partes = dataISO.split("-");
+
+    if (partes.length !== 3) {
+        return dataISO;
+    }
+
+    const [ano, mes, dia] = partes;
+
+    return `${dia}/${mes}/${ano}`;
+}
+
+function obterDiaSemana(dataISO) {
+    if (!dataISO) {
+        return "";
+    }
+
+    const data = new Date(`${dataISO}T12:00:00`);
+
+    return new Intl.DateTimeFormat("pt-BR", {
+        weekday: "long"
+    }).format(data);
+}
+
+function formatarNumeroSessao(numero) {
+    return String(numero).padStart(3, "0");
+}

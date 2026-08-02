@@ -5,8 +5,10 @@ const CONFIG = {
     },
 
     banco: {
-        nome: "SistemaControlePresencasDB",
-        versao: 1
+       banco: {
+         nome: "SistemaControlePresencasDB",
+        versao: 2
+},
     },
 
     grausMembros: [

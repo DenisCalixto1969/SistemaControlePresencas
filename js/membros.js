@@ -33,7 +33,7 @@ function carregarModuloMembros() {
                 <input
                     type="search"
                     id="pesquisa-membro"
-                    placeholder="Digite o nome, CIR ou CIM"
+                    placeholder="Digite o nome ou o grau"
                     autocomplete="off"
                 >
             </div>
@@ -633,16 +633,11 @@ function filtrarMembros(termoPesquisa) {
         const nome = membro.nome
             .toLocaleLowerCase("pt-BR");
 
-        const cir = String(membro.cir || "")
-            .toLocaleLowerCase("pt-BR");
-
-        const cim = String(membro.cim || "")
-            .toLocaleLowerCase("pt-BR");
+        const grau = String(membro.grau);
 
         return (
             nome.includes(termo) ||
-            cir.includes(termo) ||
-            cim.includes(termo)
+            grau === termo
         );
     });
 

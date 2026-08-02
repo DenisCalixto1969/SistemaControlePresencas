@@ -60,6 +60,7 @@ function abrirModulo(nomeModulo) {
 
         case "sessoes":
             conteudoPrincipal.innerHTML = carregarModuloSessoes();
+            inicializarModuloSessoes();
             break;
 
         case "presencas":

@@ -23,10 +23,27 @@ Edição.
 
 ## v0.2.1
 
-Ativação/Inativação.
+## v0.2.1
+
+### Funcionalidades
+- Ativação de membros.
+- Inativação de membros.
+- Persistência do status no banco de dados.
 
 --------------------------------
 
 ## v0.2.2
 
 Exclusão segura.
+
+## v0.2.2
+
+### Módulo Membros concluído
+- Cadastro de membros
+- Pesquisa por nome e grau
+- Ordenação alfabética
+- Edição
+- Ativação e inativação
+- Exclusão segura
+- Persistência no IndexedDB
+- Suporte a graus de membros até 33
