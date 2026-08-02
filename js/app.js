@@ -1,0 +1,111 @@
+"use strict";
+
+document.addEventListener("DOMContentLoaded", iniciarSistema);
+
+function iniciarSistema() {
+    configurarMenu();
+    abrirModulo("inicio");
+
+    console.log("Sistema Controle Presenças iniciado.");
+}
+
+function configurarMenu() {
+    const botoesMenu = document.querySelectorAll(".menu-botao");
+
+    botoesMenu.forEach((botao) => {
+        botao.addEventListener("click", () => {
+            const nomeModulo = botao.dataset.modulo;
+
+            atualizarBotaoAtivo(botao);
+            abrirModulo(nomeModulo);
+        });
+    });
+}
+
+function atualizarBotaoAtivo(botaoSelecionado) {
+    const botoesMenu = document.querySelectorAll(".menu-botao");
+
+    botoesMenu.forEach((botao) => {
+        botao.classList.remove("ativo");
+    });
+
+    botaoSelecionado.classList.add("ativo");
+}
+
+function abrirModulo(nomeModulo) {
+    const conteudoPrincipal = document.querySelector(
+        "#conteudo-principal"
+    );
+
+    switch (nomeModulo) {
+        case "membros":
+            conteudoPrincipal.innerHTML = carregarModuloMembros();
+            break;
+
+        case "sessoes":
+            conteudoPrincipal.innerHTML = carregarModuloSessoes();
+            break;
+
+        case "presencas":
+            conteudoPrincipal.innerHTML = carregarModuloPresencas();
+            break;
+
+        case "relatorios":
+            conteudoPrincipal.innerHTML = carregarModuloRelatorios();
+            break;
+
+        case "ranking":
+            conteudoPrincipal.innerHTML = carregarModuloRanking();
+            break;
+
+        case "inicio":
+        default:
+            conteudoPrincipal.innerHTML = carregarModuloInicio();
+            break;
+    }
+}
+
+function carregarModuloInicio() {
+    return `
+        <section class="boas-vindas">
+            <h2>Bem-vindo</h2>
+
+            <p>
+                Utilize o menu acima para acessar as funcionalidades
+                do Sistema Controle Presenças.
+            </p>
+        </section>
+
+        <section class="painel-resumo">
+            <article class="cartao">
+                <span class="cartao-titulo">
+                    Membros ativos
+                </span>
+
+                <strong class="cartao-valor" id="total-membros">
+                    0
+                </strong>
+            </article>
+
+            <article class="cartao">
+                <span class="cartao-titulo">
+                    Sessões cadastradas
+                </span>
+
+                <strong class="cartao-valor" id="total-sessoes">
+                    0
+                </strong>
+            </article>
+
+            <article class="cartao">
+                <span class="cartao-titulo">
+                    Presenças registradas
+                </span>
+
+                <strong class="cartao-valor" id="total-presencas">
+                    0
+                </strong>
+            </article>
+        </section>
+    `;
+}
