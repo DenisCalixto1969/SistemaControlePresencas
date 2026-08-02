@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Sistema Controle Presenças</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header class="cabecalho">
+        <div class="cabecalho-conteudo">
+            <h1>Sistema Controle Presenças</h1>
+            <p>Controle de membros, sessões e frequência</p>
+        </div>
+    </header>
+
+    <nav class="menu-principal">
+        <button type="button" class="menu-botao ativo">
+            Início
+        </button>
+
+        <button type="button" class="menu-botao">
+            Membros
+        </button>
+
+        <button type="button" class="menu-botao">
+            Sessões
+        </button>
+
+        <button type="button" class="menu-botao">
+            Presenças
+        </button>
+
+        <button type="button" class="menu-botao">
+            Relatórios
+        </button>
+
+        <button type="button" class="menu-botao">
+            Ranking
+        </button>
+    </nav>
+
+    <main class="conteudo-principal">
+        <section class="boas-vindas">
+            <h2>Bem-vindo</h2>
+
+            <p>
+                Utilize o menu acima para acessar as funcionalidades
+                do Sistema Controle Presenças.
+            </p>
+        </section>
+
+        <section class="painel-resumo">
+            <article class="cartao">
+                <span class="cartao-titulo">Membros ativos</span>
+                <strong class="cartao-valor" id="total-membros">0</strong>
+            </article>
+
+            <article class="cartao">
+                <span class="cartao-titulo">Sessões cadastradas</span>
+                <strong class="cartao-valor" id="total-sessoes">0</strong>
+            </article>
+
+            <article class="cartao">
+                <span class="cartao-titulo">Presenças registradas</span>
+                <strong class="cartao-valor" id="total-presencas">0</strong>
+            </article>
+        </section>
+    </main>
+
+    <footer class="rodape">
+        <p>
+            Sistema Controle Presenças
+        </p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

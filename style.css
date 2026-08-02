@@ -1,0 +1,137 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f6f8;
+    color: #263238;
+}
+
+.cabecalho {
+    background-color: #1f3c5b;
+    color: white;
+    padding: 24px 20px;
+}
+
+.cabecalho-conteudo {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.cabecalho h1 {
+    margin-bottom: 6px;
+    font-size: 28px;
+}
+
+.cabecalho p {
+    color: #d8e5f0;
+}
+
+.menu-principal {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 12px 20px;
+    background-color: white;
+    border-bottom: 1px solid #d9e0e5;
+}
+
+.menu-botao {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    background-color: transparent;
+    color: #1f3c5b;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.menu-botao:hover {
+    background-color: #edf3f8;
+}
+
+.menu-botao.ativo {
+    background-color: #1f3c5b;
+    color: white;
+}
+
+.conteudo-principal {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 20px;
+    flex: 1;
+}
+
+.boas-vindas {
+    margin-bottom: 28px;
+}
+
+.boas-vindas h2 {
+    margin-bottom: 10px;
+    font-size: 25px;
+}
+
+.boas-vindas p {
+    line-height: 1.6;
+    color: #52616b;
+}
+
+.painel-resumo {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.cartao {
+    padding: 24px;
+    border-radius: 10px;
+    background-color: white;
+    border: 1px solid #dfe5e9;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.cartao-titulo {
+    display: block;
+    margin-bottom: 12px;
+    color: #60717c;
+}
+
+.cartao-valor {
+    font-size: 32px;
+    color: #1f3c5b;
+}
+
+.rodape {
+    padding: 18px;
+    text-align: center;
+    background-color: #1f3c5b;
+    color: white;
+}
+
+@media (max-width: 750px) {
+    .painel-resumo {
+        grid-template-columns: 1fr;
+    }
+
+    .cabecalho {
+        text-align: center;
+    }
+
+    .menu-principal {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .menu-botao {
+        width: 100%;
+    }
+}
