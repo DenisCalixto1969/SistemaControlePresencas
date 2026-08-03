@@ -1,3 +1,5 @@
+"use strict";
+
 const CONFIG = {
     sistema: {
         nome: "Sistema Controle Presenças",
@@ -5,10 +7,8 @@ const CONFIG = {
     },
 
     banco: {
-       banco: {
-         nome: "SistemaControlePresencasDB",
+        nome: "SistemaControlePresencasDB",
         versao: 2
-},
     },
 
     grausMembros: [

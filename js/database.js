@@ -327,8 +327,13 @@ async function adicionarSessaoComPresencas(
             "readwrite"
         );
 
-        const tabelaSessoes = transacao.objectStore("sessoes");
-        const tabelaPresencas = transacao.objectStore("presencas");
+        const tabelaSessoes = transacao.objectStore(
+            "sessoes"
+        );
+
+        const tabelaPresencas = transacao.objectStore(
+            "presencas"
+        );
 
         tabelaSessoes.add(sessao);
 
@@ -346,7 +351,10 @@ async function adicionarSessaoComPresencas(
         transacao.onerror = () => {
             reject(
                 new Error(
-                    `Não foi possível salvar a sessão: ${transacao.error}`
+                    `Erro ao salvar sessão e presenças: ${
+                        transacao.error?.message ||
+                        "erro desconhecido"
+                    }`
                 )
             );
         };
@@ -354,7 +362,10 @@ async function adicionarSessaoComPresencas(
         transacao.onabort = () => {
             reject(
                 new Error(
-                    `O salvamento da sessão foi cancelado: ${transacao.error}`
+                    `A transação foi cancelada: ${
+                        transacao.error?.message ||
+                        "erro desconhecido"
+                    }`
                 )
             );
         };

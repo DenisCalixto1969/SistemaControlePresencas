@@ -1,6 +1,7 @@
 "use strict";
 
 let sessoesCarregadas = [];
+let sessaoEmEdicaoId = null;
 
 function carregarModuloSessoes() {
     return `
@@ -234,6 +235,7 @@ function configurarEventosSessoes() {
     );
 
     const modal = document.querySelector("#modal-sessao");
+    const listaSessoes = document.querySelector("#lista-sessoes");
 
     botaoNovaSessao.addEventListener(
         "click",
@@ -258,6 +260,10 @@ function configurarEventosSessoes() {
     campoPesquisa.addEventListener("input", () => {
         filtrarSessoes(campoPesquisa.value);
     });
+    listaSessoes.addEventListener(
+    "click",
+    tratarAcaoSessao
+);
 
     modal.addEventListener("click", (evento) => {
         if (evento.target === modal) {
@@ -267,6 +273,8 @@ function configurarEventosSessoes() {
 }
 
 async function abrirModalNovaSessao() {
+    sessaoEmEdicaoId = null;
+
     const formulario = document.querySelector(
         "#formulario-sessao"
     );
@@ -280,15 +288,24 @@ async function abrirModalNovaSessao() {
     mensagem.textContent = "";
     mensagem.classList.add("oculto");
 
+    document.querySelector(
+        "#titulo-modal-sessao"
+    ).textContent = "Nova sessão";
+
+    document.querySelector(
+        "#botao-salvar-sessao"
+    ).textContent = "Salvar sessão";
+
     const proximoNumero = calcularProximoNumeroSessao();
 
     document.querySelector(
         "#sessao-numero"
     ).value = formatarNumeroSessao(proximoNumero);
 
-    document.querySelector(
-        "#sessao-grau"
-    ).value = CONFIG.grausSessoes[0];
+    const campoGrau = document.querySelector("#sessao-grau");
+
+    campoGrau.disabled = false;
+    campoGrau.value = CONFIG.grausSessoes[0];
 
     document.querySelector(
         "#sessao-tipo"
@@ -306,11 +323,91 @@ async function abrirModalNovaSessao() {
     }, 50);
 }
 
+async function abrirModalEditarSessao(id) {
+    try {
+        const sessao = await buscarRegistroPorId(
+            "sessoes",
+            id
+        );
+
+        if (!sessao) {
+            mostrarMensagem(
+                "A sessão selecionada não foi encontrada.",
+                "erro"
+            );
+
+            return;
+        }
+
+        sessaoEmEdicaoId = id;
+
+        document.querySelector(
+            "#titulo-modal-sessao"
+        ).textContent = "Editar sessão";
+
+        document.querySelector(
+            "#botao-salvar-sessao"
+        ).textContent = "Salvar alterações";
+
+        document.querySelector(
+            "#sessao-numero"
+        ).value = formatarNumeroSessao(sessao.numero);
+
+        document.querySelector(
+            "#sessao-data"
+        ).value = sessao.data;
+
+        const campoGrau = document.querySelector("#sessao-grau");
+
+        campoGrau.value = sessao.grau;
+        campoGrau.disabled = true;
+
+        document.querySelector(
+            "#sessao-tipo"
+        ).value = sessao.tipo;
+
+        document.querySelector(
+            "#sessao-observacoes"
+        ).value = sessao.observacoes || "";
+
+        const mensagem = document.querySelector(
+            "#mensagem-formulario-sessao"
+        );
+
+        mensagem.textContent = "";
+        mensagem.classList.add("oculto");
+
+        const modal = document.querySelector("#modal-sessao");
+
+        modal.classList.remove("oculto");
+        modal.setAttribute("aria-hidden", "false");
+
+        document.body.classList.add("modal-aberto");
+
+        window.setTimeout(() => {
+            document.querySelector("#sessao-data").focus();
+        }, 50);
+    } catch (erro) {
+        console.error("Erro ao abrir edição da sessão:", erro);
+
+        mostrarMensagem(
+            "Não foi possível abrir a sessão para edição.",
+            "erro"
+        );
+    }
+}
+
+
+
 function fecharModalSessao() {
     const modal = document.querySelector("#modal-sessao");
 
     modal.classList.add("oculto");
     modal.setAttribute("aria-hidden", "true");
+
+    document.querySelector("#sessao-grau").disabled = false;
+
+    sessaoEmEdicaoId = null;
 
     document.body.classList.remove("modal-aberto");
 }
@@ -330,10 +427,11 @@ function calcularProximoNumeroSessao() {
 }
 
 function membroPodeParticiparDaSessao(membro, sessao) {
-    return (
-        membro.ativo === true &&
-        Number(membro.grau) >= Number(sessao.grau)
-    );
+    const membroAtivo = membro.ativo === true;
+    const grauMembro = Number(membro.grau);
+    const grauSessao = Number(sessao.grau);
+
+    return membroAtivo && grauMembro >= grauSessao;
 }
 
 async function gerarPresencasDaSessao(sessao) {
@@ -374,9 +472,11 @@ async function salvarSessao(evento) {
     botaoSalvar.textContent = "Salvando...";
 
     try {
-        const dataJaCadastrada = await verificarDataSessaoExistente(
-            dados.data
-        );
+        const dataJaCadastrada =
+            await verificarDataSessaoExistente(
+                dados.data,
+                sessaoEmEdicaoId
+            );
 
         if (dataJaCadastrada) {
             mostrarErroFormularioSessao(
@@ -386,28 +486,42 @@ async function salvarSessao(evento) {
             return;
         }
 
+        if (sessaoEmEdicaoId) {
+            await atualizarSessaoExistente(dados);
+
+            fecharModalSessao();
+            await carregarSessoes();
+
+            mostrarMensagem(
+                "Sessão atualizada com sucesso.",
+                "sucesso"
+            );
+
+            return;
+        }
+
         const novaSessao = new Sessao({
-    ...dados,
-    numero: calcularProximoNumeroSessao(),
-    status: "Aberta"
-});
+            ...dados,
+            numero: calcularProximoNumeroSessao(),
+            status: "Aberta"
+        });
 
-const presencas = await gerarPresencasDaSessao(
-    novaSessao
-);
+        const presencas = await gerarPresencasDaSessao(
+            novaSessao
+        );
 
-await adicionarSessaoComPresencas(
-    novaSessao,
-    presencas
-);
+        await adicionarSessaoComPresencas(
+            novaSessao,
+            presencas
+        );
 
-fecharModalSessao();
-await carregarSessoes();
+        fecharModalSessao();
+        await carregarSessoes();
 
-mostrarMensagem(
-    `Sessão cadastrada com sucesso. ${presencas.length} membros aptos foram incluídos.`,
-    "sucesso"
-);
+        mostrarMensagem(
+            `Sessão cadastrada com sucesso. ${presencas.length} membros aptos foram incluídos.`,
+            "sucesso"
+        );
     } catch (erro) {
         console.error("Erro ao salvar sessão:", erro);
 
@@ -416,9 +530,47 @@ mostrarMensagem(
         );
     } finally {
         botaoSalvar.disabled = false;
-        botaoSalvar.textContent = "Salvar sessão";
+
+        botaoSalvar.textContent = sessaoEmEdicaoId
+            ? "Salvar alterações"
+            : "Salvar sessão";
     }
 }
+
+async function atualizarSessaoExistente(dados) {
+    const sessaoAtual = await buscarRegistroPorId(
+        "sessoes",
+        sessaoEmEdicaoId
+    );
+
+    if (!sessaoAtual) {
+        throw new Error("Sessão não encontrada.");
+    }
+
+    const sessaoAtualizada = new Sessao({
+        ...sessaoAtual,
+
+        data: dados.data,
+        tipo: dados.tipo,
+        observacoes: dados.observacoes,
+
+        id: sessaoAtual.id,
+        numero: sessaoAtual.numero,
+        grau: sessaoAtual.grau,
+        status: sessaoAtual.status || "Aberta",
+
+        dataCadastro: sessaoAtual.dataCadastro,
+
+        dataUltimaAlteracao: new Date().toISOString()
+    });
+
+    await atualizarRegistro(
+        "sessoes",
+        sessaoAtualizada
+    );
+}
+
+
 
 function obterDadosFormularioSessao() {
     return {
@@ -453,14 +605,19 @@ function validarDadosSessao(dados) {
     return "";
 }
 
-async function verificarDataSessaoExistente(data) {
+async function verificarDataSessaoExistente(
+    data,
+    sessaoIgnoradaId = null
+) {
     const sessoes = await listarRegistrosPorIndice(
         "sessoes",
         "data",
         data
     );
 
-    return sessoes.length > 0;
+    return sessoes.some((sessao) => {
+        return sessao.id !== sessaoIgnoradaId;
+    });
 }
 
 function mostrarErroFormularioSessao(texto) {
@@ -553,6 +710,22 @@ function renderizarSessoes(sessoes) {
         .join("");
 }
 
+function tratarAcaoSessao(evento) {
+    const botao = evento.target.closest("[data-acao]");
+
+    if (!botao) {
+        return;
+    }
+
+    const acao = botao.dataset.acao;
+    const id = botao.dataset.id;
+
+    if (acao === "editar") {
+        abrirModalEditarSessao(id);
+    }
+}
+
+
 function criarLinhaSessao(sessao) {
     const numero = formatarNumeroSessao(sessao.numero);
     const data = formatarData(sessao.data);
@@ -588,12 +761,13 @@ function criarLinhaSessao(sessao) {
                 <button
                     type="button"
                     class="botao-icone"
+                    data-acao="editar"
+                    data-id="${sessao.id}"
                     title="Editar sessão"
-                    disabled
+                    aria-label="Editar sessão ${numero}"
                 >
-                    ✎
+    ✎
                 </button>
-
                 <button
                     type="button"
                     class="botao-icone"

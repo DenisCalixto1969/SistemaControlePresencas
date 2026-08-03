@@ -45,3 +45,10 @@ v0.2.2 concluída
 - Criar cadastro de sessões
 - Gerar automaticamente a lista de presença
 
+
+## Próxima etapa
+
+- Configurar o botão Editar da tabela Sessões.
+- Configurar a exclusão segura de sessões e suas presenças vinculadas.
+- Configurar o botão Abrir Sessão.
+- Construir a tela de lançamento de presenças.
