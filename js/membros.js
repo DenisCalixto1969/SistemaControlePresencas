@@ -946,10 +946,6 @@ function atualizarEstadoBloqueioPagina() {
     );
 }
 
-
-
-
-
 function formatarQuantidadeMembros(quantidade) {
     if (quantidade === 1) {
         return "1 membro";
