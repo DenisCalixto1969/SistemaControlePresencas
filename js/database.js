@@ -371,3 +371,65 @@ async function adicionarSessaoComPresencas(
         };
     });
 }
+
+async function excluirSessaoComPresencas(sessaoId) {
+    const banco = await abrirBanco();
+
+    return new Promise((resolve, reject) => {
+        const transacao = banco.transaction(
+            ["sessoes", "presencas"],
+            "readwrite"
+        );
+
+        const tabelaSessoes = transacao.objectStore("sessoes");
+        const tabelaPresencas = transacao.objectStore("presencas");
+
+        const indiceSessao = tabelaPresencas.index("sessaoId");
+
+        const intervalo = IDBKeyRange.only(sessaoId);
+
+        const requisicaoCursor = indiceSessao.openCursor(intervalo);
+
+        requisicaoCursor.onsuccess = () => {
+            const cursor = requisicaoCursor.result;
+
+            if (cursor) {
+                cursor.delete();
+                cursor.continue();
+                return;
+            }
+
+            tabelaSessoes.delete(sessaoId);
+        };
+
+        requisicaoCursor.onerror = () => {
+            transacao.abort();
+        };
+
+        transacao.oncomplete = () => {
+            resolve(true);
+        };
+
+        transacao.onerror = () => {
+            reject(
+                new Error(
+                    `Não foi possível excluir a sessão: ${
+                        transacao.error?.message ||
+                        "erro desconhecido"
+                    }`
+                )
+            );
+        };
+
+        transacao.onabort = () => {
+            reject(
+                new Error(
+                    `A exclusão foi cancelada: ${
+                        transacao.error?.message ||
+                        "erro desconhecido"
+                    }`
+                )
+            );
+        };
+    });
+}

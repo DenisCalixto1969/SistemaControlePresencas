@@ -715,3 +715,30 @@ body.modal-aberto {
     }
 }
 
+
+.aviso-exclusao-sessao {
+    margin-top: 14px;
+    padding: 11px 13px;
+    border: 1px solid #e3c987;
+    border-radius: 6px;
+    background-color: #fff8e5;
+    color: #785b18;
+    line-height: 1.5;
+}
+
+
+.botao-icone {
+    color: #27445f;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.botao-icone.botao-perigo {
+    color: #c0392b;
+}
+
+.botao-icone:disabled {
+    color: #9aa7b3;
+    opacity: 0.65;
+}

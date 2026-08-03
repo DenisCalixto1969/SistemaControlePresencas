@@ -2,6 +2,7 @@
 
 let sessoesCarregadas = [];
 let sessaoEmEdicaoId = null;
+let sessaoEmExclusaoId = null;
 
 function carregarModuloSessoes() {
     return `
@@ -60,8 +61,9 @@ function carregarModuloSessoes() {
             </div>
         </section>
 
-        ${criarModalSessao()}
-    `;
+       ${criarModalSessao()}
+${criarModalExclusaoSessao()}
+`;
 }
 
 function criarModalSessao() {
@@ -208,6 +210,74 @@ function criarModalSessao() {
     `;
 }
 
+function criarModalExclusaoSessao() {
+    return `
+        <div
+            class="modal-fundo oculto"
+            id="modal-exclusao-sessao"
+            aria-hidden="true"
+        >
+            <section
+                class="modal modal-confirmacao"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="titulo-exclusao-sessao"
+            >
+                <header class="modal-cabecalho">
+                    <div>
+                        <h3 id="titulo-exclusao-sessao">
+                            Excluir sessão
+                        </h3>
+
+                        <p>
+                            Esta ação não poderá ser desfeita.
+                        </p>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="botao-fechar-modal"
+                        id="botao-fechar-exclusao-sessao"
+                        aria-label="Fechar confirmação"
+                    >
+                        ×
+                    </button>
+                </header>
+
+                <div class="modal-confirmacao-conteudo">
+                    <p id="texto-exclusao-sessao">
+                        Deseja realmente excluir esta sessão?
+                    </p>
+
+                    <p class="aviso-exclusao-sessao">
+                        A lista de presença vinculada também será excluída.
+                    </p>
+
+                    <footer class="modal-acoes">
+                        <button
+                            type="button"
+                            class="botao-secundario"
+                            id="botao-cancelar-exclusao-sessao"
+                        >
+                            Cancelar
+                        </button>
+
+                        <button
+                            type="button"
+                            class="botao-excluir"
+                            id="botao-confirmar-exclusao-sessao"
+                        >
+                            Excluir sessão
+                        </button>
+                    </footer>
+                </div>
+            </section>
+        </div>
+    `;
+}
+
+
+
 async function inicializarModuloSessoes() {
     configurarEventosSessoes();
     await carregarSessoes();
@@ -236,6 +306,22 @@ function configurarEventosSessoes() {
 
     const modal = document.querySelector("#modal-sessao");
     const listaSessoes = document.querySelector("#lista-sessoes");
+
+    const modalExclusao = document.querySelector(
+    "#modal-exclusao-sessao"
+);
+
+const botaoFecharExclusao = document.querySelector(
+    "#botao-fechar-exclusao-sessao"
+);
+
+const botaoCancelarExclusao = document.querySelector(
+    "#botao-cancelar-exclusao-sessao"
+);
+
+const botaoConfirmarExclusao = document.querySelector(
+    "#botao-confirmar-exclusao-sessao"
+);
 
     botaoNovaSessao.addEventListener(
         "click",
@@ -270,7 +356,31 @@ function configurarEventosSessoes() {
             fecharModalSessao();
         }
     });
+
+
+botaoFecharExclusao.addEventListener(
+    "click",
+    fecharModalExclusaoSessao
+);
+
+botaoCancelarExclusao.addEventListener(
+    "click",
+    fecharModalExclusaoSessao
+);
+
+botaoConfirmarExclusao.addEventListener(
+    "click",
+    confirmarExclusaoSessao
+);
+
+modalExclusao.addEventListener("click", (evento) => {
+    if (evento.target === modalExclusao) {
+        fecharModalExclusaoSessao();
+    }
+});
+
 }
+
 
 async function abrirModalNovaSessao() {
     sessaoEmEdicaoId = null;
@@ -722,7 +832,154 @@ function tratarAcaoSessao(evento) {
 
     if (acao === "editar") {
         abrirModalEditarSessao(id);
+        return;
     }
+
+    if (acao === "abrir") {
+        abrirSessao(id);
+        return;
+    }
+
+    if (acao === "excluir") {
+        prepararExclusaoSessao(id);
+    }
+}
+
+async function abrirSessao(id) {
+    try {
+        const sessao = await buscarRegistroPorId(
+            "sessoes",
+            id
+        );
+
+        if (!sessao) {
+            mostrarMensagem(
+                "A sessão selecionada não foi encontrada.",
+                "erro"
+            );
+
+            return;
+        }
+
+        await carregarSessaoAberta(sessao.id);
+    } 
+    
+    catch (erro) {
+        console.error("Erro ao abrir sessão:", erro);
+
+        mostrarMensagem(
+            "Não foi possível abrir a sessão.",
+            "erro"
+        );
+    }
+}
+
+async function prepararExclusaoSessao(id) {
+    try {
+        const sessao = await buscarRegistroPorId(
+            "sessoes",
+            id
+        );
+
+        if (!sessao) {
+            mostrarMensagem(
+                "A sessão selecionada não foi encontrada.",
+                "erro"
+            );
+
+            return;
+        }
+
+        sessaoEmExclusaoId = id;
+
+        const numero = formatarNumeroSessao(sessao.numero);
+        const data = formatarData(sessao.data);
+
+        document.querySelector(
+            "#texto-exclusao-sessao"
+        ).innerHTML = `
+            Deseja realmente excluir a
+            <strong>Sessão nº ${numero}</strong>,
+            realizada em
+            <strong>${escaparHTML(data)}</strong>?
+        `;
+
+        const modal = document.querySelector(
+            "#modal-exclusao-sessao"
+        );
+
+        modal.classList.remove("oculto");
+        modal.setAttribute("aria-hidden", "false");
+
+        document.body.classList.add("modal-aberto");
+    } catch (erro) {
+        console.error(
+            "Erro ao preparar exclusão da sessão:",
+            erro
+        );
+
+        mostrarMensagem(
+            "Não foi possível abrir a confirmação de exclusão.",
+            "erro"
+        );
+    }
+}
+
+async function confirmarExclusaoSessao() {
+    if (!sessaoEmExclusaoId) {
+        return;
+    }
+
+    const botao = document.querySelector(
+        "#botao-confirmar-exclusao-sessao"
+    );
+
+    botao.disabled = true;
+    botao.textContent = "Excluindo...";
+
+    try {
+        await excluirSessaoComPresencas(
+            sessaoEmExclusaoId
+        );
+
+        fecharModalExclusaoSessao();
+        await carregarSessoes();
+
+        mostrarMensagem(
+            "Sessão excluída com sucesso.",
+            "sucesso"
+        );
+    } catch (erro) {
+        console.error("Erro ao excluir sessão:", erro);
+
+        mostrarMensagem(
+            "Não foi possível excluir a sessão.",
+            "erro"
+        );
+    } finally {
+        botao.disabled = false;
+        botao.textContent = "Excluir sessão";
+    }
+}
+
+function fecharModalExclusaoSessao() {
+    const modal = document.querySelector(
+        "#modal-exclusao-sessao"
+    );
+
+    modal.classList.add("oculto");
+    modal.setAttribute("aria-hidden", "true");
+
+    sessaoEmExclusaoId = null;
+
+    const existeOutroModalAberto = document.querySelector(
+        ".modal-fundo:not(.oculto)"
+    );
+
+    document.body.classList.toggle(
+        "modal-aberto",
+        Boolean(existeOutroModalAberto)
+    );
 }
 
 
@@ -758,34 +1015,41 @@ function criarLinhaSessao(sessao) {
             </span>
 
             <div class="acoes-linha" data-rotulo="Ações">
-                <button
-                    type="button"
-                    class="botao-icone"
-                    data-acao="editar"
-                    data-id="${sessao.id}"
-                    title="Editar sessão"
-                    aria-label="Editar sessão ${numero}"
-                >
-    ✎
-                </button>
-                <button
-                    type="button"
-                    class="botao-icone"
-                    title="Abrir sessão"
-                    disabled
-                >
-                    ◉
-                </button>
 
-                <button
-                    type="button"
-                    class="botao-icone botao-perigo"
-                    title="Excluir sessão"
-                    disabled
-                >
-                    ×
-                </button>
-            </div>
+    <button
+        type="button"
+        class="botao-icone"
+        data-acao="editar"
+        data-id="${sessao.id}"
+        title="Editar sessão"
+        aria-label="Editar sessão ${numero}"
+    >
+        ✎
+    </button>
+
+   <button
+    type="button"
+    class="botao-icone"
+    data-acao="abrir"
+    data-id="${sessao.id}"
+    title="Abrir sessão"
+    aria-label="Abrir sessão ${numero}"
+>
+    ◉
+    </button>
+
+    <button
+        type="button"
+        class="botao-icone botao-perigo"
+        data-acao="excluir"
+        data-id="${sessao.id}"
+        title="Excluir sessão"
+        aria-label="Excluir sessão ${numero}"
+    >
+        ×
+    </button>
+
+</div>
         </article>
     `;
 }
