@@ -742,3 +742,56 @@ body.modal-aberto {
     color: #9aa7b3;
     opacity: 0.65;
 }
+
+
+.sessao-aberta-lista {
+    margin-top: 20px;
+}
+
+.sessao-aberta-membro {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 15px;
+    margin-bottom: 10px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+
+    transition: background .2s;
+}
+
+.sessao-aberta-membro:hover {
+    background: #f8fafc;
+}
+
+.sessao-aberta-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.sessao-aberta-nome {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.sessao-aberta-grau {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.estado-presenca {
+    font-weight: bold;
+}
+
+.estado-presente {
+    color: #16a34a;
+}
+
+.estado-ausente {
+    color: #dc2626;
+}

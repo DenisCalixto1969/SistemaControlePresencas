@@ -61,9 +61,21 @@ async function carregarSessaoAberta(idSessao) {
             ".estado-presenca"
         );
 
+        estado.classList.toggle(
+            "estado-presente",
+            novoEstado
+        );
+
+        estado.classList.toggle(
+            "estado-ausente",
+            !novoEstado
+        );
+
         estado.textContent = novoEstado
-            ? "Presente"
-            : "Ausente";
+            ? "● Presente"
+            : "● Ausente";
+
+        atualizarResumoSessao();
 
         mostrarMensagem(
             novoEstado
@@ -86,7 +98,52 @@ async function carregarSessaoAberta(idSessao) {
     }
 }
 
+function atualizarResumoSessao() {
+    const moduloSessaoAberta = document.querySelector(
+        "#modulo-sessao-aberta"
+    );
 
+    if (!moduloSessaoAberta) {
+        return;
+    }
+
+    const controles = moduloSessaoAberta.querySelectorAll(
+        ".controle-presenca"
+    );
+
+    const total = controles.length;
+
+    const presentes = Array.from(controles).filter(
+        (controle) => controle.checked
+    ).length;
+
+    const ausentes = total - presentes;
+
+    const totalElemento = moduloSessaoAberta.querySelector(
+        "#resumo-total"
+    );
+
+    const presentesElemento = moduloSessaoAberta.querySelector(
+        "#resumo-presentes"
+    );
+
+    const ausentesElemento = moduloSessaoAberta.querySelector(
+        "#resumo-ausentes"
+    );
+
+    if (
+        !totalElemento ||
+        !presentesElemento ||
+        !ausentesElemento
+    ) {
+        return;
+    }
+
+    totalElemento.textContent = total;
+    presentesElemento.textContent = presentes;
+    ausentesElemento.textContent = ausentes;
+}
+   
     const todasPresencas = await listarRegistros("presencas");
 
     const presencasDaSessao = todasPresencas.filter(
@@ -144,8 +201,27 @@ async function carregarSessaoAberta(idSessao) {
         </p>
     </div>
 
-    <div class="sessao-aberta-lista">
-        <h3>Lista de presença</h3>
+   <div class="sessao-aberta-resumo">
+    <h3>Resumo</h3>
+
+    <p>
+        <strong>Total de membros:</strong>
+        <span id="resumo-total">0</span>
+    </p>
+
+    <p>
+        <strong>Presentes:</strong>
+        <span id="resumo-presentes">0</span>
+    </p>
+
+    <p>
+        <strong>Ausentes:</strong>
+        <span id="resumo-ausentes">0</span>
+    </p>
+</div>
+
+<div class="sessao-aberta-lista">
+    <h3>Lista de presença</h3>
 
         ${
             membrosDaSessao.length === 0
@@ -158,45 +234,71 @@ async function carregarSessaoAberta(idSessao) {
                     .map(({ membro, presenca }) => {
                         return `
             <div
-                class="sessao-aberta-membro"
-                data-presenca-id="${presenca.id}"
->
-                <label>
-                 <input
-                    type="checkbox"
-                    class="controle-presenca"
-                    data-presenca-id="${presenca.id}"
-                    ${presenca.presente ? "checked" : ""}
-                >
+             class="sessao-aberta-membro"
+            data-presenca-id="${presenca.id}"
+            >
 
-        <span>
-            ${escaparHTML(
-                membro?.nome ||
-                "Membro não encontrado"
-            )}
-        </span>
+             <label
+             style="
+            display:flex;
+            align-items:flex-start;
+            gap:12px;
+            flex:1;
+            cursor:pointer;
+          "
+        >
+
+        <input
+            type="checkbox"
+            class="controle-presenca"
+            data-presenca-id="${presenca.id}"
+            ${presenca.presente ? "checked" : ""}
+        >
+
+        <div class="sessao-aberta-info">
+
+            <span class="sessao-aberta-nome">
+                ${escaparHTML(
+                    membro?.nome ||
+                    "Membro não encontrado"
+                )}
+            </span>
+
+            <span class="sessao-aberta-grau">
+                Grau ${escaparHTML(
+                    membro?.grau ?? "-"
+                )}
+            </span>
+
+        </div>
+
         </label>
 
-        <span>
-        Grau ${escaparHTML(
-            membro?.grau ?? "-"
-        )}
-         </span>
-
-        <strong class="estado-presenca">
+        <strong
+        class="
+            estado-presenca
+            ${
+                presenca.presente
+                    ? "estado-presente"
+                    : "estado-ausente"
+            }
+        "
+        >
         ${
             presenca.presente
-                ? "Presente"
-                : "Ausente"
+                ? "● Presente"
+                : "● Ausente"
         }
          </strong>
-        </div>
-                        `;
+
+         </div>
+
+       `;
         })
-                    .join("")
+          .join("")
         }
         </div>
-    `;
+    `   ;
 
     moduloSessaoAberta.style.display = "block";
 
@@ -209,6 +311,7 @@ moduloSessaoAberta.addEventListener(
     "change",
     alterarPresenca
 );
+    atualizarResumoSessao();
 
     moduloSessaoAberta.scrollIntoView({
         behavior: "smooth",
