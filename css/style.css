@@ -1011,3 +1011,54 @@ body.modal-aberto {
     color: #64748b;
     font-size: 14px;
 }
+
+.historico-grau-item {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 7px;
+
+    padding: 12px 14px;
+
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 9px;
+}
+
+.historico-grau-atual {
+    background-color: #f0fdf4;
+    border-color: #86efac;
+}
+
+.historico-grau-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.historico-grau-cabecalho strong {
+    color: #1e293b;
+    font-size: 15px;
+}
+
+.historico-grau-badge {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 4px 9px;
+
+    border-radius: 999px;
+    background-color: #dcfce7;
+    color: #166534;
+
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.historico-grau-periodo {
+    color: #64748b;
+    font-size: 13px;
+}

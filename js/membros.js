@@ -457,18 +457,48 @@ async function carregarHistoricoGraus(membroId) {
         return;
     }
 
-    container.innerHTML = registros.map(item => `
-        <div class="historico-grau-item">
-            <div>
-                <strong>Grau ${item.grau}</strong><br>
-                <span>
-                    Desde ${formatarData(item.dataInicio)}
-                </span>
-            </div>
-        </div>
-    `).join("");
-}
+    container.innerHTML = registros
+    .map((item) => {
+        const grauAtual = item.dataFim == null;
 
+        return `
+            <div
+                class="
+                    historico-grau-item
+                    ${grauAtual ? "historico-grau-atual" : ""}
+                "
+            >
+                <div class="historico-grau-cabecalho">
+                    <strong>
+                        Grau ${escaparHTML(item.grau)}
+                    </strong>
+
+                    ${
+                        grauAtual
+                            ? `
+                                <span class="historico-grau-badge">
+                                    Atual
+                                </span>
+                            `
+                            : ""
+                    }
+                </div>
+
+               <span class="historico-grau-periodo">
+                 ${
+                grauAtual
+                 ? `Desde ${formatarData(item.dataInicio)}`
+                 : item.dataInicio === item.dataFim
+                ? formatarData(item.dataInicio)
+                : `${formatarData(item.dataInicio)} até ${formatarData(item.dataFim)}`
+                 }
+            </span>
+            </div>
+        `;
+    })
+    .join("");
+
+}
 
 async function abrirModalEditarMembro(id) {
     const membro = await buscarRegistroPorId("membros", id);
