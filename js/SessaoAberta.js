@@ -176,50 +176,87 @@ function atualizarResumoSessao() {
 
     moduloSessaoAberta.innerHTML = `
     <div class="sessao-aberta-cabecalho">
+    
+    <div class="sessao-aberta-titulo">
+    <div>
         <h2>
             Sessão nº ${formatarNumeroSessao(sessao.numero)}
         </h2>
-
-        <p>
-            <strong>Data:</strong>
-            ${formatarData(sessao.data)}
-        </p>
-
-        <p>
-            <strong>Grau:</strong>
-            ${escaparHTML(sessao.grau)}
-        </p>
-
-        <p>
-            <strong>Tipo:</strong>
-            ${escaparHTML(sessao.tipo)}
-        </p>
-
-        <p>
-            <strong>Status:</strong>
-            ${escaparHTML(sessao.status || "Aberta")}
-        </p>
     </div>
 
-   <div class="sessao-aberta-resumo">
-    <h3>Resumo</h3>
+    <div class="sessao-aberta-acoes">
+        <span class="sessao-aberta-status">
+            ${escaparHTML(sessao.status || "Aberta")}
+        </span>
 
-    <p>
-        <strong>Total de membros:</strong>
-        <span id="resumo-total">0</span>
-    </p>
+        ${
+            (sessao.status || "Aberta") === "Aberta"
+                ? `
+                    <button
+                        type="button"
+                        class="botao-perigo"
+                        id="botao-encerrar-sessao"
+                        data-sessao-id="${sessao.id}"
+                    >
+                        Encerrar sessão
+                    </button>
+                `
+                : ""
+        }
+    </div>
+        
+    </div>
 
-    <p>
-        <strong>Presentes:</strong>
-        <span id="resumo-presentes">0</span>
-    </p>
+    <div class="sessao-aberta-dados">
+        <div class="sessao-aberta-dado">
+            <span>Grau</span>
 
-    <p>
-        <strong>Ausentes:</strong>
-        <span id="resumo-ausentes">0</span>
-    </p>
+            <strong>
+                ${escaparHTML(sessao.grau)}
+            </strong>
+        </div>
+
+        <div class="sessao-aberta-dado">
+            <span>Tipo</span>
+
+            <strong>
+                ${escaparHTML(sessao.tipo)}
+            </strong>
+        </div>
+
+        <div class="sessao-aberta-dado">
+            <span>Data</span>
+
+            <strong>
+                ${formatarData(sessao.data)}
+            </strong>
+        </div>
+    </div>
 </div>
 
+<div class="sessao-aberta-resumo">
+    <h3>Resumo da sessão</h3>
+
+    <div class="sessao-aberta-resumo-grid">
+        <div class="resumo-card">
+            <span>Total</span>
+
+            <strong id="resumo-total">0</strong>
+        </div>
+
+        <div class="resumo-card resumo-card-presente">
+            <span>Presentes</span>
+
+            <strong id="resumo-presentes">0</strong>
+        </div>
+
+        <div class="resumo-card resumo-card-ausente">
+            <span>Ausentes</span>
+
+            <strong id="resumo-ausentes">0</strong>
+        </div>
+    </div>
+</div>
 <div class="sessao-aberta-lista">
     <h3>Lista de presença</h3>
 
@@ -248,12 +285,17 @@ function atualizarResumoSessao() {
           "
         >
 
-        <input
-            type="checkbox"
-            class="controle-presenca"
-            data-presenca-id="${presenca.id}"
-            ${presenca.presente ? "checked" : ""}
-        >
+      <input
+    type="checkbox"
+    class="controle-presenca"
+    data-presenca-id="${presenca.id}"
+    ${presenca.presente ? "checked" : ""}
+    ${
+        (sessao.status || "Aberta") === "Encerrada"
+            ? "disabled"
+            : ""
+    }
+>
 
         <div class="sessao-aberta-info">
 
@@ -311,7 +353,80 @@ moduloSessaoAberta.addEventListener(
     "change",
     alterarPresenca
 );
+const botaoEncerrarSessao = moduloSessaoAberta.querySelector(
+    "#botao-encerrar-sessao"
+);
+
+if (botaoEncerrarSessao) {
+    botaoEncerrarSessao.addEventListener(
+        "click",
+        encerrarSessao
+    );
+}
+
     atualizarResumoSessao();
+
+    async function encerrarSessao(evento) {
+    const botao = evento.currentTarget;
+    const sessaoId = botao.dataset.sessaoId;
+
+    const confirmou = window.confirm(
+        "Deseja realmente encerrar esta sessão?\n\n" +
+        "Após o encerramento, as presenças não poderão mais ser alteradas."
+    );
+
+    if (!confirmou) {
+        return;
+    }
+
+    botao.disabled = true;
+    botao.textContent = "Encerrando...";
+
+    try {
+        const sessao = await buscarRegistroPorId(
+            "sessoes",
+            sessaoId
+        );
+
+        if (!sessao) {
+            throw new Error("Sessão não encontrada.");
+        }
+
+        const sessaoAtualizada = {
+            ...sessao,
+            status: "Encerrada",
+            dataEncerramento: new Date().toISOString(),
+            dataUltimaAlteracao: new Date().toISOString()
+        };
+
+        await atualizarRegistro(
+            "sessoes",
+            sessaoAtualizada
+        );
+
+        mostrarMensagem(
+            "Sessão encerrada com sucesso.",
+            "sucesso"
+        );
+
+        await carregarSessaoAberta(sessaoId);
+    } catch (erro) {
+        console.error(
+            "Erro ao encerrar sessão:",
+            erro
+        );
+
+        mostrarMensagem(
+            "Não foi possível encerrar a sessão.",
+            "erro"
+        );
+
+        botao.disabled = false;
+        botao.textContent = "Encerrar sessão";
+    }
+}
+
+
 
     moduloSessaoAberta.scrollIntoView({
         behavior: "smooth",

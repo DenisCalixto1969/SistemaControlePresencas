@@ -46,14 +46,16 @@ function carregarModuloSessoes() {
         </section>
 
         <section class="painel painel-listagem">
-            <div class="lista-cabecalho lista-sessoes-grid">
-                <span>Nº</span>
-                <span>Data</span>
-                <span>Grau</span>
-                <span>Tipo</span>
-                <span>Ações</span>
-            </div>
-
+           
+       <div class="lista-cabecalho lista-sessoes-grid">
+            <span>Nº</span>
+            <span>Data</span>
+            <span>Grau</span>
+            <span>Tipo</span>
+            <span>Status</span>
+            <span>Presença</span>
+            <span>Ações</span>
+        </div>
             <div id="lista-sessoes" class="lista-corpo">
                 <div class="estado-lista">
                     Carregando sessões...
@@ -749,13 +751,42 @@ async function carregarSessoes() {
     `;
 
     try {
-        sessoesCarregadas = await listarRegistros("sessoes");
+        
+    const sessoes = await listarRegistros("sessoes");
+const presencas = await listarRegistros("presencas");
 
-        sessoesCarregadas.sort((sessaoA, sessaoB) => {
-            return sessaoB.data.localeCompare(sessaoA.data);
-        });
+sessoesCarregadas = sessoes.map((sessao) => {
+    const presencasDaSessao = presencas.filter(
+        (presenca) => presenca.sessaoId === sessao.id
+    );
 
-        renderizarSessoes(sessoesCarregadas);
+    const totalMembros = presencasDaSessao.length;
+
+    const totalPresentes = presencasDaSessao.filter(
+        (presenca) => presenca.presente === true
+    ).length;
+
+    const percentualPresenca = totalMembros > 0
+        ? Math.round(
+            (totalPresentes / totalMembros) * 100
+        )
+        : 0;
+
+    return {
+        ...sessao,
+        totalMembros,
+        totalPresentes,
+        percentualPresenca
+    };
+});
+
+sessoesCarregadas.sort((sessaoA, sessaoB) => {
+    return sessaoB.data.localeCompare(sessaoA.data);
+});
+
+renderizarSessoes(sessoesCarregadas);
+
+
     } catch (erro) {
         console.error("Erro ao carregar sessões:", erro);
 
@@ -991,6 +1022,21 @@ function criarLinhaSessao(sessao) {
     const classeTipo = sessao.tipo === "Magna"
         ? "tipo-magna"
         : "tipo-ordinaria";
+    const status = sessao.status || "Aberta";
+
+const classeStatus = status === "Encerrada"
+    ? "status-encerrada"
+    : "status-aberta";
+
+const percentual = sessao.percentualPresenca || 0;
+
+let classePercentual = "presenca-baixa";
+
+if (percentual >= 75) {
+    classePercentual = "presenca-alta";
+} else if (percentual >= 50) {
+    classePercentual = "presenca-media";
+}
 
     return `
         <article
@@ -1013,6 +1059,25 @@ function criarLinhaSessao(sessao) {
             <span data-rotulo="Tipo">
                 ${escaparHTML(sessao.tipo)}
             </span>
+
+            <span data-rotulo="Status">
+    <strong class="status-sessao ${classeStatus}">
+        ${escaparHTML(status)}
+    </strong>
+</span>
+
+<div
+    class="presenca-resumo ${classePercentual}"
+    data-rotulo="Presença"
+>
+    <strong>
+        ${percentual}%
+    </strong>
+
+    <small>
+        ${sessao.totalPresentes} / ${sessao.totalMembros}
+    </small>
+</div>
 
             <div class="acoes-linha" data-rotulo="Ações">
 

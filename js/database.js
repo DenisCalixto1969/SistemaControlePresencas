@@ -21,6 +21,8 @@ function abrirBanco() {
     criarTabelaMembros(banco);
     criarTabelaSessoes(banco, transacao);
     criarTabelaPresencas(banco);
+    criarTabelaHistoricoGraus(banco);
+
 };
 
         requisicao.onsuccess = (evento) => {
@@ -127,6 +129,51 @@ function criarTabelaPresencas(banco) {
         }
     );
 }
+
+function criarTabelaHistoricoGraus(banco) {
+    if (
+        banco.objectStoreNames.contains(
+            "historicoGraus"
+        )
+    ) {
+        return;
+    }
+
+    const tabela = banco.createObjectStore(
+        "historicoGraus",
+        {
+            keyPath: "id"
+        }
+    );
+
+    tabela.createIndex(
+        "membroId",
+        "membroId",
+        {
+            unique: false
+        }
+    );
+
+    tabela.createIndex(
+        "dataInicio",
+        "dataInicio",
+        {
+            unique: false
+        }
+    );
+
+    tabela.createIndex(
+        "membroData",
+        [
+            "membroId",
+            "dataInicio"
+        ],
+        {
+            unique: true
+        }
+    );
+}
+
 
 async function adicionarRegistro(nomeTabela, registro) {
     const banco = await abrirBanco();

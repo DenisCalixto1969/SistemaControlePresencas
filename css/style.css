@@ -670,13 +670,15 @@ body.modal-aberto {
 .lista-sessoes-grid {
     display: grid;
     grid-template-columns:
-        minmax(70px, 0.55fr)
-        minmax(180px, 1.4fr)
-        minmax(70px, 0.6fr)
-        minmax(120px, 0.9fr)
-        minmax(130px, 0.8fr);
+        60px
+        minmax(150px, 1.4fr)
+        70px
+        minmax(110px, 1fr)
+        110px
+        100px
+        120px;
+    gap: 12px;
     align-items: center;
-    gap: 16px;
 }
 
 .lista-linha.tipo-ordinaria {
@@ -794,4 +796,218 @@ body.modal-aberto {
 
 .estado-ausente {
     color: #dc2626;
+}
+
+
+.sessao-aberta-cabecalho {
+    margin-top: 24px;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #e3e8ef;
+    border-radius: 10px;
+}
+
+.sessao-aberta-titulo {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.sessao-aberta-titulo h2 {
+    margin: 0 0 6px;
+}
+
+.sessao-aberta-titulo p {
+    margin: 0;
+    color: #6b7280;
+}
+
+.sessao-aberta-status {
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #dcfce7;
+    color: #166534;
+    font-weight: 700;
+}
+
+.sessao-aberta-dados {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.sessao-aberta-dado {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px;
+    background: #f8fafc;
+    border-radius: 8px;
+}
+
+.sessao-aberta-dado span {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.sessao-aberta-dado strong {
+    font-size: 16px;
+}
+
+/* ============================
+   Resumo da Sessão
+============================ */
+
+.sessao-aberta-resumo {
+    margin-top: 20px;
+}
+
+.sessao-aberta-resumo h3 {
+    margin-bottom: 12px;
+}
+
+.sessao-aberta-resumo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.resumo-card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 16px;
+    background: #ffffff;
+    border: 1px solid #e3e8ef;
+    border-radius: 10px;
+}
+
+.resumo-card span {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.resumo-card strong {
+    font-size: 28px;
+}
+
+.resumo-card-presente {
+    border-left: 4px solid #16a34a;
+}
+
+.resumo-card-ausente {
+    border-left: 4px solid #dc2626;
+}
+
+@media (max-width: 700px) {
+    .sessao-aberta-titulo {
+        flex-direction: column;
+    }
+
+    .sessao-aberta-dados,
+    .sessao-aberta-resumo-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.sessao-aberta-acoes {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.status-sessao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: fit-content;
+    padding: 5px 10px;
+
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.status-aberta {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.status-encerrada {
+    background-color: #e2e8f0;
+    color: #475569;
+}
+
+.presenca-resumo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+}
+
+.presenca-resumo strong {
+    font-size: 15px;
+    line-height: 1.2;
+}
+
+.presenca-resumo small {
+    color: #64748b;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.presenca-alta strong {
+    color: #16a34a;
+}
+
+.presenca-media strong {
+    color: #ca8a04;
+}
+
+.presenca-baixa strong {
+    color: #dc2626;
+}
+
+.historico-graus {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.historico-graus h3 {
+    margin: 0 0 12px;
+    font-size: 16px;
+}
+
+#historico-graus-membro {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.historico-grau-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 10px 12px;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+}
+
+.historico-grau-item span {
+    color: #64748b;
+    font-size: 13px;
+}
+
+.historico-graus-vazio {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
 }

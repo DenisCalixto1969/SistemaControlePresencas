@@ -187,7 +187,20 @@ function criarModalMembro() {
                                 maxlength="1000"
                             ></textarea>
                         </div>
+
+                        <section class="historico-graus">
+                        <h3>Histórico de graus</h3>
+
+                         <div id="historico-graus-membro">
+                        <p class="historico-graus-vazio">
+                         O histórico será exibido ao editar um membro.
+                         </p>
+                        </div>
+                        </section>
+
                     </div>
+
+
 
                     <p
                         class="mensagem-formulario oculto"
@@ -395,6 +408,46 @@ function abrirModalNovoMembro() {
         document.querySelector("#membro-nome").focus();
     }, 50);
 }
+
+async function carregarHistoricoGraus(membroId) {
+    const container = document.querySelector(
+        "#historico-graus-membro"
+    );
+
+    if (!container) {
+        return;
+    }
+
+    const historico = await listarRegistros("historicoGraus");
+
+    const registros = historico
+        .filter(item => item.membroId === membroId)
+        .sort((a, b) =>
+            new Date(b.dataInicio) - new Date(a.dataInicio)
+        );
+
+    if (registros.length === 0) {
+        container.innerHTML = `
+            <p class="historico-graus-vazio">
+                Nenhum histórico de grau registrado.
+            </p>
+        `;
+        return;
+    }
+
+    container.innerHTML = registros.map(item => `
+        <div class="historico-grau-item">
+            <div>
+                <strong>Grau ${item.grau}</strong><br>
+                <span>
+                    Desde ${formatarData(item.dataInicio)}
+                </span>
+            </div>
+        </div>
+    `).join("");
+}
+
+
 async function abrirModalEditarMembro(id) {
     const membro = await buscarRegistroPorId("membros", id);
 
@@ -428,6 +481,8 @@ async function abrirModalEditarMembro(id) {
 
     document.querySelector("#membro-ativo").checked = membro.ativo;
 
+   await carregarHistoricoGrausMembro(id);
+
     const mensagem = document.querySelector(
         "#mensagem-formulario-membro"
     );
@@ -441,6 +496,8 @@ async function abrirModalEditarMembro(id) {
     modal.setAttribute("aria-hidden", "false");
 
     document.body.classList.add("modal-aberto");
+
+    await carregarHistoricoGraus(id);
 
     window.setTimeout(() => {
         document.querySelector("#membro-nome").focus();
@@ -511,6 +568,58 @@ async function salvarMembro(evento) {
             : "Salvar membro";
     }
 }
+
+async function carregarHistoricoGrausMembro(membroId) {
+    const areaHistorico = document.querySelector(
+        "#historico-graus-membro"
+    );
+
+    if (!areaHistorico) {
+        return;
+    }
+
+    const todosRegistros = await listarRegistros(
+        "historicoGraus"
+    );
+
+    const historico = todosRegistros
+        .filter(
+            (registro) => registro.membroId === membroId
+        )
+        .sort(
+            (registroA, registroB) =>
+                registroB.dataInicio.localeCompare(
+                    registroA.dataInicio
+                )
+        );
+
+    if (historico.length === 0) {
+        areaHistorico.innerHTML = `
+            <p class="historico-graus-vazio">
+                Nenhum histórico de grau registrado.
+            </p>
+        `;
+
+        return;
+    }
+
+    areaHistorico.innerHTML = historico
+        .map((registro) => {
+            return `
+                <div class="historico-grau-item">
+                    <strong>
+                        Grau ${escaparHTML(registro.grau)}
+                    </strong>
+
+                    <span>
+                        ${formatarData(registro.dataInicio)}
+                    </span>
+                </div>
+            `;
+        })
+        .join("");
+}
+
 
 async function atualizarMembroExistente(dados) {
     const membroAtual = await buscarRegistroPorId(
