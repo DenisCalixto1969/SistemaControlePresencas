@@ -515,7 +515,124 @@ function fecharModalMembro() {
     atualizarEstadoBloqueioPagina();
 }
 
-async function salvarMembro(evento) {
+function calcularDiaAnterior(dataISO) {
+    const data = new Date(
+        `${dataISO}T12:00:00`
+    );
+
+    data.setDate(
+        data.getDate() - 1
+    );
+
+    return data
+        .toISOString()
+        .slice(0, 10);
+}
+
+async function registrarHistoricoGrau(
+    membroId,
+    grau,
+    dataMudanca = null
+) {
+    const agora = new Date().toISOString();
+
+    const dataInicio =
+        dataMudanca ||
+        agora.slice(0, 10);
+
+    const historicoCompleto = await listarRegistros(
+        "historicoGraus"
+    );
+
+    const historicoDoMembro = historicoCompleto
+        .filter(
+            (registro) =>
+                registro.membroId === membroId
+        )
+        .sort(
+            (registroA, registroB) =>
+                registroB.dataInicio.localeCompare(
+                    registroA.dataInicio
+                )
+        );
+
+    const registroDaMesmaData =
+        historicoDoMembro.find(
+            (registro) =>
+                registro.dataInicio === dataInicio
+        );
+
+    /*
+     * Se já existir um registro na mesma data,
+     * atualizamos o grau em vez de duplicar.
+     */
+    if (registroDaMesmaData) {
+        if (
+            Number(registroDaMesmaData.grau) ===
+            Number(grau)
+        ) {
+            return;
+        }
+
+        await atualizarRegistro(
+            "historicoGraus",
+            {
+                ...registroDaMesmaData,
+                grau: Number(grau),
+                dataFim:
+                    registroDaMesmaData.dataFim ?? null,
+                dataUltimaAlteracao: agora
+            }
+        );
+
+        return;
+    }
+
+    /*
+     * Localiza o grau atualmente vigente.
+     * Um registro sem dataFim é considerado aberto.
+     */
+    const historicoAtual =
+        historicoDoMembro.find(
+            (registro) =>
+                registro.dataFim == null
+        );
+
+    if (historicoAtual) {
+        const dataFimAnterior =
+            calcularDiaAnterior(dataInicio);
+
+        await atualizarRegistro(
+            "historicoGraus",
+            {
+                ...historicoAtual,
+                dataFim: dataFimAnterior,
+                dataUltimaAlteracao: agora
+            }
+        );
+    }
+
+    const novoHistorico = {
+        id: crypto.randomUUID(),
+        membroId,
+        grau: Number(grau),
+        dataInicio,
+        dataFim: null,
+        observacoes: "",
+        dataCadastro: agora,
+        dataUltimaAlteracao: agora
+    };
+
+    await adicionarRegistro(
+        "historicoGraus",
+        novoHistorico
+    );
+}
+
+
+
+
+    async function salvarMembro(evento) {
     evento.preventDefault();
 
     const botaoSalvar = document.querySelector(
@@ -534,26 +651,63 @@ async function salvarMembro(evento) {
     botaoSalvar.textContent = "Salvando...";
 
     try {
-        if (membroEmEdicaoId) {
-            await atualizarMembroExistente(dados);
+    if (membroEmEdicaoId) {
+        /*
+         * Buscamos o cadastro anterior antes de atualizá-lo,
+         * para comparar o grau antigo com o novo.
+         */
+        const membroAnterior = await buscarRegistroPorId(
+            "membros",
+            membroEmEdicaoId
+        );
 
-            mostrarMensagem(
-                "Membro atualizado com sucesso.",
-                "sucesso"
-            );
-        } else {
-            const novoMembro = new Membro(dados);
-
-            await adicionarRegistro("membros", novoMembro);
-
-            mostrarMensagem(
-                "Membro cadastrado com sucesso.",
-                "sucesso"
+        if (!membroAnterior) {
+            throw new Error(
+                "O membro em edição não foi encontrado."
             );
         }
 
-        fecharModalMembro();
-        await carregarMembros();
+        const grauFoiAlterado =
+            Number(membroAnterior.grau) !==
+            Number(dados.grau);
+
+        await atualizarMembroExistente(dados);
+
+        if (grauFoiAlterado) {
+            await registrarHistoricoGrau(
+                membroEmEdicaoId,
+                dados.grau
+            );
+        }
+
+        mostrarMensagem(
+            grauFoiAlterado
+                ? "Membro atualizado e mudança de grau registrada."
+                : "Membro atualizado com sucesso.",
+            "sucesso"
+        );
+    } else {
+        const novoMembro = new Membro(dados);
+
+        await adicionarRegistro(
+            "membros",
+            novoMembro
+        );
+
+        await registrarHistoricoGrau(
+            novoMembro.id,
+            dados.grau
+        );
+
+        mostrarMensagem(
+            "Membro cadastrado com sucesso.",
+            "sucesso"
+        );
+    }
+
+    fecharModalMembro();
+    await carregarMembros();
+
     } catch (erro) {
         console.error("Erro ao salvar membro:", erro);
 
