@@ -3,6 +3,7 @@
 let membrosCarregados = [];
 let membroEmEdicaoId = null;
 let membroEmExclusaoId = null;
+let grauOriginalMembro = null;
 
 function carregarModuloMembros() {
     return `
@@ -134,6 +135,21 @@ function criarModalMembro() {
                             </select>
                         </div>
 
+                        <div
+                        class="grupo-campo oculto"
+                        id="grupo-data-mudanca-grau"
+                    >
+                        <label for="membro-data-mudanca-grau">
+                            Data da mudança de grau
+                        </label>
+
+                        <input
+                            type="date"
+                            id="membro-data-mudanca-grau"
+                        >
+                    </div>
+
+                        
                         <div class="grupo-campo grupo-checkbox">
                             <label for="membro-ativo">
                                 Situação
@@ -338,6 +354,12 @@ function configurarEventosMembros() {
     botaoCancelar.addEventListener("click", fecharModalMembro);
 
     formulario.addEventListener("submit", salvarMembro);
+    document
+    .querySelector("#membro-grau")
+    .addEventListener(
+        "change",
+        controlarCampoDataMudancaGrau
+    );
 
     campoPesquisa.addEventListener("input", () => {
         filtrarMembros(campoPesquisa.value);
@@ -472,6 +494,20 @@ async function abrirModalEditarMembro(id) {
 
     document.querySelector("#membro-nome").value = membro.nome;
     document.querySelector("#membro-grau").value = membro.grau;
+    grauOriginalMembro = Number(membro.grau);
+
+const grupoDataMudancaGrau = document.querySelector(
+    "#grupo-data-mudanca-grau"
+);
+
+const campoDataMudancaGrau = document.querySelector(
+    "#membro-data-mudanca-grau"
+);
+
+grupoDataMudancaGrau.classList.add("oculto");
+campoDataMudancaGrau.value = "";
+campoDataMudancaGrau.required = false;
+
     document.querySelector("#membro-cir").value = membro.cir || "";
     document.querySelector("#membro-cim").value = membro.cim || "";
 
@@ -556,62 +592,76 @@ async function registrarHistoricoGrau(
                 )
         );
 
-    const registroDaMesmaData =
-        historicoDoMembro.find(
-            (registro) =>
-                registro.dataInicio === dataInicio
-        );
+    const historicoAtual = historicoDoMembro.find(
+        (registro) =>
+            registro.dataFim == null
+    );
 
     /*
-     * Se já existir um registro na mesma data,
-     * atualizamos o grau em vez de duplicar.
+     * Primeiro histórico do membro.
      */
-    if (registroDaMesmaData) {
-        if (
-            Number(registroDaMesmaData.grau) ===
-            Number(grau)
-        ) {
-            return;
-        }
+    if (!historicoAtual) {
+        const primeiroHistorico = {
+            id: crypto.randomUUID(),
+            membroId,
+            grau: Number(grau),
+            dataInicio,
+            dataFim: null,
+            observacoes: "",
+            dataCadastro: agora,
+            dataUltimaAlteracao: agora
+        };
 
-        await atualizarRegistro(
+        await adicionarRegistro(
             "historicoGraus",
-            {
-                ...registroDaMesmaData,
-                grau: Number(grau),
-                dataFim:
-                    registroDaMesmaData.dataFim ?? null,
-                dataUltimaAlteracao: agora
-            }
+            primeiroHistorico
         );
 
         return;
     }
 
     /*
-     * Localiza o grau atualmente vigente.
-     * Um registro sem dataFim é considerado aberto.
+     * Se o grau atual já for o mesmo,
+     * não existe mudança para registrar.
      */
-    const historicoAtual =
-        historicoDoMembro.find(
-            (registro) =>
-                registro.dataFim == null
-        );
+    if (
+        Number(historicoAtual.grau) ===
+        Number(grau)
+    ) {
+        return;
+    }
 
-    if (historicoAtual) {
-        const dataFimAnterior =
-            calcularDiaAnterior(dataInicio);
-
-        await atualizarRegistro(
-            "historicoGraus",
-            {
-                ...historicoAtual,
-                dataFim: dataFimAnterior,
-                dataUltimaAlteracao: agora
-            }
+    /*
+     * Não permitimos duas mudanças reais
+     * na mesma data.
+     */
+    if (
+        historicoAtual.dataInicio ===
+        dataInicio
+    ) {
+        throw new Error(
+            "Já existe uma mudança de grau registrada nesta data."
         );
     }
 
+    /*
+     * Fecha o grau anterior no dia anterior
+     * ao início do novo grau.
+     */
+    await atualizarRegistro(
+        "historicoGraus",
+        {
+            ...historicoAtual,
+            dataFim: calcularDiaAnterior(
+                dataInicio
+            ),
+            dataUltimaAlteracao: agora
+        }
+    );
+
+    /*
+     * Cria o novo grau vigente.
+     */
     const novoHistorico = {
         id: crypto.randomUUID(),
         membroId,
@@ -630,8 +680,68 @@ async function registrarHistoricoGrau(
 }
 
 
+function calcularDiaAnterior(dataISO) {
+    const data = new Date(
+        `${dataISO}T12:00:00`
+    );
 
+    data.setDate(
+        data.getDate() - 1
+    );
 
+    return data
+        .toISOString()
+        .slice(0, 10);
+}
+function controlarCampoDataMudancaGrau() {
+    if (!membroEmEdicaoId) {
+        return;
+    }
+
+    const campoGrau = document.querySelector(
+        "#membro-grau"
+    );
+
+    const grupoData = document.querySelector(
+        "#grupo-data-mudanca-grau"
+    );
+
+    const campoData = document.querySelector(
+        "#membro-data-mudanca-grau"
+    );
+
+    if (
+        !campoGrau ||
+        !grupoData ||
+        !campoData
+    ) {
+        return;
+    }
+
+    const grauFoiAlterado =
+        Number(campoGrau.value) !==
+        Number(grauOriginalMembro);
+
+    grupoData.classList.toggle(
+        "oculto",
+        !grauFoiAlterado
+    );
+
+    campoData.required = grauFoiAlterado;
+
+    if (
+        grauFoiAlterado &&
+        !campoData.value
+    ) {
+        campoData.value = new Date()
+            .toISOString()
+            .slice(0, 10);
+    }
+
+    if (!grauFoiAlterado) {
+        campoData.value = "";
+    }
+}
     async function salvarMembro(evento) {
     evento.preventDefault();
 
@@ -668,17 +778,32 @@ async function registrarHistoricoGrau(
         }
 
         const grauFoiAlterado =
-            Number(membroAnterior.grau) !==
-            Number(dados.grau);
+    Number(membroAnterior.grau) !==
+    Number(dados.grau);
 
-        await atualizarMembroExistente(dados);
+if (grauFoiAlterado) {
+    const campoDataMudanca = document.querySelector(
+        "#membro-data-mudanca-grau"
+    );
 
-        if (grauFoiAlterado) {
-            await registrarHistoricoGrau(
-                membroEmEdicaoId,
-                dados.grau
-            );
-        }
+    const dataMudanca = campoDataMudanca?.value;
+
+    if (!dataMudanca) {
+        throw new Error(
+            "Informe a data da mudança de grau."
+        );
+    }
+
+    await registrarHistoricoGrau(
+        membroEmEdicaoId,
+        dados.grau,
+        dataMudanca
+    );
+}
+
+
+
+await atualizarMembroExistente(dados);
 
         mostrarMensagem(
             grauFoiAlterado
