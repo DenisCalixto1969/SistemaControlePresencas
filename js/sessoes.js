@@ -538,23 +538,62 @@ function calcularProximoNumeroSessao() {
     return maiorNumero + 1;
 }
 
-function membroPodeParticiparDaSessao(membro, sessao) {
+function membroPodeParticiparDaSessao(
+    membro,
+    sessao,
+    historicoCompleto
+) {
     const membroAtivo = membro.ativo === true;
-    const grauMembro = Number(membro.grau);
+
+    if (!membroAtivo) {
+        return false;
+    }
+
+    const historicoDoMembro = historicoCompleto.filter(
+        (registro) =>
+            registro.membroId === membro.id
+    );
+
+    const grauHistorico = obterGrauNoHistorico(
+        historicoDoMembro,
+        sessao.data
+    );
+
+    /*
+     * Compatibilidade com membros ou datas que ainda
+     * não possuem histórico cadastrado.
+     *
+     * Quando houver histórico, prevalece o grau da data.
+     * Quando não houver, usa temporariamente o grau atual.
+     */
+    const grauMembro =
+        grauHistorico !== null
+            ? grauHistorico
+            : Number(membro.grau);
+
     const grauSessao = Number(sessao.grau);
 
-    return membroAtivo && grauMembro >= grauSessao;
+    return grauMembro >= grauSessao;
 }
 
-async function gerarPresencasDaSessao(sessao) {
-    const membros = await listarRegistros("membros");
 
-    const membrosAptos = membros.filter((membro) => {
-        return membroPodeParticiparDaSessao(
-            membro,
-            sessao
-        );
-    });
+async function gerarPresencasDaSessao(sessao) {
+    const [
+        membros,
+        historicoCompleto
+    ] = await Promise.all([
+        listarRegistros("membros"),
+        listarRegistros("historicoGraus")
+    ]);
+
+    const membrosAptos = membros.filter(
+        (membro) =>
+            membroPodeParticiparDaSessao(
+                membro,
+                sessao,
+                historicoCompleto
+            )
+    );
 
     return membrosAptos.map((membro) => {
         return new Presenca({
@@ -564,7 +603,6 @@ async function gerarPresencasDaSessao(sessao) {
         });
     });
 }
-
 async function salvarSessao(evento) {
     evento.preventDefault();
 

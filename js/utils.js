@@ -67,3 +67,72 @@ function obterDiaSemana(dataISO) {
 function formatarNumeroSessao(numero) {
     return String(numero).padStart(3, "0");
 }
+
+/**
+ * Localiza o grau que estava vigente em uma data.
+ *
+ * @param {Array} historicoGraus Registros do membro.
+ * @param {string} dataReferencia Data no formato AAAA-MM-DD.
+ * @returns {number|null}
+ */
+function obterGrauNoHistorico(
+    historicoGraus,
+    dataReferencia
+) {
+    if (
+        !Array.isArray(historicoGraus) ||
+        !dataReferencia
+    ) {
+        return null;
+    }
+
+    const registroVigente = historicoGraus.find(
+        (registro) => {
+            const iniciou =
+                registro.dataInicio <= dataReferencia;
+
+            const aindaEstavaVigente =
+                registro.dataFim == null ||
+                registro.dataFim >= dataReferencia;
+
+            return iniciou && aindaEstavaVigente;
+        }
+    );
+
+    if (!registroVigente) {
+        return null;
+    }
+
+    return Number(registroVigente.grau);
+}
+
+
+/**
+ * Busca no banco o grau de um membro em determinada data.
+ *
+ * @param {string} membroId
+ * @param {string} dataReferencia Data no formato AAAA-MM-DD.
+ * @returns {Promise<number|null>}
+ */
+async function buscarGrauMembroNaData(
+    membroId,
+    dataReferencia
+) {
+    if (!membroId || !dataReferencia) {
+        return null;
+    }
+
+    const historicoCompleto = await listarRegistros(
+        "historicoGraus"
+    );
+
+    const historicoDoMembro = historicoCompleto.filter(
+        (registro) =>
+            registro.membroId === membroId
+    );
+
+    return obterGrauNoHistorico(
+        historicoDoMembro,
+        dataReferencia
+    );
+}

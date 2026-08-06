@@ -150,19 +150,26 @@ function atualizarResumoSessao() {
     (presenca) => presenca.sessaoId === idSessao
     );
 
-    const membrosDaSessao = await Promise.all(
+   const membrosDaSessao = await Promise.all(
     presencasDaSessao.map(async (presenca) => {
+
         const membro = await buscarRegistroPorId(
             "membros",
             presenca.membroId
         );
 
+        const grauNaData = await buscarGrauMembroNaData(
+            presenca.membroId,
+            sessao.data
+        );
+
         return {
             presenca,
-            membro
+            membro,
+            grauNaData
         };
     })
-    );
+);
 
     const moduloSessaoAberta = document.querySelector(
         "#modulo-sessao-aberta"
@@ -268,7 +275,7 @@ function atualizarResumoSessao() {
                     </p>
                 `
                 : membrosDaSessao
-                    .map(({ membro, presenca }) => {
+                    .map(({presenca, membro, grauNaData }) => {
                         return `
             <div
              class="sessao-aberta-membro"
@@ -308,7 +315,7 @@ function atualizarResumoSessao() {
 
             <span class="sessao-aberta-grau">
                 Grau ${escaparHTML(
-                    membro?.grau ?? "-"
+                    grauNaData ?? membro?.grau ?? "-"
                 )}
             </span>
 
@@ -344,15 +351,8 @@ function atualizarResumoSessao() {
 
     moduloSessaoAberta.style.display = "block";
 
-    moduloSessaoAberta.removeEventListener(
-    "change",
-    alterarPresenca
-);
+   moduloSessaoAberta.onchange = alterarPresenca;
 
-moduloSessaoAberta.addEventListener(
-    "change",
-    alterarPresenca
-);
 const botaoEncerrarSessao = moduloSessaoAberta.querySelector(
     "#botao-encerrar-sessao"
 );
