@@ -254,6 +254,111 @@ resultado.innerHTML = `
 
 </div>
 
+<div class="detalhamento-ranking">
+    <h3>Classificação completa</h3>
+
+    ${
+        ranking.length === 0
+            ? `
+                <p class="relatorio-sem-resultados">
+                    Nenhum membro foi encontrado para o período.
+                </p>
+            `
+            : `
+                <div class="tabela-responsiva">
+                    <table class="tabela-relatorio">
+                        <thead>
+                            <tr>
+                                <th>Posição</th>
+                                <th>Membro</th>
+                                <th>Sessões permitidas</th>
+                                <th>Presentes</th>
+                                <th>Ausentes</th>
+                                <th>Frequência</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            ${ranking
+                                .map((item, indice) => {
+                                    const posicao =
+                                        indice + 1;
+
+                                    const percentual =
+                                        item.frequencia.percentual
+                                            .toFixed(2)
+                                            .replace(".", ",");
+
+                                    const status =
+                                        obterStatusFrequencia(
+                                            item.frequencia.percentual
+                                        );
+
+                                    const medalha =
+                                        posicao === 1
+                                            ? "🥇"
+                                            : posicao === 2
+                                                ? "🥈"
+                                                : posicao === 3
+                                                    ? "🥉"
+                                                    : "";
+
+                                    return `
+                                        <tr
+                                            class="
+                                                linha-ranking
+                                                linha-ranking-${posicao}
+                                            "
+                                        >
+                                            <td>
+                                                <strong>
+                                                    ${medalha}
+                                                    ${posicao}º
+                                                </strong>
+                                            </td>
+
+                                            <td>
+                                                <strong>
+                                                    ${escaparHTML(
+                                                        item.membro.nome
+                                                    )}
+                                                </strong>
+                                            </td>
+
+                                            <td>
+                                                ${item.frequencia.totalSessoes}
+                                            </td>
+
+                                            <td>
+                                                ${item.frequencia.totalPresentes}
+                                            </td>
+
+                                            <td>
+                                                ${item.frequencia.totalAusentes}
+                                            </td>
+
+                                            <td>
+                                                <strong>
+                                                    ${percentual}%
+                                                </strong>
+
+                                                <br>
+
+                                                <span class="${status.classe}">
+                                                    ${status.texto}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    `;
+                                })
+                                .join("")}
+                        </tbody>
+                    </table>
+                </div>
+            `
+    }
+</div>
+
 </section>  `;
 resultado.classList.remove("oculto");
 
