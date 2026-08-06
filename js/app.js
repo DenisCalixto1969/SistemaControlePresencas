@@ -112,13 +112,14 @@ async function abrirModulo(nomeModulo) {
             inicializarModuloRelatorios();
             break;
 
-        case "ranking":
-            conteudoPrincipal.innerHTML =
-                carregarModuloRanking();
-            break;
+       case "ranking":
+           conteudoPrincipal.innerHTML =
+           carregarModuloRanking();
 
-        case "inicio":
-        default:
+          inicializarModuloRanking();
+          break;
+          case "inicio":
+          default:
             conteudoPrincipal.innerHTML =
                 carregarModuloInicio();
             break;
