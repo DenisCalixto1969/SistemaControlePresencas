@@ -129,11 +129,11 @@ async function abrirModulo(nomeModulo) {
 function carregarModuloInicio() {
     return `
         <section class="boas-vindas">
-            <h2>Bem-vindo</h2>
+            <h2>Bem-vindo meu Ir.'.</h2>
 
             <p>
                 Utilize o menu acima para acessar as funcionalidades
-                do Sistema Controle Presenças.
+                do Sistema de Gestão do Capitulo.
             </p>
         </section>
 
