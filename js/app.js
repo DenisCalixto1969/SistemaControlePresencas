@@ -105,9 +105,11 @@ async function abrirModulo(nomeModulo) {
 
         case "relatorios":
             conteudoPrincipal.innerHTML =
-                carregarModuloRelatorios();
+            carregarModuloRelatorios();
 
             await carregarMembrosRelatorio();
+
+            inicializarModuloRelatorios();
             break;
 
         case "ranking":

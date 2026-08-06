@@ -112,3 +112,80 @@ async function carregarMembrosRelatorio() {
     `;
 }
 
+function inicializarModuloRelatorios() {
+    const formulario = document.querySelector(
+        "#formulario-relatorio"
+    );
+
+    if (!formulario) {
+        return;
+    }
+
+    formulario.addEventListener(
+        "submit",
+        gerarRelatorio
+    );
+}
+
+function obterDadosFormularioRelatorio() {
+    const dataInicial = document.querySelector(
+        "#relatorio-data-inicial"
+    ).value;
+
+    const dataFinal = document.querySelector(
+        "#relatorio-data-final"
+    ).value;
+
+    const membroId = document.querySelector(
+        "#relatorio-membro"
+    ).value;
+
+    return {
+        dataInicial,
+        dataFinal,
+        membroId
+    };
+}
+
+function validarDadosRelatorio(dados) {
+    if (!dados.dataInicial) {
+        return "Informe a data inicial.";
+    }
+
+    if (!dados.dataFinal) {
+        return "Informe a data final.";
+    }
+
+    if (dados.dataInicial > dados.dataFinal) {
+        return (
+            "A data inicial não pode ser posterior " +
+            "à data final."
+        );
+    }
+
+    return null;
+}
+
+async function gerarRelatorio(evento) {
+    evento.preventDefault();
+
+    const dados = obterDadosFormularioRelatorio();
+
+    const erroValidacao =
+        validarDadosRelatorio(dados);
+
+    if (erroValidacao) {
+        mostrarMensagem(
+            erroValidacao,
+            "erro"
+        );
+
+        return;
+    }
+
+    console.log(
+        "Dados do relatório:",
+        dados
+    );
+}
+
