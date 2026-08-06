@@ -1,13 +1,17 @@
 "use strict";
 
-document.addEventListener("DOMContentLoaded", iniciarSistema);
+document.addEventListener(
+    "DOMContentLoaded",
+    iniciarSistema
+);
 
 async function iniciarSistema() {
     try {
         await abrirBanco();
 
         configurarMenu();
-        abrirModulo("inicio");
+
+        await abrirModulo("inicio");
 
         console.log(
             "Sistema Controle Presenças iniciado."
@@ -25,20 +29,41 @@ async function iniciarSistema() {
 }
 
 function configurarMenu() {
-    const botoesMenu = document.querySelectorAll(".menu-botao");
+    const botoesMenu = document.querySelectorAll(
+        ".menu-botao"
+    );
 
     botoesMenu.forEach((botao) => {
-        botao.addEventListener("click", () => {
-            const nomeModulo = botao.dataset.modulo;
+        botao.addEventListener(
+            "click",
+            async () => {
+                const nomeModulo =
+                    botao.dataset.modulo;
 
-            atualizarBotaoAtivo(botao);
-            abrirModulo(nomeModulo);
-        });
+                atualizarBotaoAtivo(botao);
+
+                try {
+                    await abrirModulo(nomeModulo);
+                } catch (erro) {
+                    console.error(
+                        `Erro ao abrir o módulo ${nomeModulo}:`,
+                        erro
+                    );
+
+                    mostrarMensagem(
+                        "Não foi possível abrir o módulo.",
+                        "erro"
+                    );
+                }
+            }
+        );
     });
 }
 
 function atualizarBotaoAtivo(botaoSelecionado) {
-    const botoesMenu = document.querySelectorAll(".menu-botao");
+    const botoesMenu = document.querySelectorAll(
+        ".menu-botao"
+    );
 
     botoesMenu.forEach((botao) => {
         botao.classList.remove("ativo");
@@ -47,37 +72,53 @@ function atualizarBotaoAtivo(botaoSelecionado) {
     botaoSelecionado.classList.add("ativo");
 }
 
-function abrirModulo(nomeModulo) {
+async function abrirModulo(nomeModulo) {
     const conteudoPrincipal = document.querySelector(
         "#conteudo-principal"
     );
 
+    if (!conteudoPrincipal) {
+        throw new Error(
+            "O elemento #conteudo-principal não foi encontrado."
+        );
+    }
+
     switch (nomeModulo) {
         case "membros":
-             conteudoPrincipal.innerHTML = carregarModuloMembros();
+            conteudoPrincipal.innerHTML =
+                carregarModuloMembros();
+
             inicializarModuloMembros();
-             break;
+            break;
 
         case "sessoes":
-            conteudoPrincipal.innerHTML = carregarModuloSessoes();
+            conteudoPrincipal.innerHTML =
+                carregarModuloSessoes();
+
             inicializarModuloSessoes();
             break;
 
         case "presencas":
-            conteudoPrincipal.innerHTML = carregarModuloPresencas();
+            conteudoPrincipal.innerHTML =
+                carregarModuloPresencas();
             break;
 
         case "relatorios":
-            conteudoPrincipal.innerHTML = carregarModuloRelatorios();
+            conteudoPrincipal.innerHTML =
+                carregarModuloRelatorios();
+
+            await carregarMembrosRelatorio();
             break;
 
         case "ranking":
-            conteudoPrincipal.innerHTML = carregarModuloRanking();
+            conteudoPrincipal.innerHTML =
+                carregarModuloRanking();
             break;
 
         case "inicio":
         default:
-            conteudoPrincipal.innerHTML = carregarModuloInicio();
+            conteudoPrincipal.innerHTML =
+                carregarModuloInicio();
             break;
     }
 }
@@ -99,7 +140,10 @@ function carregarModuloInicio() {
                     Membros ativos
                 </span>
 
-                <strong class="cartao-valor" id="total-membros">
+                <strong
+                    class="cartao-valor"
+                    id="total-membros"
+                >
                     0
                 </strong>
             </article>
@@ -109,7 +153,10 @@ function carregarModuloInicio() {
                     Sessões cadastradas
                 </span>
 
-                <strong class="cartao-valor" id="total-sessoes">
+                <strong
+                    class="cartao-valor"
+                    id="total-sessoes"
+                >
                     0
                 </strong>
             </article>
@@ -119,7 +166,10 @@ function carregarModuloInicio() {
                     Presenças registradas
                 </span>
 
-                <strong class="cartao-valor" id="total-presencas">
+                <strong
+                    class="cartao-valor"
+                    id="total-presencas"
+                >
                     0
                 </strong>
             </article>

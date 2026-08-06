@@ -1062,3 +1062,20 @@ body.modal-aberto {
     color: #64748b;
     font-size: 13px;
 }
+
+.grade-formulario-relatorio{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    margin-bottom:20px;
+}
+
+@media(max-width:768px){
+
+    .grade-formulario-relatorio{
+
+        grid-template-columns:1fr;
+
+    }
+
+}

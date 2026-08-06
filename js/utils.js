@@ -136,3 +136,140 @@ async function buscarGrauMembroNaData(
         dataReferencia
     );
 }
+
+async function membroEstavaAptoNaSessao(
+    membro,
+    sessao
+) {
+    if (
+        !membro ||
+        !sessao ||
+        membro.ativo !== true
+    ) {
+        return false;
+    }
+
+    const grauNaData = await buscarGrauMembroNaData(
+        membro.id,
+        sessao.data
+    );
+
+    const grauConsiderado =
+        grauNaData !== null
+            ? grauNaData
+            : Number(membro.grau);
+
+    return (
+        grauConsiderado >= Number(sessao.grau)
+    );
+}
+
+async function listarSessoesPermitidas(
+    membro,
+    dataInicial,
+    dataFinal
+) {
+    if (
+        !membro ||
+        !dataInicial ||
+        !dataFinal
+    ) {
+        return [];
+    }
+
+    const todasSessoes = await listarRegistros(
+        "sessoes"
+    );
+
+    const sessoesDoPeriodo = todasSessoes.filter(
+        (sessao) =>
+            sessao.data >= dataInicial &&
+            sessao.data <= dataFinal
+    );
+
+    const resultados = await Promise.all(
+        sessoesDoPeriodo.map(async (sessao) => {
+            const apto = await membroEstavaAptoNaSessao(
+                membro,
+                sessao
+            );
+
+            return apto ? sessao : null;
+        })
+    );
+
+    return resultados
+        .filter(Boolean)
+        .sort(
+            (sessaoA, sessaoB) =>
+                sessaoA.data.localeCompare(
+                    sessaoB.data
+                )
+        );
+}
+
+async function calcularFrequenciaMembro(
+    membro,
+    dataInicial,
+    dataFinal
+) {
+    const sessoesPermitidas =
+        await listarSessoesPermitidas(
+            membro,
+            dataInicial,
+            dataFinal
+        );
+
+    const todasPresencas = await listarRegistros(
+        "presencas"
+    );
+
+    const idsSessoesPermitidas = new Set(
+        sessoesPermitidas.map(
+            (sessao) => sessao.id
+        )
+    );
+
+    const presencasDoMembro =
+        todasPresencas.filter(
+            (presenca) =>
+                presenca.membroId === membro.id &&
+                idsSessoesPermitidas.has(
+                    presenca.sessaoId
+                )
+        );
+
+    const totalSessoes =
+        sessoesPermitidas.length;
+
+    const totalPresentes =
+        presencasDoMembro.filter(
+            (presenca) =>
+                presenca.presente === true
+        ).length;
+
+    const totalAusentes =
+        totalSessoes - totalPresentes;
+
+    const percentual =
+        totalSessoes > 0
+            ? Number(
+                (
+                    totalPresentes /
+                    totalSessoes *
+                    100
+                ).toFixed(2)
+            )
+            : 0;
+
+    return {
+        membroId: membro.id,
+        totalSessoes,
+        totalPresentes,
+        totalAusentes,
+        percentual,
+        sessoesPermitidas
+    };
+}
+
+

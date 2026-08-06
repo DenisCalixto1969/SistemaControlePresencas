@@ -1164,3 +1164,4 @@ function formatarQuantidadeSessoes(quantidade) {
 
     return `${quantidade} sessões`;
 }
+
