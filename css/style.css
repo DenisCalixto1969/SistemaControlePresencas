@@ -1535,3 +1535,77 @@ body.modal-aberto {
         grid-column: 2;
     }
 }
+
+/* ============================
+   Dashboard - Últimas sessões
+============================ */
+
+.dashboard-sessoes-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.dashboard-sessao-item {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr auto;
+    align-items: center;
+    gap: 16px;
+
+    padding: 14px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+
+    background-color: #ffffff;
+}
+
+.dashboard-sessao-principal {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.dashboard-sessao-principal strong {
+    color: #1e293b;
+}
+
+.dashboard-sessao-principal span {
+    color: #64748b;
+    font-size: 13px;
+}
+
+.dashboard-sessao-detalhes {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+
+    color: #475569;
+    font-size: 13px;
+}
+
+.dashboard-sessao-presencas {
+    text-align: right;
+}
+
+.dashboard-sessao-presencas strong {
+    display: block;
+
+    color: #1e293b;
+    font-size: 20px;
+}
+
+.dashboard-sessao-presencas span {
+    color: #64748b;
+    font-size: 12px;
+}
+
+@media (max-width: 700px) {
+    .dashboard-sessao-item {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-sessao-presencas {
+        text-align: left;
+    }
+}

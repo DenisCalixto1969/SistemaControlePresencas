@@ -134,6 +134,7 @@ async function carregarDashboard() {
     );
 
     await carregarIndicadores();
+    await carregarUltimasSessoes();
     await carregarRankingRapido();
 }
 
@@ -591,3 +592,134 @@ async function carregarRankingRapido() {
     `;
 }
   
+async function carregarUltimasSessoes() {
+    const areaSessoes =
+        document.getElementById(
+            "dashboard-ultimas-sessoes"
+        );
+
+    if (!areaSessoes) {
+        return;
+    }
+
+    const sessoes =
+        await listarRegistros("sessoes");
+
+    const presencas =
+        await listarRegistros("presencas");
+
+    if (sessoes.length === 0) {
+        areaSessoes.innerHTML = `
+            <h3>Últimas sessões</h3>
+
+            <p class="dashboard-sem-dados">
+                Nenhuma sessão cadastrada.
+            </p>
+        `;
+
+        return;
+    }
+
+    const ultimasSessoes =
+        [...sessoes]
+            .sort(
+                (a, b) =>
+                    b.data.localeCompare(a.data)
+            )
+            .slice(0, 3);
+
+    const sessoesComResumo =
+        ultimasSessoes.map(
+            (sessao) => {
+                const presencasSessao =
+                    presencas.filter(
+                        (presenca) =>
+                            presenca.sessaoId ===
+                            sessao.id
+                    );
+
+                const presentes =
+                    presencasSessao.filter(
+                        (presenca) =>
+                            presenca.presente === true
+                    ).length;
+
+                return {
+                    sessao,
+                    presentes,
+                    totalAptos:
+                        presencasSessao.length
+                };
+            }
+        );
+
+    areaSessoes.innerHTML = `
+        <div class="dashboard-secao-cabecalho">
+            <div>
+                <h3>📅 Últimas sessões</h3>
+
+                <p>
+                    As 3 sessões mais recentes
+                </p>
+            </div>
+        </div>
+
+        <div class="dashboard-sessoes-lista">
+
+            ${sessoesComResumo
+                .map(
+                    ({
+                        sessao,
+                        presentes,
+                        totalAptos
+                    }) => {
+                        return `
+                            <div class="dashboard-sessao-item">
+
+                                <div class="dashboard-sessao-principal">
+                                    <strong>
+                                        Sessão ${formatarNumeroSessao(
+                                            sessao.numero
+                                        )}
+                                    </strong>
+
+                                    <span>
+                                        ${formatarData(
+                                            sessao.data
+                                        )}
+                                    </span>
+                                </div>
+
+                                <div class="dashboard-sessao-detalhes">
+                                    <span>
+                                        ${escaparHTML(
+                                            sessao.tipo
+                                        )}
+                                    </span>
+
+                                    <span>
+                                        Grau ${escaparHTML(
+                                            sessao.grau
+                                        )}
+                                    </span>
+                                </div>
+
+                                <div class="dashboard-sessao-presencas">
+                                    <strong>
+                                        ${presentes}
+                                    </strong>
+
+                                    <span>
+                                        de ${totalAptos} presentes
+                                    </span>
+                                </div>
+
+                            </div>
+                        `;
+                    }
+                )
+                .join("")}
+
+        </div>
+    `;
+}
