@@ -112,7 +112,7 @@ async function abrirModulo(nomeModulo) {
             inicializarModuloRelatorios();
             break;
 
-       case "ranking":
+         case "ranking":
            conteudoPrincipal.innerHTML =
            carregarModuloRanking();
 
@@ -120,62 +120,10 @@ async function abrirModulo(nomeModulo) {
           break;
           case "inicio":
           default:
-            conteudoPrincipal.innerHTML =
-                carregarModuloInicio();
-            break;
-    }
+         conteudoPrincipal.innerHTML =
+         carregarModuloDashboard();
+
+         await carregarDashboard();
+         break;
 }
-
-function carregarModuloInicio() {
-    return `
-        <section class="boas-vindas">
-            <h2>Bem-vindo meu Ir.'.</h2>
-
-            <p>
-                Utilize o menu acima para acessar as funcionalidades
-                do Sistema de Gestão do Capitulo.
-            </p>
-        </section>
-
-        <section class="painel-resumo">
-            <article class="cartao">
-                <span class="cartao-titulo">
-                    Membros ativos
-                </span>
-
-                <strong
-                    class="cartao-valor"
-                    id="total-membros"
-                >
-                    0
-                </strong>
-            </article>
-
-            <article class="cartao">
-                <span class="cartao-titulo">
-                    Sessões cadastradas
-                </span>
-
-                <strong
-                    class="cartao-valor"
-                    id="total-sessoes"
-                >
-                    0
-                </strong>
-            </article>
-
-            <article class="cartao">
-                <span class="cartao-titulo">
-                    Presenças registradas
-                </span>
-
-                <strong
-                    class="cartao-valor"
-                    id="total-presencas"
-                >
-                    0
-                </strong>
-            </article>
-        </section>
-    `;
 }
