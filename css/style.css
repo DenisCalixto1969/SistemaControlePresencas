@@ -1368,3 +1368,92 @@ body.modal-aberto {
     width: 90px;
     white-space: nowrap;
 }
+
+/* ============================
+   Refinamentos do ranking
+============================ */
+
+.cabecalho-resultado-ranking {
+    margin-bottom: 18px;
+}
+
+.cabecalho-resultado-ranking h3 {
+    margin-bottom: 6px;
+}
+
+.cabecalho-resultado-ranking p {
+    margin: 0;
+    color: #64748b;
+}
+
+.cartao-podio {
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.cartao-podio:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+.cartao-podio-1 {
+    transform: translateY(-8px);
+}
+
+.cartao-podio-1:hover {
+    transform: translateY(-12px);
+}
+
+.linha-ranking-1 td:first-child,
+.linha-ranking-2 td:first-child,
+.linha-ranking-3 td:first-child {
+    font-weight: 800;
+}
+
+.detalhamento-ranking .tabela-relatorio td {
+    vertical-align: middle;
+}
+
+@media (max-width: 700px) {
+    .cartao-podio-1 {
+        transform: none;
+    }
+
+    .cartao-podio-1:hover {
+        transform: translateY(-4px);
+    }
+
+    .detalhamento-ranking {
+        margin-top: 22px;
+    }
+}
+
+.linha-ranking-1 strong {
+    color: #9a6700;
+}
+
+.criterios-ranking {
+    margin-top: 18px;
+    margin-bottom: 0;
+
+    color: #64748b;
+    font-size: 12px;
+    font-style: italic;
+}
+
+@keyframes aparecerRanking {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.painel-ranking {
+    animation: aparecerRanking 0.35s ease;
+}

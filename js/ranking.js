@@ -203,7 +203,7 @@ const terceiro = ranking[2];
 
 
 resultado.innerHTML = `
-<section class="painel">
+<section class="painel painel-ranking">
 
     <div class="cabecalho-resultado-ranking">
 
@@ -216,6 +216,11 @@ resultado.innerHTML = `
             ${formatarData(dados.dataInicial)}
             até
             ${formatarData(dados.dataFinal)}
+        </p>
+
+        <p>
+            <strong>Membros classificados:</strong>
+            ${ranking.length}
         </p>
 
     </div>
@@ -312,8 +317,9 @@ resultado.innerHTML = `
                                         >
                                             <td>
                                                 <strong>
-                                                    ${medalha}
-                                                    ${posicao}º
+                                             ${medalha}         
+                              ${posicao}º${posicao <= 3 ? " Lugar" : ""}                  
+
                                                 </strong>
                                             </td>
 
@@ -358,6 +364,12 @@ resultado.innerHTML = `
             `
     }
 </div>
+
+<p class="criterios-ranking">
+    Critérios de classificação:
+    frequência, quantidade de presenças
+    e ordem alfabética.
+</p>
 
 </section>  `;
 resultado.classList.remove("oculto");
