@@ -1457,3 +1457,81 @@ body.modal-aberto {
 .painel-ranking {
     animation: aparecerRanking 0.35s ease;
 }
+
+.dashboard-secao-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.dashboard-secao-cabecalho h3 {
+    margin: 0 0 4px;
+}
+
+.dashboard-secao-cabecalho p {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.dashboard-ranking-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.dashboard-ranking-item {
+    display: grid;
+    grid-template-columns: 46px 1fr auto;
+    align-items: center;
+    gap: 12px;
+
+    padding: 12px 14px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+
+    background-color: #ffffff;
+}
+
+.dashboard-ranking-posicao {
+    font-size: 26px;
+    text-align: center;
+}
+
+.dashboard-ranking-membro {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.dashboard-ranking-membro strong {
+    color: #1e293b;
+}
+
+.dashboard-ranking-membro span {
+    color: #64748b;
+    font-size: 12px;
+}
+
+.dashboard-ranking-percentual {
+    color: #1e293b;
+    font-size: 18px;
+    white-space: nowrap;
+}
+
+.dashboard-sem-dados {
+    margin-bottom: 0;
+    color: #64748b;
+}
+
+@media (max-width: 600px) {
+    .dashboard-ranking-item {
+        grid-template-columns: 38px 1fr;
+    }
+
+    .dashboard-ranking-percentual {
+        grid-column: 2;
+    }
+}
