@@ -16,10 +16,11 @@ function carregarModuloDashboard() {
 
         <section class="dashboard-resumo">
 
-            <article class="cartao dashboard-cartao">
-                <span class="cartao-titulo">
-                    Membros ativos
-                </span>
+        <article class="cartao dashboard-cartao dashboard-cartao-membros">
+
+                <div class="dashboard-cartao-cabecalho">
+                    👥
+                </div>
 
                 <strong
                     class="cartao-valor"
@@ -27,13 +28,19 @@ function carregarModuloDashboard() {
                 >
                     0
                 </strong>
+
+                <span class="cartao-titulo">
+                    Membros Ativos
+                </span>
+
             </article>
 
 
-            <article class="cartao dashboard-cartao">
-                <span class="cartao-titulo">
-                    Sessões
-                </span>
+          <article class="cartao dashboard-cartao dashboard-cartao-frequencia">
+
+                <div class="dashboard-cartao-cabecalho">
+                    📅
+                </div>
 
                 <strong
                     class="cartao-valor"
@@ -41,13 +48,19 @@ function carregarModuloDashboard() {
                 >
                     0
                 </strong>
+
+                <span class="cartao-titulo">
+                    Sessões
+                </span>
+
             </article>
 
 
             <article class="cartao dashboard-cartao">
-                <span class="cartao-titulo">
-                    Frequência média
-                </span>
+
+                <div class="dashboard-cartao-cabecalho">
+                    📈
+                </div>
 
                 <strong
                     class="cartao-valor"
@@ -55,6 +68,11 @@ function carregarModuloDashboard() {
                 >
                     0,00%
                 </strong>
+
+                <span class="cartao-titulo">
+                    Frequência Média
+                </span>
+
             </article>
 
         </section>
@@ -62,7 +80,8 @@ function carregarModuloDashboard() {
 
         <section class="dashboard-resumo">
 
-            <article class="cartao dashboard-cartao">
+            <article class="cartao dashboard-cartao-secundario">
+
                 <span class="cartao-titulo">
                     Melhor frequência
                 </span>
@@ -73,10 +92,12 @@ function carregarModuloDashboard() {
                 >
                     —
                 </strong>
+
             </article>
 
 
-            <article class="cartao dashboard-cartao">
+            <article class="cartao dashboard-cartao-secundario">
+
                 <span class="cartao-titulo">
                     Abaixo de 75%
                 </span>
@@ -87,10 +108,12 @@ function carregarModuloDashboard() {
                 >
                     0
                 </strong>
+
             </article>
 
 
-            <article class="cartao dashboard-cartao">
+            <article class="cartao dashboard-cartao-secundario">
+
                 <span class="cartao-titulo">
                     Última sessão
                 </span>
@@ -101,6 +124,7 @@ function carregarModuloDashboard() {
                 >
                     —
                 </strong>
+
             </article>
 
         </section>
@@ -126,7 +150,6 @@ function carregarModuloDashboard() {
         </section>
     `;
 }
-
 
 async function carregarDashboard() {
     console.log(
