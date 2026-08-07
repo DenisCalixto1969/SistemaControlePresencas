@@ -197,9 +197,46 @@ ranking.sort((a, b) => {
 
 });
 
-const primeiro = ranking[0];
+let posicaoAtual = 1;
+
+ranking.forEach((item, indice) => {
+
+    if (indice === 0) {
+
+        item.posicao = 1;
+        return;
+
+    }
+
+    const anterior = ranking[indice - 1];
+
+    const empate =
+
+        item.frequencia.percentual ===
+        anterior.frequencia.percentual
+
+        &&
+
+        item.frequencia.totalPresentes ===
+        anterior.frequencia.totalPresentes;
+
+    if (empate) {
+
+        item.posicao =
+            anterior.posicao;
+
+    } else {
+
+        item.posicao =
+            indice + 1;
+
+    }
+
+});
+
+/*const primeiro = ranking[0];
 const segundo = ranking[1];
-const terceiro = ranking[2];
+const terceiro = ranking[2];*/
 
 
 resultado.innerHTML = `
@@ -227,35 +264,27 @@ resultado.innerHTML = `
 
    <div class="podio-ranking">
 
-    ${
-        segundo
-            ? criarCartaoPodio(
-                segundo,
-                2,
-                "🥈"
-            )
-            : ""
-    }
+    ${ranking
+        .filter(
+            (item) =>
+                item.posicao <= 3
+        )
+        .map((item) => {
 
-    ${
-        primeiro
-            ? criarCartaoPodio(
-                primeiro,
-                1,
-                "🥇"
-            )
-            : ""
-    }
+            const medalha =
+                item.posicao === 1
+                    ? "🥇"
+                    : item.posicao === 2
+                        ? "🥈"
+                        : "🥉";
 
-    ${
-        terceiro
-            ? criarCartaoPodio(
-                terceiro,
-                3,
-                "🥉"
-            )
-            : ""
-    }
+            return criarCartaoPodio(
+                item,
+                item.posicao,
+                medalha
+            );
+        })
+        .join("")}
 
 </div>
 
@@ -286,9 +315,8 @@ resultado.innerHTML = `
                         <tbody>
                             ${ranking
                                 .map((item, indice) => {
-                                    const posicao =
-                                        indice + 1;
-
+                                   const posicao =
+                                   item.posicao;
                                     const percentual =
                                         item.frequencia.percentual
                                             .toFixed(2)
