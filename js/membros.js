@@ -398,6 +398,7 @@ function configurarEventosMembros() {
 }
 
 function abrirModalNovoMembro() {
+  configurarModoVisualizacaoMembro(false);  
     membroEmEdicaoId = null;
 
     const modal = document.querySelector("#modal-membro");
@@ -459,43 +460,121 @@ async function carregarHistoricoGraus(membroId) {
 
     container.innerHTML = registros
     .map((item) => {
-        const grauAtual = item.dataFim == null;
+    const grauAtual =
+        item.dataFim == null;
 
-        return `
-            <div
-                class="
-                    historico-grau-item
-                    ${grauAtual ? "historico-grau-atual" : ""}
-                "
-            >
-                <div class="historico-grau-cabecalho">
+    const regraIntersticio =
+        CONFIG.intersticiosGraus[
+            Number(item.grau)
+        ];
+
+    let dadosIntersticio = "";
+
+    if (
+        grauAtual &&
+        regraIntersticio
+    ) {
+        const dataConclusao =
+            calcularDataIntersticio(
+                item.dataInicio,
+                regraIntersticio.meses
+            );
+
+        dadosIntersticio = `
+            <div class="historico-grau-intersticio">
+                <span>
+                    Próximo grau:
                     <strong>
-                        Grau ${escaparHTML(item.grau)}
+                        ${regraIntersticio.proximoGrau}
                     </strong>
+                </span>
 
-                    ${
-                        grauAtual
-                            ? `
-                                <span class="historico-grau-badge">
-                                    Atual
-                                </span>
-                            `
-                            : ""
-                    }
-                </div>
+                <span>
+                    Interstício:
+                    <strong>
+                        ${regraIntersticio.meses}
+                        ${
+                            regraIntersticio.meses === 1
+                                ? "mês"
+                                : "meses"
+                        }
+                    </strong>
+                </span>
 
-               <span class="historico-grau-periodo">
-                 ${
-                grauAtual
-                 ? `Desde ${formatarData(item.dataInicio)}`
-                 : item.dataInicio === item.dataFim
-                ? formatarData(item.dataInicio)
-                : `${formatarData(item.dataInicio)} até ${formatarData(item.dataFim)}`
-                 }
-            </span>
+                <span>
+                    Conclusão prevista:
+                    <strong>
+                        ${formatarData(dataConclusao)}
+                    </strong>
+                </span>
             </div>
         `;
-    })
+    }
+
+    if (
+        grauAtual &&
+        Number(item.grau) === 33
+    ) {
+        dadosIntersticio = `
+            <div class="historico-grau-intersticio">
+                <span>
+                    Último grau da sequência.
+                </span>
+            </div>
+        `;
+    }
+
+    return `
+        <div
+            class="
+                historico-grau-item
+                ${
+                    grauAtual
+                        ? "historico-grau-atual"
+                        : ""
+                }
+            "
+        >
+            <div class="historico-grau-cabecalho">
+                <strong>
+                    Grau ${escaparHTML(item.grau)}
+                </strong>
+
+                ${
+                    grauAtual
+                        ? `
+                            <span class="historico-grau-badge">
+                                Atual
+                            </span>
+                        `
+                        : ""
+                }
+            </div>
+
+            <span class="historico-grau-periodo">
+                ${
+                    grauAtual
+                        ? `Desde ${formatarData(
+                            item.dataInicio
+                        )}`
+                        : item.dataInicio ===
+                            item.dataFim
+                            ? formatarData(
+                                item.dataInicio
+                            )
+                            : `${formatarData(
+                                item.dataInicio
+                            )} até ${formatarData(
+                                item.dataFim
+                            )}`
+                }
+            </span>
+
+            ${dadosIntersticio}
+        </div>
+    `;
+})
+
     .join("");
 
 }
@@ -511,6 +590,8 @@ async function abrirModalEditarMembro(id) {
 
         return;
     }
+
+   configurarModoVisualizacaoMembro(false);
 
     membroEmEdicaoId = id;
 
@@ -569,6 +650,125 @@ campoDataMudancaGrau.required = false;
         document.querySelector("#membro-nome").focus();
     }, 50);
 }
+
+function configurarModoVisualizacaoMembro(somenteLeitura) {
+    const campos = [
+        "#membro-nome",
+        "#membro-grau",
+        "#membro-cir",
+        "#membro-cim",
+        "#membro-observacoes",
+        "#membro-ativo"
+    ];
+
+    campos.forEach((seletor) => {
+        const campo = document.querySelector(seletor);
+
+        if (campo) {
+            campo.disabled = somenteLeitura;
+        }
+    });
+
+    const botaoSalvar =
+        document.querySelector(
+            "#botao-salvar-membro"
+        );
+
+    if (botaoSalvar) {
+        botaoSalvar.style.display =
+            somenteLeitura
+                ? "none"
+                : "";
+    }
+}
+
+async function abrirModalVisualizarMembro(id) {
+    const membro =
+        await buscarRegistroPorId(
+            "membros",
+            id
+        );
+
+    if (!membro) {
+        mostrarMensagem(
+            "O membro selecionado não foi encontrado.",
+            "erro"
+        );
+
+        return;
+    }
+
+    membroEmEdicaoId = null;
+
+    document.querySelector(
+        "#titulo-modal-membro"
+    ).textContent = "Visualizar membro";
+
+    document.querySelector(
+        "#membro-nome"
+    ).value = membro.nome;
+
+    document.querySelector(
+        "#membro-grau"
+    ).value = membro.grau;
+
+    document.querySelector(
+        "#membro-cir"
+    ).value = membro.cir || "";
+
+    document.querySelector(
+        "#membro-cim"
+    ).value = membro.cim || "";
+
+    document.querySelector(
+        "#membro-observacoes"
+    ).value = membro.observacoes || "";
+
+    document.querySelector(
+        "#membro-ativo"
+    ).checked = membro.ativo;
+
+    const grupoDataMudancaGrau =
+        document.querySelector(
+            "#grupo-data-mudanca-grau"
+        );
+
+    if (grupoDataMudancaGrau) {
+        grupoDataMudancaGrau.classList.add(
+            "oculto"
+        );
+    }
+
+    await carregarHistoricoGrausMembro(id);
+
+    await carregarHistoricoGraus(id);
+
+    configurarModoVisualizacaoMembro(true);
+
+    const mensagem =
+        document.querySelector(
+            "#mensagem-formulario-membro"
+        );
+
+    mensagem.textContent = "";
+    mensagem.classList.add("oculto");
+
+    const modal =
+        document.querySelector(
+            "#modal-membro"
+        );
+
+    modal.classList.remove("oculto");
+    modal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+    document.body.classList.add(
+        "modal-aberto"
+    );
+}
+
 
 function fecharModalMembro() {
     const modal = document.querySelector("#modal-membro");
@@ -1127,6 +1327,18 @@ function criarLinhaMembro(membro) {
             </span>
 
             <div class="acoes-linha" data-rotulo="Ações">
+
+                <button
+                type="button"
+                class="botao-icone"
+                data-acao="visualizar"
+                data-id="${membro.id}"
+                title="Visualizar membro"
+                aria-label="Visualizar membro ${escaparHTML(membro.nome)}"
+            >
+                👁
+            </button>
+
                 <button
                     type="button"
                     class="botao-icone"
@@ -1173,6 +1385,11 @@ function tratarAcaoMembro(evento) {
 
     const id = botao.dataset.id;
     const acao = botao.dataset.acao;
+
+    if (acao === "visualizar") {
+    abrirModalVisualizarMembro(id);
+    return;
+    }
 
     if (acao === "editar") {
         abrirModalEditarMembro(id);

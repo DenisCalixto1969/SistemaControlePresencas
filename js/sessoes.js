@@ -385,6 +385,7 @@ modalExclusao.addEventListener("click", (evento) => {
 
 
 async function abrirModalNovaSessao() {
+    configurarModoVisualizacaoSessao(false);
     sessaoEmEdicaoId = null;
 
     const formulario = document.querySelector(
@@ -451,6 +452,17 @@ async function abrirModalEditarSessao(id) {
             return;
         }
 
+        if (sessao.status === "Encerrada") {
+            mostrarMensagem(
+                "Sessões encerradas não podem ser editadas.",
+                "erro"
+            );
+
+            return;
+        }
+
+        configurarModoVisualizacaoSessao(false);
+
         sessaoEmEdicaoId = id;
 
         document.querySelector(
@@ -509,7 +521,122 @@ async function abrirModalEditarSessao(id) {
     }
 }
 
+function configurarModoVisualizacaoSessao(somenteLeitura) {
+    const campos = [
+        "#sessao-numero",
+        "#sessao-data",
+        "#sessao-grau",
+        "#sessao-tipo",
+        "#sessao-observacoes"
+    ];
 
+    campos.forEach((seletor) => {
+        const campo = document.querySelector(seletor);
+
+        if (campo) {
+            campo.disabled = somenteLeitura;
+        }
+    });
+
+    const botaoSalvar =
+        document.querySelector(
+            "#botao-salvar-sessao"
+        );
+
+    if (botaoSalvar) {
+        botaoSalvar.style.display =
+            somenteLeitura
+                ? "none"
+                : "";
+    }
+}
+
+
+async function abrirModalVisualizarSessao(id) {
+    try {
+        const sessao =
+            await buscarRegistroPorId(
+                "sessoes",
+                id
+            );
+
+        if (!sessao) {
+            mostrarMensagem(
+                "A sessão selecionada não foi encontrada.",
+                "erro"
+            );
+
+            return;
+        }
+
+        sessaoEmEdicaoId = null;
+
+        document.querySelector(
+            "#titulo-modal-sessao"
+        ).textContent = "Visualizar sessão";
+
+        document.querySelector(
+            "#sessao-numero"
+        ).value =
+            formatarNumeroSessao(
+                sessao.numero
+            );
+
+        document.querySelector(
+            "#sessao-data"
+        ).value = sessao.data;
+
+        document.querySelector(
+            "#sessao-grau"
+        ).value = sessao.grau;
+
+        document.querySelector(
+            "#sessao-tipo"
+        ).value = sessao.tipo;
+
+        document.querySelector(
+            "#sessao-observacoes"
+        ).value =
+            sessao.observacoes || "";
+
+        configurarModoVisualizacaoSessao(true);
+
+        const mensagem =
+            document.querySelector(
+                "#mensagem-formulario-sessao"
+            );
+
+        mensagem.textContent = "";
+        mensagem.classList.add("oculto");
+
+        const modal =
+            document.querySelector(
+                "#modal-sessao"
+            );
+
+        modal.classList.remove("oculto");
+
+        modal.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+        document.body.classList.add(
+            "modal-aberto"
+        );
+
+    } catch (erro) {
+        console.error(
+            "Erro ao visualizar sessão:",
+            erro
+        );
+
+        mostrarMensagem(
+            "Não foi possível visualizar a sessão.",
+            "erro"
+        );
+    }
+}
 
 function fecharModalSessao() {
     const modal = document.querySelector("#modal-sessao");
@@ -650,16 +777,45 @@ async function salvarSessao(evento) {
             return;
         }
 
-        const novaSessao = new Sessao({
-            ...dados,
-            numero: calcularProximoNumeroSessao(),
-            status: "Aberta"
-        });
+    const naoHouveSessao =
+    dados.tipo === "Não Houve Sessão";
+    
+    if (
+    !naoHouveSessao &&
+    Number(dados.grau) === 0
+) {
+    mostrarErroFormularioSessao(
+        "O grau 0 só pode ser usado quando não houve sessão."
+    );
 
-        const presencas = await gerarPresencasDaSessao(
+    return;
+}
+
+       const novaSessao = new Sessao({
+    ...dados,
+
+    grau:
+        naoHouveSessao
+            ? 0
+            : Number(dados.grau),
+
+    numero:
+        calcularProximoNumeroSessao(),
+
+    status:
+        naoHouveSessao
+            ? "Não realizada"
+            : "Aberta"
+});
+
+const presencas =
+    naoHouveSessao
+        ? []
+        : await gerarPresencasDaSessao(
             novaSessao
         );
 
+      
         await adicionarSessaoComPresencas(
             novaSessao,
             presencas
@@ -668,10 +824,13 @@ async function salvarSessao(evento) {
         fecharModalSessao();
         await carregarSessoes();
 
-        mostrarMensagem(
-            `Sessão cadastrada com sucesso. ${presencas.length} membros aptos foram incluídos.`,
-            "sucesso"
-        );
+
+    mostrarMensagem(
+    naoHouveSessao
+        ? "Registro de mês sem sessão cadastrado com sucesso."
+        : `Sessão cadastrada com sucesso. ${presencas.length} membros aptos foram incluídos.`,
+    "sucesso"
+);
     } catch (erro) {
         console.error("Erro ao salvar sessão:", erro);
 
@@ -899,6 +1058,11 @@ function tratarAcaoSessao(evento) {
     const acao = botao.dataset.acao;
     const id = botao.dataset.id;
 
+    if (acao === "visualizar") {
+    abrirModalVisualizarSessao(id);
+    return;
+    }
+
     if (acao === "editar") {
         abrirModalEditarSessao(id);
         return;
@@ -1120,15 +1284,30 @@ if (percentual >= 75) {
             <div class="acoes-linha" data-rotulo="Ações">
 
     <button
-        type="button"
-        class="botao-icone"
-        data-acao="editar"
-        data-id="${sessao.id}"
-        title="Editar sessão"
-        aria-label="Editar sessão ${numero}"
+    type="button"
+    class="botao-icone"
+    data-acao="visualizar"
+    data-id="${sessao.id}"
+    title="Visualizar sessão"
+    aria-label="Visualizar sessão ${numero}"
     >
-        ✎
+    👁
     </button>
+
+
+
+    <button
+    type="button"
+    data-acao="editar"
+    data-id="${sessao.id}"
+    title="${
+        sessao.status === "Encerrada"
+            ? "Sessão encerrada não pode ser editada"
+            : "Editar sessão"
+    }"
+>
+    ✎
+</button>
 
    <button
     type="button"

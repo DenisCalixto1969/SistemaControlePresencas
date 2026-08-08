@@ -272,4 +272,64 @@ async function calcularFrequenciaMembro(
     };
 }
 
+function calcularDataIntersticio(dataInicial, meses) {
+    if (!dataInicial || !meses) {
+        return null;
+    }
 
+    const partes = dataInicial.split("-");
+
+    if (partes.length !== 3) {
+        return null;
+    }
+
+    const ano = Number(partes[0]);
+    const mes = Number(partes[1]) - 1;
+    const dia = Number(partes[2]);
+
+    const data = new Date(
+        ano,
+        mes,
+        dia,
+        12,
+        0,
+        0
+    );
+
+    const diaOriginal = data.getDate();
+
+    data.setDate(1);
+
+    data.setMonth(
+        data.getMonth() + Number(meses)
+    );
+
+    const ultimoDiaMes =
+        new Date(
+            data.getFullYear(),
+            data.getMonth() + 1,
+            0
+        ).getDate();
+
+    data.setDate(
+        Math.min(
+            diaOriginal,
+            ultimoDiaMes
+        )
+    );
+
+    const anoFinal =
+        data.getFullYear();
+
+    const mesFinal =
+        String(
+            data.getMonth() + 1
+        ).padStart(2, "0");
+
+    const diaFinal =
+        String(
+            data.getDate()
+        ).padStart(2, "0");
+
+    return `${anoFinal}-${mesFinal}-${diaFinal}`;
+}

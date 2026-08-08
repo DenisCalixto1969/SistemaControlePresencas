@@ -77,6 +77,16 @@ async function abrirModulo(nomeModulo) {
         "#conteudo-principal"
     );
 
+    const moduloSessaoAberta =
+    document.getElementById(
+        "modulo-sessao-aberta"
+    );
+
+if (moduloSessaoAberta) {
+    moduloSessaoAberta.style.display =
+        "none";
+}
+
     if (!conteudoPrincipal) {
         throw new Error(
             "O elemento #conteudo-principal não foi encontrado."
@@ -98,11 +108,13 @@ async function abrirModulo(nomeModulo) {
             inicializarModuloSessoes();
             break;
 
-        case "presencas":
-            conteudoPrincipal.innerHTML =
-                carregarModuloPresencas();
-            break;
+            case "presencas":
+    conteudoPrincipal.innerHTML =
+        carregarModuloPresencas();
 
+    await inicializarModuloPresencas();
+    break;
+    
         case "relatorios":
             conteudoPrincipal.innerHTML =
             carregarModuloRelatorios();

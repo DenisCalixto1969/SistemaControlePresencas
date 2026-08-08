@@ -1762,3 +1762,148 @@ body.modal-aberto {
 
     color:#64748b;
 }
+
+.dashboard-secundario-icone {
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+.dashboard-cartao-secundario {
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.dashboard-cartao-secundario:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 18px rgba(15, 23, 42, 0.08);
+}
+
+.botao-bloqueado {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.historico-grau-intersticio {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+
+    margin-top: 10px;
+    padding-top: 10px;
+
+    border-top: 1px solid #e2e8f0;
+
+    color: #475569;
+    font-size: 13px;
+}
+
+.historico-grau-intersticio strong {
+    color: #1e293b;
+}
+
+/* =========================
+   PRESENÇAS
+========================= */
+
+.presencas-filtros {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    align-items: end;
+}
+
+.presencas-filtros-acoes {
+    grid-column: 1 / -1;
+}
+
+.presencas-sessao {
+    margin-top: 18px;
+    padding: 18px;
+
+    border: 1px solid #dfe5e9;
+    border-radius: 12px;
+
+    background-color: #ffffff;
+}
+
+.presencas-sessao-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: center;
+
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.presencas-sessao-cabecalho strong {
+    font-size: 17px;
+    color: #1f3c5b;
+}
+
+.presencas-sessao-cabecalho span {
+    color: #64748b;
+    font-size: 13px;
+}
+
+.presencas-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.presencas-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+
+    padding: 10px 12px;
+
+    border-radius: 8px;
+    background-color: #f8fafc;
+}
+
+.presencas-item span {
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.presencas-item .estado-presente,
+.presencas-item .estado-ausente {
+    padding: 5px 10px;
+    border-radius: 999px;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.presencas-item .estado-presente {
+    color: #15803d;
+    background-color: #dcfce7;
+}
+
+.presencas-item .estado-ausente {
+    color: #b91c1c;
+    background-color: #fee2e2;
+}
+
+@media (max-width: 800px) {
+    .presencas-filtros {
+        grid-template-columns: 1fr;
+    }
+
+    .presencas-sessao-cabecalho {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .presencas-item {
+        align-items: flex-start;
+    }
+}

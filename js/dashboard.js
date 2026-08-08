@@ -75,57 +75,65 @@ function carregarModuloDashboard() {
 
             </article>
 
-        </section>
+    </section>
 
 
-        <section class="dashboard-resumo">
+       <article class="cartao dashboard-cartao-secundario">
+
+    <div class="dashboard-secundario-icone">
+        🏆
+    </div>
+
+    <span class="cartao-titulo">
+        Melhor frequência
+    </span>
+
+    <strong
+        class="dashboard-cartao-texto"
+        id="dashboard-melhor-frequencia"
+    >
+        —
+    </strong>
+
+        </article>
+
+    <article class="cartao dashboard-cartao-secundario">
+
+    <div class="dashboard-secundario-icone">
+        ⚠️
+    </div>
+
+    <span class="cartao-titulo">
+        Abaixo de 75%
+    </span>
+
+    <strong
+        class="cartao-valor"
+        id="dashboard-abaixo-75"
+    >
+        0
+    </strong>
+
+    </article>
 
             <article class="cartao dashboard-cartao-secundario">
 
-                <span class="cartao-titulo">
-                    Melhor frequência
-                </span>
+    <div class="dashboard-secundario-icone">
+        🕒
+    </div>
 
-                <strong
-                    class="dashboard-cartao-texto"
-                    id="dashboard-melhor-frequencia"
-                >
-                    —
-                </strong>
+    <span class="cartao-titulo">
+        Última sessão
+    </span>
 
-            </article>
+    <strong
+        class="dashboard-cartao-texto"
+        id="dashboard-ultima-sessao"
+    >
+        —
+    </strong>
 
-
-            <article class="cartao dashboard-cartao-secundario">
-
-                <span class="cartao-titulo">
-                    Abaixo de 75%
-                </span>
-
-                <strong
-                    class="cartao-valor"
-                    id="dashboard-abaixo-75"
-                >
-                    0
-                </strong>
-
-            </article>
-
-
-            <article class="cartao dashboard-cartao-secundario">
-
-                <span class="cartao-titulo">
-                    Última sessão
-                </span>
-
-                <strong
-                    class="dashboard-cartao-texto"
-                    id="dashboard-ultima-sessao"
-                >
-                    —
-                </strong>
-
-            </article>
+    </article>
 
         </section>
 
