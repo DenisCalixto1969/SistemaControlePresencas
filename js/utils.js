@@ -213,22 +213,30 @@ async function calcularFrequenciaMembro(
     dataInicial,
     dataFinal
 ) {
-    const sessoesPermitidas =
+    const sessoesPermitidasOriginais =
         await listarSessoesPermitidas(
             membro,
             dataInicial,
             dataFinal
         );
 
-    const todasPresencas = await listarRegistros(
-        "presencas"
-    );
+    const sessoesPermitidas =
+        sessoesPermitidasOriginais.filter(
+            (sessao) =>
+                sessao.tipo !== "Não Houve Sessão"
+        );
 
-    const idsSessoesPermitidas = new Set(
-        sessoesPermitidas.map(
-            (sessao) => sessao.id
-        )
-    );
+    const todasPresencas =
+        await listarRegistros(
+            "presencas"
+        );
+
+    const idsSessoesPermitidas =
+        new Set(
+            sessoesPermitidas.map(
+                (sessao) => sessao.id
+            )
+        );
 
     const presencasDoMembro =
         todasPresencas.filter(
@@ -249,7 +257,8 @@ async function calcularFrequenciaMembro(
         ).length;
 
     const totalAusentes =
-        totalSessoes - totalPresentes;
+        totalSessoes -
+        totalPresentes;
 
     const percentual =
         totalSessoes > 0
