@@ -156,7 +156,8 @@ function carregarModuloDashboard() {
 
             <p>Carregando...</p>
         </section>
-        <section class="painel dashboard-secao">
+
+   <section class="painel dashboard-secao">
     <div class="dashboard-secao-cabecalho">
         <div>
             <h3>💾 Backup do sistema</h3>
@@ -174,6 +175,20 @@ function carregarModuloDashboard() {
     >
         Exportar Backup
     </button>
+
+    <input
+        type="file"
+        id="arquivo-restaurar-backup"
+        accept=".json,application/json"
+    >
+<button
+    type="button"
+    class="botao botao-perigo"
+    id="botao-restaurar-backup"
+>
+    Restaurar Backup
+</button>
+
 </section>
 
     `;
@@ -189,17 +204,43 @@ async function carregarDashboard() {
     await carregarRankingRapido();
 
     const botaoBackup =
+        document.getElementById(
+            "botao-exportar-backup"
+        );
+
+    if (botaoBackup) {
+        botaoBackup.addEventListener(
+            "click",
+            exportarBackup
+        );
+    }
+
+    const campoArquivoBackup =
+        document.getElementById(
+            "arquivo-restaurar-backup"
+        );
+
+    if (campoArquivoBackup) {
+        campoArquivoBackup.addEventListener(
+            "change",
+            selecionarArquivoBackup
+        );
+        
+    }
+
+    const botaoRestaurarBackup =
     document.getElementById(
-        "botao-exportar-backup"
+        "botao-restaurar-backup"
     );
 
-if (botaoBackup) {
-    botaoBackup.addEventListener(
+if (botaoRestaurarBackup) {
+    botaoRestaurarBackup.addEventListener(
         "click",
-        exportarBackup
+        confirmarRestauracaoBackup
     );
-  }
 }
+}
+
 
 async function carregarIndicadores() {
     const membros =
