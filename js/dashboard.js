@@ -156,6 +156,26 @@ function carregarModuloDashboard() {
 
             <p>Carregando...</p>
         </section>
+        <section class="painel dashboard-secao">
+    <div class="dashboard-secao-cabecalho">
+        <div>
+            <h3>💾 Backup do sistema</h3>
+
+            <p>
+                Gere uma cópia de segurança dos dados cadastrados.
+            </p>
+        </div>
+    </div>
+
+    <button
+        type="button"
+        class="botao botao-primario"
+        id="botao-exportar-backup"
+    >
+        Exportar Backup
+    </button>
+</section>
+
     `;
 }
 
@@ -167,6 +187,18 @@ async function carregarDashboard() {
     await carregarIndicadores();
     await carregarUltimasSessoes();
     await carregarRankingRapido();
+
+    const botaoBackup =
+    document.getElementById(
+        "botao-exportar-backup"
+    );
+
+if (botaoBackup) {
+    botaoBackup.addEventListener(
+        "click",
+        exportarBackup
+    );
+  }
 }
 
 async function carregarIndicadores() {
