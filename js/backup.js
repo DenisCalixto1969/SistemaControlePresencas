@@ -238,13 +238,49 @@ function confirmarRestauracaoBackup() {
         return;
     }
 
-    mostrarMensagem(
-        "Confirmação recebida. A restauração ainda não foi executada.",
-        "sucesso"
-    );
+    executarRestauracaoBackup();
+}
 
-    console.log(
-        "Backup confirmado para futura restauração:",
-        backupSelecionado
-    );
+async function executarRestauracaoBackup() {
+    if (!backupSelecionado) {
+        mostrarMensagem(
+            "Nenhum backup válido foi selecionado.",
+            "erro"
+        );
+
+        return;
+    }
+
+    try {
+        mostrarMensagem(
+            "Restaurando backup...",
+            "sucesso"
+        );
+
+        await restaurarDadosBackup(
+            backupSelecionado.dados
+        );
+
+        mostrarMensagem(
+            "Backup restaurado com sucesso.",
+            "sucesso"
+        );
+
+        backupSelecionado = null;
+
+        window.setTimeout(() => {
+            window.location.reload();
+        }, 1200);
+
+    } catch (erro) {
+        console.error(
+            "Erro durante a restauração:",
+            erro
+        );
+
+        mostrarMensagem(
+            "Não foi possível restaurar o backup.",
+            "erro"
+        );
+    }
 }

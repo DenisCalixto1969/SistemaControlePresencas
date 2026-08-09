@@ -480,3 +480,86 @@ async function excluirSessaoComPresencas(sessaoId) {
         };
     });
 }
+
+
+async function restaurarDadosBackup(dadosBackup) {
+    const banco = await abrirBanco();
+
+    const nomesTabelas = [
+        "membros",
+        "sessoes",
+        "presencas",
+        "historicoGraus"
+    ];
+
+    return new Promise((resolve, reject) => {
+        const transacao = banco.transaction(
+            nomesTabelas,
+            "readwrite"
+        );
+
+        const tabelaMembros =
+            transacao.objectStore("membros");
+
+        const tabelaSessoes =
+            transacao.objectStore("sessoes");
+
+        const tabelaPresencas =
+            transacao.objectStore("presencas");
+
+        const tabelaHistoricoGraus =
+            transacao.objectStore("historicoGraus");
+
+        // Primeiro limpa os dados atuais.
+        tabelaMembros.clear();
+        tabelaSessoes.clear();
+        tabelaPresencas.clear();
+        tabelaHistoricoGraus.clear();
+
+        // Restaura os membros.
+        dadosBackup.membros.forEach((membro) => {
+            tabelaMembros.add(membro);
+        });
+
+        // Restaura as sessões.
+        dadosBackup.sessoes.forEach((sessao) => {
+            tabelaSessoes.add(sessao);
+        });
+
+        // Restaura as presenças.
+        dadosBackup.presencas.forEach((presenca) => {
+            tabelaPresencas.add(presenca);
+        });
+
+        // Restaura o histórico de graus.
+        dadosBackup.historicoGraus.forEach((historico) => {
+            tabelaHistoricoGraus.add(historico);
+        });
+
+        transacao.oncomplete = () => {
+            resolve(true);
+        };
+
+        transacao.onerror = () => {
+            reject(
+                new Error(
+                    `Não foi possível restaurar o backup: ${
+                        transacao.error?.message ||
+                        "erro desconhecido"
+                    }`
+                )
+            );
+        };
+
+        transacao.onabort = () => {
+            reject(
+                new Error(
+                    `A restauração foi cancelada: ${
+                        transacao.error?.message ||
+                        "erro desconhecido"
+                    }`
+                )
+            );
+        };
+    });
+}

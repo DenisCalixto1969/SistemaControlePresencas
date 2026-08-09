@@ -237,3 +237,58 @@ Os principais módulos do sistema foram implementados e testados.
 Até o momento desta atualização, não foram identificadas anormalidades relevantes nos testes realizados.
 
 O projeto entra agora em uma fase de consolidação, documentação e futuros aprimoramentos.
+
+## Backup e Restauração do Sistema
+
+### Status
+
+Concluído e testado com sucesso em 09/08/2026.
+
+### Funcionalidades implementadas
+
+- Exportação completa dos dados do sistema para arquivo JSON.
+- O backup contém:
+  - membros;
+  - sessões;
+  - presenças;
+  - histórico de graus.
+- Registro da versão do backup.
+- Registro da data e hora de geração do backup.
+- Seleção de arquivo JSON para restauração.
+- Validação do arquivo antes da restauração.
+- Exibição da quantidade de registros encontrados no backup.
+- Confirmação obrigatória antes da substituição dos dados atuais.
+- Restauração completa dos dados no IndexedDB.
+- Recarregamento automático do sistema após a restauração.
+
+### Segurança da restauração
+
+Antes da restauração, o sistema informa que os dados atuais serão
+substituídos e apresenta a quantidade de:
+
+- membros;
+- sessões;
+- presenças;
+- registros do histórico de graus.
+
+A restauração somente é executada após confirmação do usuário.
+
+### Teste realizado
+
+Foi realizado um teste completo de restauração:
+
+1. O backup foi criado quando o banco possuía 10 sessões.
+2. Posteriormente foram cadastradas 2 novas sessões.
+3. O sistema passou a possuir 12 sessões.
+4. Foi selecionado o backup anterior, contendo 10 sessões.
+5. O arquivo foi validado corretamente.
+6. A restauração foi confirmada.
+7. Após a restauração, o sistema voltou a apresentar 10 sessões.
+8. As duas sessões criadas depois do backup deixaram de existir, conforme esperado.
+
+### Resultado
+
+Backup e restauração considerados funcionais.
+
+O teste confirmou que o sistema consegue retornar o banco de dados
+ao estado existente no momento em que o backup foi criado.

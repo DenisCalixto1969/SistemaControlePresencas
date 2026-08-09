@@ -424,3 +424,91 @@ Os principais fluxos foram testados e encontram-se funcionando de acordo com as 
 Novas funcionalidades poderão ser incorporadas posteriormente conforme a necessidade.
 
 Possíveis evoluções deverão ser analisadas antes da implementação e registradas nesta especificação quando aprovadas.
+
+## Backup e Restauração de Dados
+
+### Objetivo
+
+Permitir a criação de uma cópia de segurança dos dados do sistema e sua
+posterior restauração em caso de perda, alteração indevida ou necessidade
+de retornar o banco de dados a um estado anterior.
+
+### Dados incluídos no backup
+
+O backup deve armazenar os dados das seguintes tabelas:
+
+- Membros;
+- Sessões;
+- Presenças;
+- Histórico de Graus.
+
+Além dos dados das tabelas, o arquivo de backup deve possuir informações
+de identificação, incluindo:
+
+- nome do sistema;
+- versão do backup;
+- data e hora de geração.
+
+### Exportação
+
+O usuário pode gerar um arquivo de backup através da opção
+"Exportar Backup" disponível no Dashboard.
+
+O sistema deve:
+
+1. Ler os registros armazenados no IndexedDB.
+2. Reunir os dados em uma estrutura única.
+3. Gerar um arquivo no formato JSON.
+4. Efetuar o download do arquivo para o computador do usuário.
+
+### Seleção e validação do backup
+
+Antes de permitir uma restauração, o sistema deve validar o arquivo
+selecionado.
+
+A validação deve verificar se o arquivo possui uma estrutura de backup
+reconhecida pelo sistema.
+
+Após a validação, o sistema deve informar a quantidade de:
+
+- membros;
+- sessões;
+- presenças;
+- registros do histórico de graus.
+
+Arquivos inválidos não devem ser utilizados para restauração.
+
+### Confirmação da restauração
+
+A restauração nunca deve ocorrer imediatamente após a seleção do arquivo.
+
+O usuário deve acionar a opção "Restaurar Backup".
+
+Antes da execução, o sistema deve apresentar uma confirmação informando
+que os dados atuais serão substituídos.
+
+A confirmação também deve apresentar um resumo dos dados existentes
+no backup selecionado.
+
+Caso o usuário cancele a confirmação, nenhuma alteração deve ser
+realizada no banco de dados.
+
+### Execução da restauração
+
+Após a confirmação do usuário, o sistema deve:
+
+1. Restaurar os dados de Membros.
+2. Restaurar os dados de Sessões.
+3. Restaurar os dados de Presenças.
+4. Restaurar os dados do Histórico de Graus.
+5. Preservar os identificadores dos registros existentes no backup.
+6. Manter os relacionamentos entre membros, sessões e presenças.
+7. Recarregar a aplicação após a conclusão.
+
+### Resultado esperado
+
+Após a restauração, o banco IndexedDB deve representar o mesmo estado
+dos dados existente no momento em que o backup foi gerado.
+
+A restauração substitui os dados atuais pelos dados existentes no
+arquivo de backup selecionado.

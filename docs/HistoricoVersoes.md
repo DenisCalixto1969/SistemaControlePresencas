@@ -199,3 +199,47 @@
 Os principais módulos do Sistema Controle Presenças encontram-se implementados e funcionais.
 
 Esta versão passa a representar um marco estável do desenvolvimento antes da implementação de novas funcionalidades.
+
+## v0.3.0
+
+Data: 09/08/2026
+
+### Backup e Restauração
+
+- Implementada exportação completa do banco de dados para arquivo JSON.
+- Backup das tabelas:
+  - Membros;
+  - Sessões;
+  - Presenças;
+  - Histórico de Graus.
+- Inclusão da identificação e versão do backup.
+- Inclusão da data e hora de geração do backup.
+- Implementada seleção de arquivo JSON para restauração.
+- Implementada validação do arquivo antes da restauração.
+- Exibição da quantidade de registros encontrados no backup.
+- Implementada confirmação de segurança antes da restauração.
+- Restauração completa dos dados no IndexedDB.
+- Preservação dos IDs e relacionamentos entre os registros.
+- Recarregamento automático da aplicação após a restauração.
+
+### Testes
+
+Restauração testada com sucesso.
+
+O backup utilizado continha:
+
+- 4 membros;
+- 10 sessões;
+- 26 presenças;
+- 5 registros de histórico de graus.
+
+Após a criação do backup, foram adicionadas duas novas sessões,
+totalizando 12 sessões.
+
+Ao restaurar o backup anterior, o sistema retornou corretamente
+para 10 sessões, confirmando a substituição dos dados atuais
+pelos dados existentes no backup.
+
+### Status
+
+Backup e restauração concluídos e testados com sucesso.
