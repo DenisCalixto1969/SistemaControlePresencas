@@ -189,6 +189,13 @@ function carregarModuloDashboard() {
     Restaurar Backup
 </button>
 
+<p
+    id="ultimo-backup-sistema"
+    class="ultimo-backup-sistema"
+>
+    Último backup realizado: nenhum backup registrado.
+</p>
+
 </section>
 
     `;
@@ -202,6 +209,7 @@ async function carregarDashboard() {
     await carregarIndicadores();
     await carregarUltimasSessoes();
     await carregarRankingRapido();
+    carregarUltimoBackup();
 
     const botaoBackup =
         document.getElementById(
@@ -241,6 +249,48 @@ if (botaoRestaurarBackup) {
 }
 }
 
+function carregarUltimoBackup() {
+    const elemento =
+        document.getElementById(
+            "ultimo-backup-sistema"
+        );
+
+    if (!elemento) {
+        return;
+    }
+
+    const ultimoBackup =
+        localStorage.getItem(
+            "ultimoBackupSistema"
+        );
+
+    if (!ultimoBackup) {
+        elemento.textContent =
+            "Último backup realizado: nenhum backup registrado.";
+
+        return;
+    }
+
+    const data =
+        new Date(ultimoBackup);
+
+    const dataFormatada =
+        data.toLocaleDateString(
+            "pt-BR"
+        );
+
+    const horaFormatada =
+        data.toLocaleTimeString(
+            "pt-BR",
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+    elemento.textContent =
+        `Último backup realizado: ${dataFormatada} às ${horaFormatada}`;
+}
 
 async function carregarIndicadores() {
     const membros =

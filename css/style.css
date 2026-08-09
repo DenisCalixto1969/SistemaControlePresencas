@@ -1907,3 +1907,83 @@ body.modal-aberto {
         align-items: flex-start;
     }
 }
+
+/* =========================================================
+   LISTA SIMPLES DE MEMBROS
+   ========================================================= */
+
+.lista-simples-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+
+    margin-bottom: 18px;
+}
+
+.lista-simples-cabecalho h3 {
+    margin: 0 0 4px;
+}
+
+.lista-simples-cabecalho p {
+    margin: 0;
+    color: #64748b;
+}
+
+.lista-simples-membros-grid {
+    display: grid;
+    grid-template-columns: 1fr 120px;
+    align-items: center;
+    gap: 16px;
+}
+
+#painel-lista-simples-membros
+.lista-cabecalho {
+    padding: 12px 16px;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    background-color: #eef2f6;
+    border-bottom: 1px solid #dbe3ea;
+}
+
+#lista-simples-membros
+.lista-simples-membros-grid {
+    padding: 14px 16px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+#lista-simples-membros
+.lista-simples-membros-grid:last-child {
+    border-bottom: none;
+}
+
+#lista-simples-membros
+.lista-simples-membros-grid span:first-child {
+    font-weight: 600;
+}
+
+#lista-simples-membros
+.lista-simples-membros-grid span:last-child {
+    text-align: right;
+}
+
+#painel-lista-simples-membros
+.lista-cabecalho span:last-child {
+    text-align: right;
+}
+
+@media (max-width: 600px) {
+    .lista-simples-cabecalho {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .lista-simples-membros-grid {
+        grid-template-columns: 1fr 90px;
+    }
+}

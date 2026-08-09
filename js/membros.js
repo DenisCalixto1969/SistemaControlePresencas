@@ -16,13 +16,23 @@ function carregarModuloMembros() {
                 </p>
             </div>
 
-            <button
-                type="button"
-                class="botao-primario"
-                id="botao-novo-membro"
-            >
-                + Novo membro
-            </button>
+            <div class="acoes-cabecalho-membros">
+    <button
+        type="button"
+        class="botao-secundario"
+        id="botao-lista-simples-membros"
+    >
+        📋 Lista de membros
+    </button>
+
+    <button
+        type="button"
+        class="botao-primario"
+        id="botao-novo-membro"
+    >
+        + Novo membro
+    </button>
+</div>
         </section>
 
         <section class="barra-ferramentas">
@@ -59,6 +69,39 @@ function carregarModuloMembros() {
                 </div>
             </div>
         </section>
+
+        <section
+    class="painel painel-listagem oculto"
+    id="painel-lista-simples-membros"
+>
+    <div class="lista-simples-cabecalho">
+        <div>
+            <h3>Lista de membros</h3>
+            <p>
+                Relação simplificada dos membros ativos.
+            </p>
+        </div>
+
+        <button
+            type="button"
+            class="botao-secundario"
+            id="botao-fechar-lista-simples"
+        >
+            Fechar
+        </button>
+    </div>
+
+    <div class="lista-cabecalho lista-simples-membros-grid">
+        <span>Nome</span>
+        <span>Grau</span>
+    </div>
+
+    <div
+        id="lista-simples-membros"
+        class="lista-corpo"
+    >
+    </div>
+</section>
 
         ${criarModalMembro()}
         ${criarModalExclusaoMembro()}
@@ -317,6 +360,14 @@ async function inicializarModuloMembros() {
 function configurarEventosMembros() {
     const botaoNovo = document.querySelector("#botao-novo-membro");
 
+    const botaoListaSimples = document.querySelector(
+    "#botao-lista-simples-membros"
+);
+
+const botaoFecharListaSimples = document.querySelector(
+    "#botao-fechar-lista-simples"
+);
+
     const botaoFechar = document.querySelector(
         "#botao-fechar-modal-membro"
     );
@@ -350,6 +401,15 @@ function configurarEventosMembros() {
     );
 
     botaoNovo.addEventListener("click", abrirModalNovoMembro);
+    botaoListaSimples.addEventListener(
+    "click",
+    abrirListaSimplesMembros
+);
+
+botaoFecharListaSimples.addEventListener(
+    "click",
+    fecharListaSimplesMembros
+);
     botaoFechar.addEventListener("click", fecharModalMembro);
     botaoCancelar.addEventListener("click", fecharModalMembro);
 
@@ -396,6 +456,75 @@ function configurarEventosMembros() {
 
     document.addEventListener("keydown", tratarTeclaEscapeMembros);
 }
+async function abrirListaSimplesMembros() {
+    const painel = document.querySelector(
+        "#painel-lista-simples-membros"
+    );
+
+    const lista = document.querySelector(
+        "#lista-simples-membros"
+    );
+
+    if (!painel || !lista) {
+        return;
+    }
+
+    const membros =
+        await listarRegistros("membros");
+
+    const membrosAtivos =
+        membros
+            .filter((membro) => membro.ativo)
+            .sort((a, b) =>
+                a.nome.localeCompare(
+                    b.nome,
+                    "pt-BR"
+                )
+            );
+
+    if (membrosAtivos.length === 0) {
+        lista.innerHTML = `
+            <div class="estado-lista">
+                Nenhum membro ativo encontrado.
+            </div>
+        `;
+
+        painel.classList.remove("oculto");
+        return;
+    }
+
+    lista.innerHTML =
+        membrosAtivos
+            .map((membro) => {
+                return `
+                    <div class="lista-simples-membros-grid">
+                        <span>
+                            ${escaparHTML(membro.nome)}
+                        </span>
+
+                        <span>
+                            Grau ${escaparHTML(membro.grau)}
+                        </span>
+                    </div>
+                `;
+            })
+            .join("");
+
+    painel.classList.remove("oculto");
+}
+
+function fecharListaSimplesMembros() {
+    const painel = document.querySelector(
+        "#painel-lista-simples-membros"
+    );
+
+    if (!painel) {
+        return;
+    }
+
+    painel.classList.add("oculto");
+}
+
 
 function abrirModalNovoMembro() {
   configurarModoVisualizacaoMembro(false);  

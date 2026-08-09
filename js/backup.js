@@ -54,16 +54,38 @@ async function exportarBackup() {
         const link =
             document.createElement("a");
 
-        const dataAtual =
-            new Date()
-                .toISOString()
-                .slice(0, 10);
+        const agora = new Date();
 
-        link.href = url;
+const ano =
+    agora.getFullYear();
 
-        link.download =
-            `backup-sistema-presencas-${dataAtual}.json`;
+const mes =
+    String(
+        agora.getMonth() + 1
+    ).padStart(2, "0");
 
+const dia =
+    String(
+        agora.getDate()
+    ).padStart(2, "0");
+
+const hora =
+    String(
+        agora.getHours()
+    ).padStart(2, "0");
+
+const minuto =
+    String(
+        agora.getMinutes()
+    ).padStart(2, "0");
+
+const dataHoraArquivo =
+    `${ano}-${mes}-${dia}-${hora}${minuto}`;
+
+link.href = url;
+
+link.download =
+    `backup-sistema-presencas-${dataHoraArquivo}.json`;
         document.body.appendChild(link);
 
         link.click();
@@ -72,7 +94,16 @@ async function exportarBackup() {
 
         URL.revokeObjectURL(url);
 
-        mostrarMensagem(
+        localStorage.setItem(
+       "ultimoBackupSistema",
+       agora.toISOString()
+       );
+
+       if (typeof carregarUltimoBackup === "function") {
+    carregarUltimoBackup();
+      }
+
+       mostrarMensagem(
             "Backup exportado com sucesso.",
             "sucesso"
         );
