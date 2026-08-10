@@ -179,6 +179,20 @@ function criarModalMembro() {
                         </div>
 
                         <div
+    class="grupo-campo"
+    id="grupo-data-inicio-grau"
+>
+    <label for="membro-data-inicio-grau">
+        Data de início no grau
+        <span class="obrigatorio">*</span>
+    </label>
+
+    <input
+        type="date"
+        id="membro-data-inicio-grau"
+    >
+</div>
+                        <div
                         class="grupo-campo oculto"
                         id="grupo-data-mudanca-grau"
                     >
@@ -547,6 +561,54 @@ function abrirModalNovoMembro() {
 
     formulario.reset();
 
+    const grupoDataInicioGrau = document.querySelector(
+    "#grupo-data-inicio-grau"
+);
+
+const campoDataInicioGrau = document.querySelector(
+    "#membro-data-inicio-grau"
+);
+
+const grupoDataMudancaGrau = document.querySelector(
+    "#grupo-data-mudanca-grau"
+);
+
+const campoDataMudancaGrau = document.querySelector(
+    "#membro-data-mudanca-grau"
+);
+
+/*
+ * No cadastro novo, exibimos a data inicial do grau.
+ */
+grupoDataInicioGrau.classList.remove("oculto");
+campoDataInicioGrau.required = true;
+
+/*
+ * Preenche com a data de hoje,
+ * mas permite alteração manual.
+ */
+const hoje = new Date();
+
+const ano = hoje.getFullYear();
+const mes = String(
+    hoje.getMonth() + 1
+).padStart(2, "0");
+
+const dia = String(
+    hoje.getDate()
+).padStart(2, "0");
+
+campoDataInicioGrau.value =
+    `${ano}-${mes}-${dia}`;
+
+/*
+ * O campo de mudança de grau
+ * não pertence ao cadastro inicial.
+ */
+grupoDataMudancaGrau.classList.add("oculto");
+campoDataMudancaGrau.value = "";
+campoDataMudancaGrau.required = false;
+
     campoAtivo.checked = true;
     mensagem.textContent = "";
     mensagem.classList.add("oculto");
@@ -735,6 +797,18 @@ async function abrirModalEditarMembro(id) {
     document.querySelector("#membro-nome").value = membro.nome;
     document.querySelector("#membro-grau").value = membro.grau;
     grauOriginalMembro = Number(membro.grau);
+
+    const grupoDataInicioGrau = document.querySelector(
+    "#grupo-data-inicio-grau"
+);
+
+const campoDataInicioGrau = document.querySelector(
+    "#membro-data-inicio-grau"
+);
+
+grupoDataInicioGrau.classList.add("oculto");
+campoDataInicioGrau.value = "";
+campoDataInicioGrau.required = false;
 
 const grupoDataMudancaGrau = document.querySelector(
     "#grupo-data-mudanca-grau"
@@ -1178,10 +1252,13 @@ await atualizarMembroExistente(dados);
             novoMembro
         );
 
-        await registrarHistoricoGrau(
-            novoMembro.id,
-            dados.grau
-        );
+       await registrarHistoricoGrau(
+       novoMembro.id,
+       dados.grau,
+       dados.dataInicioGrau
+       
+    
+    ); 
 
         mostrarMensagem(
             "Membro cadastrado com sucesso.",
@@ -1285,25 +1362,44 @@ async function atualizarMembroExistente(dados) {
 }
 
 function obterDadosFormularioMembro() {
-
-
     return {
-        nome: document.querySelector("#membro-nome").value.trim(),
-
-        grau: Number(
-            document.querySelector("#membro-grau").value
-        ),
-
-        cir: document.querySelector("#membro-cir").value.trim(),
-
-        cim: document.querySelector("#membro-cim").value.trim(),
-
-        observacoes: document
-            .querySelector("#membro-observacoes")
+        nome: document
+            .querySelector("#membro-nome")
             .value
             .trim(),
 
-        ativo: document.querySelector("#membro-ativo").checked
+        grau: Number(
+            document.querySelector(
+                "#membro-grau"
+            ).value
+        ),
+
+        dataInicioGrau: document
+            .querySelector(
+                "#membro-data-inicio-grau"
+            )
+            .value,
+
+        cir: document
+            .querySelector("#membro-cir")
+            .value
+            .trim(),
+
+        cim: document
+            .querySelector("#membro-cim")
+            .value
+            .trim(),
+
+        observacoes: document
+            .querySelector(
+                "#membro-observacoes"
+            )
+            .value
+            .trim(),
+
+        ativo: document.querySelector(
+            "#membro-ativo"
+        ).checked
     };
 }
 
@@ -1319,6 +1415,13 @@ function validarDadosMembro(dados) {
    if (!CONFIG.grausMembros.includes(dados.grau))  {
         return "Selecione um grau válido.";
     }
+
+    if (
+    !membroEmEdicaoId &&
+    !dados.dataInicioGrau
+) {
+    return "Informe a data de início no grau.";
+}
 
     return "";
 }
