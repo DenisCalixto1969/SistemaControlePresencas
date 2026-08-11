@@ -541,12 +541,21 @@ function fecharListaSimplesMembros() {
 
 
 function abrirModalNovoMembro() {
-  configurarModoVisualizacaoMembro(false);  
+    configurarModoVisualizacaoMembro(false);
     membroEmEdicaoId = null;
 
-    const modal = document.querySelector("#modal-membro");
-    const formulario = document.querySelector("#formulario-membro");
-    const campoAtivo = document.querySelector("#membro-ativo");
+    const modal = document.querySelector(
+        "#modal-membro"
+    );
+
+    const formulario = document.querySelector(
+        "#formulario-membro"
+    );
+
+    const campoAtivo = document.querySelector(
+        "#membro-ativo"
+    );
+
     const mensagem = document.querySelector(
         "#mensagem-formulario-membro"
     );
@@ -561,65 +570,102 @@ function abrirModalNovoMembro() {
 
     formulario.reset();
 
-    const grupoDataInicioGrau = document.querySelector(
-    "#grupo-data-inicio-grau"
-);
+    /*
+     * Limpa o histórico que possa ter ficado
+     * da visualização ou edição anterior.
+     */
+    const containerHistorico =
+        document.querySelector(
+            "#historico-graus-membro"
+        );
 
-const campoDataInicioGrau = document.querySelector(
-    "#membro-data-inicio-grau"
-);
+    if (containerHistorico) {
+        containerHistorico.innerHTML = `
+            <p class="historico-graus-vazio">
+                O histórico será exibido ao editar um membro.
+            </p>
+        `;
+    }
 
-const grupoDataMudancaGrau = document.querySelector(
-    "#grupo-data-mudanca-grau"
-);
+    const grupoDataInicioGrau =
+        document.querySelector(
+            "#grupo-data-inicio-grau"
+        );
 
-const campoDataMudancaGrau = document.querySelector(
-    "#membro-data-mudanca-grau"
-);
+    const campoDataInicioGrau =
+        document.querySelector(
+            "#membro-data-inicio-grau"
+        );
 
-/*
- * No cadastro novo, exibimos a data inicial do grau.
- */
-grupoDataInicioGrau.classList.remove("oculto");
-campoDataInicioGrau.required = true;
+    const grupoDataMudancaGrau =
+        document.querySelector(
+            "#grupo-data-mudanca-grau"
+        );
 
-/*
- * Preenche com a data de hoje,
- * mas permite alteração manual.
- */
-const hoje = new Date();
+    const campoDataMudancaGrau =
+        document.querySelector(
+            "#membro-data-mudanca-grau"
+        );
 
-const ano = hoje.getFullYear();
-const mes = String(
-    hoje.getMonth() + 1
-).padStart(2, "0");
+    /*
+     * No cadastro novo, exibimos
+     * a data inicial do grau.
+     */
+    grupoDataInicioGrau.classList.remove(
+        "oculto"
+    );
 
-const dia = String(
-    hoje.getDate()
-).padStart(2, "0");
+    campoDataInicioGrau.required = true;
 
-campoDataInicioGrau.value =
-    `${ano}-${mes}-${dia}`;
+    /*
+     * Preenche com a data de hoje,
+     * permitindo alteração manual.
+     */
+    const hoje = new Date();
 
-/*
- * O campo de mudança de grau
- * não pertence ao cadastro inicial.
- */
-grupoDataMudancaGrau.classList.add("oculto");
-campoDataMudancaGrau.value = "";
-campoDataMudancaGrau.required = false;
+    const ano = hoje.getFullYear();
+
+    const mes = String(
+        hoje.getMonth() + 1
+    ).padStart(2, "0");
+
+    const dia = String(
+        hoje.getDate()
+    ).padStart(2, "0");
+
+    campoDataInicioGrau.value =
+        `${ano}-${mes}-${dia}`;
+
+    /*
+     * A data de mudança de grau
+     * não pertence ao cadastro inicial.
+     */
+    grupoDataMudancaGrau.classList.add(
+        "oculto"
+    );
+
+    campoDataMudancaGrau.value = "";
+    campoDataMudancaGrau.required = false;
 
     campoAtivo.checked = true;
+
     mensagem.textContent = "";
     mensagem.classList.add("oculto");
 
     modal.classList.remove("oculto");
-    modal.setAttribute("aria-hidden", "false");
+    modal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
 
-    document.body.classList.add("modal-aberto");
+    document.body.classList.add(
+        "modal-aberto"
+    );
 
     window.setTimeout(() => {
-        document.querySelector("#membro-nome").focus();
+        document
+            .querySelector("#membro-nome")
+            .focus();
     }, 50);
 }
 
