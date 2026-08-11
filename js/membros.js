@@ -844,7 +844,34 @@ async function abrirModalEditarMembro(id) {
     document.querySelector("#membro-grau").value = membro.grau;
     grauOriginalMembro = Number(membro.grau);
 
-    const grupoDataInicioGrau = document.querySelector(
+   const grupoDataInicioGrau = document.querySelector(
+    "#grupo-data-inicio-grau"
+);
+
+const campoDataInicioGrau = document.querySelector(
+    "#membro-data-inicio-grau"
+);
+
+/*
+ * Busca o grau atualmente vigente
+ * para permitir a correção da data inicial.
+ */
+const historicoCompleto = await listarRegistros(
+    "historicoGraus"
+);
+
+const historicoAtual = historicoCompleto.find(
+    (registro) =>
+        registro.membroId === id &&
+        registro.dataFim == null
+);
+
+grupoDataInicioGrau.classList.remove("oculto");
+
+campoDataInicioGrau.value =
+    historicoAtual?.dataInicio || "";
+
+campoDataInicioGrau.required = true; const grupoDataInicioGrau = document.querySelector(
     "#grupo-data-inicio-grau"
 );
 
