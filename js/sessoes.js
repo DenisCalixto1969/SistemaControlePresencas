@@ -69,6 +69,12 @@ ${criarModalExclusaoSessao()}
 }
 
 function criarModalSessao() {
+const opcaoSemGrau = `
+    <option value="0">
+        —
+    </option>
+`;
+
     const opcoesGraus = CONFIG.grausSessoes
         .map((grau) => {
             return `
@@ -156,7 +162,8 @@ function criarModalSessao() {
                             </label>
 
                             <select id="sessao-grau" required>
-                                ${opcoesGraus}
+                              ${opcaoSemGrau}
+                              ${opcoesGraus}
                             </select>
                         </div>
 
@@ -345,6 +352,15 @@ const botaoConfirmarExclusao = document.querySelector(
         salvarSessao
     );
 
+    const campoTipo = document.querySelector(
+    "#sessao-tipo"
+);
+
+campoTipo.addEventListener(
+    "change",
+    controlarGrauPorTipoSessao
+);
+
     campoPesquisa.addEventListener("input", () => {
         filtrarSessoes(campoPesquisa.value);
     });
@@ -381,6 +397,36 @@ modalExclusao.addEventListener("click", (evento) => {
     }
 });
 
+}
+
+function controlarGrauPorTipoSessao() {
+    const campoTipo = document.querySelector(
+        "#sessao-tipo"
+    );
+
+    const campoGrau = document.querySelector(
+        "#sessao-grau"
+    );
+
+    if (!campoTipo || !campoGrau) {
+        return;
+    }
+
+    const naoHouveSessao =
+        campoTipo.value === "Não Houve Sessão";
+
+    if (naoHouveSessao) {
+        campoGrau.value = "0";
+        campoGrau.disabled = true;
+        return;
+    }
+
+    campoGrau.disabled = false;
+
+    if (Number(campoGrau.value) === 0) {
+        campoGrau.value =
+            CONFIG.grausSessoes[0];
+    }
 }
 
 
@@ -481,14 +527,29 @@ async function abrirModalEditarSessao(id) {
             "#sessao-data"
         ).value = sessao.data;
 
-        const campoGrau = document.querySelector("#sessao-grau");
+       const campoGrau = document.querySelector(
+    "#sessao-grau"
+);
 
-        campoGrau.value = sessao.grau;
-        campoGrau.disabled = true;
+const naoHouveSessao =
+    sessao.tipo === "Não Houve Sessão" ||
+    Number(sessao.grau) === 0;
+
+if (naoHouveSessao) {
+    campoGrau.value = "0";
+    campoGrau.disabled = true;
+} else {
+    campoGrau.value = String(sessao.grau);
+    campoGrau.disabled = true;
+}
 
         document.querySelector(
             "#sessao-tipo"
         ).value = sessao.tipo;
+
+        if (naoHouveSessao) {
+    controlarGrauPorTipoSessao();
+}
 
         document.querySelector(
             "#sessao-observacoes"
@@ -1254,10 +1315,13 @@ if (percentual >= 75) {
                 <small>${escaparHTML(diaSemana)}</small>
             </div>
 
-            <span data-rotulo="Grau">
-                ${escaparHTML(sessao.grau)}
-            </span>
-
+           <span data-rotulo="Grau">
+    ${
+        Number(sessao.grau) === 0
+            ? "—"
+            : escaparHTML(sessao.grau)
+    }
+</span>
             <span data-rotulo="Tipo">
                 ${escaparHTML(sessao.tipo)}
             </span>

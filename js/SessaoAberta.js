@@ -171,6 +171,23 @@ function atualizarResumoSessao() {
     })
 );
 
+/*
+ * Mantém a lista de presença
+ * sempre em ordem alfabética.
+ */
+membrosDaSessao.sort((a, b) => {
+    const nomeA = a.membro?.nome || "";
+    const nomeB = b.membro?.nome || "";
+
+    return nomeA.localeCompare(
+        nomeB,
+        "pt-BR",
+        {
+            sensitivity: "base"
+        }
+    );
+});
+
     const moduloSessaoAberta = document.querySelector(
         "#modulo-sessao-aberta"
     );

@@ -1470,27 +1470,33 @@ await atualizarMembroExistente(dados);
                 : "Membro atualizado com sucesso.",
             "sucesso"
         );
-    } else {
-        const novoMembro = new Membro(dados);
+   } else {
+    const novoMembro = new Membro(dados);
 
-        await adicionarRegistro(
-            "membros",
-            novoMembro
+    await adicionarRegistro(
+        "membros",
+        novoMembro
+    );
+
+    await registrarHistoricoGrau(
+        novoMembro.id,
+        dados.grau,
+        dados.dataInicioGrau
+    );
+
+    const presencasCriadas =
+        await sincronizarPresencasHistoricasMembro(
+            novoMembro.id
         );
 
-       await registrarHistoricoGrau(
-       novoMembro.id,
-       dados.grau,
-       dados.dataInicioGrau
-       
-    
-    ); 
+    mostrarMensagem(
+        presencasCriadas > 0
+            ? `Membro cadastrado com sucesso. ${presencasCriadas} presença(s) histórica(s) foram incluída(s).`
+            : "Membro cadastrado com sucesso.",
+        "sucesso"
+    );
+}
 
-        mostrarMensagem(
-            "Membro cadastrado com sucesso.",
-            "sucesso"
-        );
-    }
 
     fecharModalMembro();
     await carregarMembros();
@@ -1509,6 +1515,95 @@ await atualizarMembroExistente(dados);
             : "Salvar membro";
     }
 }
+
+async function sincronizarPresencasHistoricasMembro(
+    membroId
+) {
+    const [
+        membro,
+        sessoes,
+        presencas,
+        historicoCompleto
+    ] = await Promise.all([
+        buscarRegistroPorId(
+            "membros",
+            membroId
+        ),
+        listarRegistros(
+            "sessoes"
+        ),
+        listarRegistros(
+            "presencas"
+        ),
+        listarRegistros(
+            "historicoGraus"
+        )
+    ]);
+
+    if (!membro) {
+        return 0;
+    }
+
+    let quantidadeCriada = 0;
+
+    for (const sessao of sessoes) {
+        /*
+         * Registros de "Não Houve Sessão"
+         * nunca recebem presença.
+         */
+        if (
+            sessao.tipo === "Não Houve Sessão" ||
+            Number(sessao.grau) === 0
+        ) {
+            continue;
+        }
+
+        /*
+         * Não cria uma presença que
+         * já exista.
+         */
+        const jaExiste = presencas.some(
+            (presenca) =>
+                presenca.sessaoId === sessao.id &&
+                presenca.membroId === membroId
+        );
+
+        if (jaExiste) {
+            continue;
+        }
+
+        /*
+         * Verifica se o membro podia
+         * participar naquela sessão.
+         */
+        const apto =
+            membroPodeParticiparDaSessao(
+                membro,
+                sessao,
+                historicoCompleto
+            );
+
+        if (!apto) {
+            continue;
+        }
+
+        const novaPresenca = new Presenca({
+            sessaoId: sessao.id,
+            membroId: membroId,
+            presente: false
+        });
+
+        await adicionarRegistro(
+            "presencas",
+            novaPresenca
+        );
+
+        quantidadeCriada++;
+    }
+
+    return quantidadeCriada;
+}
+
 
 async function carregarHistoricoGrausMembro(membroId) {
     const areaHistorico = document.querySelector(
