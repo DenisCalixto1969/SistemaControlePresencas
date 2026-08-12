@@ -104,12 +104,12 @@ function carregarModuloDashboard() {
     </div>
 
     <span class="cartao-titulo">
-        Abaixo de 75%
+        Abaixo de 50%
     </span>
 
     <strong
         class="cartao-valor"
-        id="dashboard-abaixo-75"
+        id="dashboard-abaixo-50"
     >
         0
     </strong>
@@ -302,7 +302,7 @@ async function carregarIndicadores() {
     const presencas =
         await listarRegistros("presencas");
 
-    let totalAbaixo75 = 0;
+    let totalAbaixo50 = 0;
 
 
     /*
@@ -453,20 +453,20 @@ async function carregarIndicadores() {
                         maiorPercentual
                 );
 
-const elementoAbaixo75 =
+const elementoAbaixo50 =
     document.getElementById(
-        "dashboard-abaixo-75"
+        "dashboard-abaixo-50"
     );
 
-    totalAbaixo75 =
+    totalAbaixo50 =
     membrosComSessoes.filter(
         (item) =>
-            item.frequencia.percentual < 75
+            item.frequencia.percentual < 50
     ).length;
 
-if (elementoAbaixo75) {
-    elementoAbaixo75.textContent =
-        totalAbaixo75;
+if (elementoAbaixo50) {
+    elementoAbaixo50.textContent =
+        totalAbaixo50;
 }    
 
 const elementoUltimaSessao =
@@ -529,7 +529,7 @@ if (
         totalPresencas,
         totalPresentes,
         frequenciaMedia,
-        totalAbaixo75
+        totalAbaixo50
     }
 );
 }
