@@ -1,0 +1,2162 @@
+{
+  "sistema": "Sistema Controle Presenças",
+  "versaoBackup": 1,
+  "dataBackup": "2026-08-12T10:35:54.956Z",
+  "dados": {
+    "membros": [
+      {
+        "id": "00207b29-393d-479d-a032-e60206767bc4",
+        "nome": "Pedro dos Santos Francisco",
+        "grau": 32,
+        "cir": "13587",
+        "cim": "",
+        "observacoes": "alterar data grau e cim",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:55:31.421Z",
+        "dataUltimaAlteracao": "2026-08-11T16:55:31.421Z"
+      },
+      {
+        "id": "021fd214-4b6d-443a-9930-eb57b9c799dd",
+        "nome": "Manoel Jose Gomes de Sotello",
+        "grau": 33,
+        "cir": "1507",
+        "cim": "",
+        "observacoes": "alterar data grau e cim",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:53:26.836Z",
+        "dataUltimaAlteracao": "2026-08-11T16:53:26.836Z"
+      },
+      {
+        "id": "031f87cc-ff5c-418e-af88-001011d74c25",
+        "nome": "Lucas da Costa da Silva",
+        "grau": 9,
+        "cir": "",
+        "cim": "",
+        "observacoes": "cir e cim",
+        "ativo": true,
+        "dataCadastro": "2026-08-12T10:17:17.473Z",
+        "dataUltimaAlteracao": "2026-08-12T10:17:17.473Z"
+      },
+      {
+        "id": "1caad501-e3e6-47d0-828d-e6da904f9586",
+        "nome": "Amaury Daniel Ramos Nogueira",
+        "grau": 32,
+        "cir": "13580",
+        "cim": "16682",
+        "observacoes": "alterar data grau",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:41:00.988Z",
+        "dataUltimaAlteracao": "2026-08-11T16:41:00.988Z"
+      },
+      {
+        "id": "1d3657d3-5f54-48ef-98d0-2d2a6cdc59a3",
+        "nome": "Ademir Jesus de Olveira",
+        "grau": 33,
+        "cir": "6667",
+        "cim": "4462",
+        "observacoes": "alterar data grau",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:39:11.268Z",
+        "dataUltimaAlteracao": "2026-08-11T16:39:11.268Z"
+      },
+      {
+        "id": "240bc1db-8abf-4086-820c-7d2828fc196a",
+        "nome": "Carlos Pereira Rodrigues",
+        "grau": 4,
+        "cir": "17445",
+        "cim": "25537",
+        "observacoes": "",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:43:46.476Z",
+        "dataUltimaAlteracao": "2026-08-11T16:43:46.476Z"
+      },
+      {
+        "id": "31c1bb25-c77f-430f-9459-d9bb3015e1ec",
+        "nome": "Jose Amelio Monteiro Junior",
+        "grau": 4,
+        "cir": "17446",
+        "cim": "21610",
+        "observacoes": "",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:51:08.276Z",
+        "dataUltimaAlteracao": "2026-08-11T16:51:08.276Z"
+      },
+      {
+        "id": "39e8c18e-e89f-4001-8e95-d4f900712dd1",
+        "nome": "Silvio Marinho Gimenes",
+        "grau": 33,
+        "cir": "10007",
+        "cim": "",
+        "observacoes": "alterar data grau e cim",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:56:02.589Z",
+        "dataUltimaAlteracao": "2026-08-11T16:56:02.589Z"
+      },
+      {
+        "id": "4313b298-d493-487e-a720-efece416ee90",
+        "nome": "Heberton Hirata Shimada",
+        "grau": 9,
+        "cir": "18124",
+        "cim": "29364",
+        "observacoes": "",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:48:51.196Z",
+        "dataUltimaAlteracao": "2026-08-11T16:48:51.196Z"
+      },
+      {
+        "id": "4ea21eec-b044-42b9-b568-6a19d62997c2",
+        "nome": "Claudemi Liberale",
+        "grau": 28,
+        "cir": "12194",
+        "cim": "",
+        "observacoes": "alterar data grau e cim",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:44:49.652Z",
+        "dataUltimaAlteracao": "2026-08-11T16:44:49.652Z"
+      },
+      {
+        "id": "5898bfca-9a1b-470d-b86b-c2b8dfd05a7f",
+        "nome": "João Carlos Pereira Esteves",
+        "grau": 32,
+        "cir": "13584",
+        "cim": "16681",
+        "observacoes": "alterar data grau",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:49:24.836Z",
+        "dataUltimaAlteracao": "2026-08-11T16:49:24.836Z"
+      },
+      {
+        "id": "59477200-c69d-4acb-a815-bce367fa679c",
+        "nome": "Luis Gilberto Bonadio Franco",
+        "grau": 9,
+        "cir": "18125",
+        "cim": "29369",
+        "observacoes": "",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:52:16.700Z",
+        "dataUltimaAlteracao": "2026-08-11T16:52:16.700Z"
+      },
+      {
+        "id": "6836e126-67c3-4d8c-a996-b32233cd2959",
+        "nome": "Eliseu Menegali Costa",
+        "grau": 33,
+        "cir": "6296",
+        "cim": "2281",
+        "observacoes": "alterar data grau",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:46:39.308Z",
+        "dataUltimaAlteracao": "2026-08-11T16:46:39.308Z"
+      },
+      {
+        "id": "7402e56d-a257-4820-a72c-059672a80792",
+        "nome": "Waldinei Ferreira Costa",
+        "grau": 4,
+        "cir": "17444",
+        "cim": "26756",
+        "observacoes": "",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:57:28.597Z",
+        "dataUltimaAlteracao": "2026-08-11T16:57:49.494Z"
+      },
+      {
+        "id": "77a97cea-46a3-4f0b-8fab-14862e03514f",
+        "nome": "Murilo Hirata Shimada",
+        "grau": 9,
+        "cir": "18123",
+        "cim": "29371",
+        "observacoes": "",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:54:27.404Z",
+        "dataUltimaAlteracao": "2026-08-11T16:54:27.404Z"
+      },
+      {
+        "id": "7a0aec86-08cf-4092-b0e5-993828e96fe8",
+        "nome": "Alexandre Milanezi Nogueira",
+        "grau": 33,
+        "cir": "9354",
+        "cim": "7845",
+        "observacoes": "alterar data grau",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:40:25.956Z",
+        "dataUltimaAlteracao": "2026-08-11T16:40:25.956Z"
+      },
+      {
+        "id": "7e6705ce-b9d4-4752-8475-a54b0a245c9d",
+        "nome": "Denilson Aparecido Calixto",
+        "grau": 30,
+        "cir": "13921",
+        "cim": "12849",
+        "observacoes": "",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:46:05.340Z",
+        "dataUltimaAlteracao": "2026-08-11T16:46:05.340Z"
+      },
+      {
+        "id": "8dbc04e5-0369-4e05-baf9-c0fb227687c7",
+        "nome": "Adão Valentim Garrido",
+        "grau": 33,
+        "cir": "6666",
+        "cim": "1176",
+        "observacoes": "Alterar data grau",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:31:55.179Z",
+        "dataUltimaAlteracao": "2026-08-11T16:31:55.179Z"
+      },
+      {
+        "id": "90b3cdf9-d65d-4bd1-9086-7ae84e5269a7",
+        "nome": "Hamilton Rufo",
+        "grau": 33,
+        "cir": "12195",
+        "cim": "",
+        "observacoes": "alterar data grau e cim",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:48:18.276Z",
+        "dataUltimaAlteracao": "2026-08-11T16:48:18.276Z"
+      },
+      {
+        "id": "93718f0c-236b-45ea-bc03-c6e00740c16b",
+        "nome": "Jose Antonio Felissiani",
+        "grau": 33,
+        "cir": "9357",
+        "cim": "",
+        "observacoes": "alterar data grau e cim",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:51:34.868Z",
+        "dataUltimaAlteracao": "2026-08-11T16:51:34.868Z"
+      },
+      {
+        "id": "a7e144be-7320-4179-b4d0-3f71c6e9edd9",
+        "nome": "Nagib Habib Asseis Neto",
+        "grau": 18,
+        "cir": "15418",
+        "cim": "21226",
+        "observacoes": "alterar data grau",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:55:00.109Z",
+        "dataUltimaAlteracao": "2026-08-11T17:30:57.114Z"
+      },
+      {
+        "id": "b0c969fb-45ef-43f8-9626-4215e2bbd838",
+        "nome": "Cristiano Cesar Maretti",
+        "grau": 4,
+        "cir": "17443",
+        "cim": "25538",
+        "observacoes": "",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:45:27.756Z",
+        "dataUltimaAlteracao": "2026-08-11T16:45:27.756Z"
+      },
+      {
+        "id": "b1ee8830-9af4-4522-9516-fdb697979f7d",
+        "nome": "Marcos da Silva Dias",
+        "grau": 18,
+        "cir": "15417",
+        "cim": "21721",
+        "observacoes": "alterar data grau",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:53:55.052Z",
+        "dataUltimaAlteracao": "2026-08-11T17:30:45.002Z"
+      },
+      {
+        "id": "ba949bbd-0efa-418c-976e-6d57a8fa7ac1",
+        "nome": "Wladimir Silva Caldeira",
+        "grau": 18,
+        "cir": "15419",
+        "cim": "21722",
+        "observacoes": "",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:58:52.573Z",
+        "dataUltimaAlteracao": "2026-08-11T16:58:52.573Z"
+      },
+      {
+        "id": "beb29a45-8b23-49fe-882d-410640b80d42",
+        "nome": "Francisco Zapolatta Junior",
+        "grau": 32,
+        "cir": "13583",
+        "cim": "13912",
+        "observacoes": "alterar data grau",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:47:50.668Z",
+        "dataUltimaAlteracao": "2026-08-11T16:47:50.668Z"
+      },
+      {
+        "id": "bfe9bb3e-8847-48f9-bcac-a25c1e9295b6",
+        "nome": "Jorge Henrique Bernardes da Silva",
+        "grau": 15,
+        "cir": "26327",
+        "cim": "22390",
+        "observacoes": "",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:50:17.716Z",
+        "dataUltimaAlteracao": "2026-08-11T16:50:17.716Z"
+      },
+      {
+        "id": "c63d5cc6-a0e0-4168-b915-db1157c20497",
+        "nome": "Assis Sales de Oliveira",
+        "grau": 32,
+        "cir": "13073",
+        "cim": "",
+        "observacoes": "alterar data grau e cim",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:42:07.276Z",
+        "dataUltimaAlteracao": "2026-08-11T16:42:07.276Z"
+      },
+      {
+        "id": "ccd534e0-e202-4dca-85d5-5fc3a46b70b6",
+        "nome": "Antonio Carlos Ferreira da Silva",
+        "grau": 33,
+        "cir": "7424",
+        "cim": "4743",
+        "observacoes": "alterar data grau",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:41:38.084Z",
+        "dataUltimaAlteracao": "2026-08-11T16:41:38.084Z"
+      },
+      {
+        "id": "cf45f17b-e806-4559-83fa-816533f247f1",
+        "nome": "Vandir Alves Moreira",
+        "grau": 32,
+        "cir": "13589",
+        "cim": "16680",
+        "observacoes": "alterar data grau",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:57:01.405Z",
+        "dataUltimaAlteracao": "2026-08-11T16:57:01.405Z"
+      },
+      {
+        "id": "df2797cc-ebdf-4f77-b3a6-046b42ff3ad8",
+        "nome": "Francisco Oliveira Silva",
+        "grau": 32,
+        "cir": "13582",
+        "cim": "13569",
+        "observacoes": "alterar data grau",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:47:16.572Z",
+        "dataUltimaAlteracao": "2026-08-11T16:47:16.572Z"
+      },
+      {
+        "id": "df382234-7008-4035-ac64-48394280cd4e",
+        "nome": "Cesar Augusto Basaglia",
+        "grau": 18,
+        "cir": "15416",
+        "cim": "21225",
+        "observacoes": "alterar data grau",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:44:21.708Z",
+        "dataUltimaAlteracao": "2026-08-11T17:27:44.162Z"
+      },
+      {
+        "id": "e22b0631-4c8d-4525-910d-28e86246e479",
+        "nome": "Thallew Caldato Araujo",
+        "grau": 9,
+        "cir": "",
+        "cim": "",
+        "observacoes": "",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:56:36.685Z",
+        "dataUltimaAlteracao": "2026-08-11T16:56:36.685Z"
+      },
+      {
+        "id": "e3ca2268-dbda-4708-87e2-e90ff219637f",
+        "nome": "Alan Rogerio Morelli",
+        "grau": 18,
+        "cir": "14429",
+        "cim": "18016",
+        "observacoes": "alterar data grau",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:39:43.443Z",
+        "dataUltimaAlteracao": "2026-08-11T16:39:43.443Z"
+      },
+      {
+        "id": "f2dd2360-381f-4d16-ab74-aa8ba5671944",
+        "nome": "Luiz Tadeu Gonçalves Pegino",
+        "grau": 33,
+        "cir": "12775",
+        "cim": "13571",
+        "observacoes": "alterar data grau",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:52:49.668Z",
+        "dataUltimaAlteracao": "2026-08-11T16:52:49.668Z"
+      },
+      {
+        "id": "f9316b59-075d-4f1c-854c-d45839d02637",
+        "nome": "Carlos Alberto Petean de Andrade",
+        "grau": 30,
+        "cir": "9166",
+        "cim": "5316",
+        "observacoes": "",
+        "ativo": true,
+        "dataCadastro": "2026-08-11T16:42:47.276Z",
+        "dataUltimaAlteracao": "2026-08-11T16:42:47.276Z"
+      }
+    ],
+    "sessoes": [
+      {
+        "id": "421843c4-6392-432a-89ec-6745e7791745",
+        "numero": 1,
+        "data": "2026-02-11",
+        "grau": 4,
+        "tipo": "Ordinária",
+        "observacoes": "Entrega de Breves Grau 18 aos IIr Cesar, Nagib e Wladimir; Aprovação iniciação Grau 4 IIr Carlos, Cristiano, Jose Amelio e Waldinei. Logo apos foi aberta no Grau 18 para aprovação processo iniciação Grau 15 Ir Jorge, bem como regularizaçoes grau 4 dos IIr Murilo, Heberton e Luis Gilberto",
+        "status": "Aberta",
+        "dataCadastro": "2026-08-11T17:34:16.240Z",
+        "dataUltimaAlteracao": "2026-08-11T17:34:16.240Z"
+      },
+      {
+        "id": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "numero": 5,
+        "data": "2026-06-10",
+        "grau": 4,
+        "tipo": "Ordinária",
+        "observacoes": "Instruções Grau 4 IIr Carlos Pereira, Cristiano, Jose Amelio e Waldinei, bem como entrega de certificados Grau 4 aos mesmos.\nAprovação pedido regularização IIr Mineo e Jose Albano\nAprovação iniciação Grau 9 IIr Luis Gilberto, Murilo e Heberton",
+        "status": "Aberta",
+        "dataCadastro": "2026-08-11T17:38:47.952Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.952Z"
+      },
+      {
+        "id": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "numero": 4,
+        "data": "2026-05-13",
+        "grau": 4,
+        "tipo": "Magna",
+        "observacoes": "Iniciação Grau 4 IIr Carlos Pereira, Cristiano, Jose Amelio e Waldinei",
+        "status": "Aberta",
+        "dataCadastro": "2026-08-11T17:36:42.416Z",
+        "dataUltimaAlteracao": "2026-08-11T17:36:42.416Z"
+      },
+      {
+        "id": "cb0623e8-5c14-4eb3-9427-6114cd16ab08",
+        "numero": 6,
+        "data": "2026-07-08",
+        "grau": 4,
+        "tipo": "Não Houve Sessão",
+        "observacoes": "Não houve Sessão em virtude da Posse ocorrida na mesma data Loja \"Fraternidade Labor\" Oriente de Mirandopolis.",
+        "status": "Não realizada",
+        "dataCadastro": "2026-08-11T17:41:29.192Z",
+        "dataUltimaAlteracao": "2026-08-11T17:41:29.192Z"
+      },
+      {
+        "id": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "numero": 3,
+        "data": "2026-04-08",
+        "grau": 4,
+        "tipo": "Ordinária",
+        "observacoes": "Regularizações dos IIr Murilo, Heberton e Luis Gilberto no Grau 4.\nApresentação trabalho Ir Cesar Basaglia",
+        "status": "Aberta",
+        "dataCadastro": "2026-08-11T17:35:46.840Z",
+        "dataUltimaAlteracao": "2026-08-11T17:35:46.840Z"
+      },
+      {
+        "id": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "numero": 2,
+        "data": "2026-03-11",
+        "grau": 15,
+        "tipo": "Magna",
+        "observacoes": "Iniciação Ir.'. Jorge H Bernardes",
+        "status": "Aberta",
+        "dataCadastro": "2026-08-11T17:34:48.400Z",
+        "dataUltimaAlteracao": "2026-08-11T17:34:48.400Z"
+      }
+    ],
+    "presencas": [
+      {
+        "id": "005f9b6f-2d52-475e-8844-a3fafe9b8285",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "4ea21eec-b044-42b9-b568-6a19d62997c2",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "01cf2dcb-6e14-4635-af49-c7fcd6ff90cb",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "7a0aec86-08cf-4092-b0e5-993828e96fe8",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-11T17:34:16.241Z"
+      },
+      {
+        "id": "03605005-802b-475d-8459-541b46abcc9e",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "31c1bb25-c77f-430f-9459-d9bb3015e1ec",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "039a5d81-b8ba-4074-bb49-b57f3116177f",
+        "sessaoId": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "membroId": "90b3cdf9-d65d-4bd1-9086-7ae84e5269a7",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:48.402Z",
+        "dataUltimaAlteracao": "2026-08-12T10:22:51.553Z"
+      },
+      {
+        "id": "0442393e-c8bd-484b-ba50-666c475b7db4",
+        "sessaoId": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "membroId": "bfe9bb3e-8847-48f9-bcac-a25c1e9295b6",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:48.402Z",
+        "dataUltimaAlteracao": "2026-08-12T10:23:12.937Z"
+      },
+      {
+        "id": "05498ae2-c21d-444b-8876-cbda6004b2fd",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "4313b298-d493-487e-a720-efece416ee90",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:31:02.953Z"
+      },
+      {
+        "id": "05cb276b-46a6-4e1f-b4f2-88012c7a2ae6",
+        "sessaoId": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "membroId": "beb29a45-8b23-49fe-882d-410640b80d42",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:48.402Z",
+        "dataUltimaAlteracao": "2026-08-12T10:22:45.969Z"
+      },
+      {
+        "id": "0b62d003-2e3d-4dcd-af03-4090155999c9",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "bfe9bb3e-8847-48f9-bcac-a25c1e9295b6",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:31:11.185Z"
+      },
+      {
+        "id": "0e00e9c3-5a1f-4f1e-9cba-1e61e1b12d19",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "021fd214-4b6d-443a-9930-eb57b9c799dd",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-11T17:35:46.841Z"
+      },
+      {
+        "id": "0ee75440-7dbd-4570-a939-edfadeeea10c",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "77a97cea-46a3-4f0b-8fab-14862e03514f",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-12T10:27:38.337Z"
+      },
+      {
+        "id": "1100806c-b877-47fe-bf3e-213b6a56de57",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "1d3657d3-5f54-48ef-98d0-2d2a6cdc59a3",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-11T17:35:46.841Z"
+      },
+      {
+        "id": "11606951-f3bf-4df1-9773-f3665b7e58fa",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "93718f0c-236b-45ea-bc03-c6e00740c16b",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-12T10:14:19.088Z"
+      },
+      {
+        "id": "1452df79-737d-4a13-aac6-2c9f5aa41cae",
+        "sessaoId": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "membroId": "1d3657d3-5f54-48ef-98d0-2d2a6cdc59a3",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:48.402Z",
+        "dataUltimaAlteracao": "2026-08-12T10:21:25.345Z"
+      },
+      {
+        "id": "14d50640-b0a0-4a12-b05c-8598dc14372c",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "ccd534e0-e202-4dca-85d5-5fc3a46b70b6",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "156039f0-298c-4323-8cff-9fc53f69f572",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "f2dd2360-381f-4d16-ab74-aa8ba5671944",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-12T10:27:22.089Z"
+      },
+      {
+        "id": "1577dc0f-0e6c-4db9-b514-1bc3cf1e58ad",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "ccd534e0-e202-4dca-85d5-5fc3a46b70b6",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-12T10:24:46.185Z"
+      },
+      {
+        "id": "15871f0f-719b-4af3-a56b-562644059eb1",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "f9316b59-075d-4f1c-854c-d45839d02637",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:29:47.665Z"
+      },
+      {
+        "id": "163e9fda-d15b-4e06-9e7e-99587fa0e17c",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "f9316b59-075d-4f1c-854c-d45839d02637",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-12T10:24:50.513Z"
+      },
+      {
+        "id": "185a139c-e4bc-43fc-9975-15bb65eb5def",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "e3ca2268-dbda-4708-87e2-e90ff219637f",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "19010fbf-9a94-410e-8e9b-2c913b08550e",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "021fd214-4b6d-443a-9930-eb57b9c799dd",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "19e28053-1dc0-4957-9e6b-95612f763f96",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "7402e56d-a257-4820-a72c-059672a80792",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-11T17:35:46.841Z"
+      },
+      {
+        "id": "1cdd41db-5bfc-4e49-bf5d-0cc4da7cbbe8",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "8dbc04e5-0369-4e05-baf9-c0fb227687c7",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "1db0bfbf-ad01-4af3-b986-595809e4e95d",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "4ea21eec-b044-42b9-b568-6a19d62997c2",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-12T10:12:45.440Z"
+      },
+      {
+        "id": "1e41ae35-59b1-43b5-99c4-829854289541",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "1caad501-e3e6-47d0-828d-e6da904f9586",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "23911ebf-8652-4e5c-919c-4bb74dda11f7",
+        "sessaoId": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "membroId": "c63d5cc6-a0e0-4168-b915-db1157c20497",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:48.402Z",
+        "dataUltimaAlteracao": "2026-08-12T10:21:49.144Z"
+      },
+      {
+        "id": "23aa5998-2deb-493b-b1b4-9d5994bd5ae1",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "a7e144be-7320-4179-b4d0-3f71c6e9edd9",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-12T10:15:20.680Z"
+      },
+      {
+        "id": "25369adf-a046-41c5-8155-b59c31e1fe71",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "31c1bb25-c77f-430f-9459-d9bb3015e1ec",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:31:31.809Z"
+      },
+      {
+        "id": "2a476523-ba35-463e-8923-f07a99ffe1ea",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "7e6705ce-b9d4-4752-8475-a54b0a245c9d",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-12T10:25:24.745Z"
+      },
+      {
+        "id": "306d8c36-d766-43b0-9d52-72644a4ba768",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "5898bfca-9a1b-470d-b86b-c2b8dfd05a7f",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:31:07.433Z"
+      },
+      {
+        "id": "308706a7-d8a0-4718-bf10-775e56b67f2a",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "1d3657d3-5f54-48ef-98d0-2d2a6cdc59a3",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:29:17.321Z"
+      },
+      {
+        "id": "30fece91-c7c9-4167-94e2-dc19f71e7749",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "59477200-c69d-4acb-a815-bce367fa679c",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-12T10:27:07.897Z"
+      },
+      {
+        "id": "38d0fdb7-28aa-4d46-aa37-b88443cf8900",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "77a97cea-46a3-4f0b-8fab-14862e03514f",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "3d06f03c-0272-4582-9711-c3dbd3c92e7d",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "6836e126-67c3-4d8c-a996-b32233cd2959",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-12T10:13:09.024Z"
+      },
+      {
+        "id": "3d4de960-f63e-4413-a08e-8f64aaf4b310",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "ba949bbd-0efa-418c-976e-6d57a8fa7ac1",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:32:49.961Z"
+      },
+      {
+        "id": "3e0c3b44-27d3-413c-94b0-72e77189d9cb",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "90b3cdf9-d65d-4bd1-9086-7ae84e5269a7",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-12T10:13:39.600Z"
+      },
+      {
+        "id": "40d64da4-af0d-4328-be4d-116b69adca40",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "4313b298-d493-487e-a720-efece416ee90",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-12T10:26:10.249Z"
+      },
+      {
+        "id": "439f78e2-f7e7-4a65-b9a7-66da3f548296",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "df382234-7008-4035-ac64-48394280cd4e",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "44c8b578-3e88-4fb3-abd7-86b229b09b8f",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "00207b29-393d-479d-a032-e60206767bc4",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "45749b91-2f41-40a2-97bd-eaf4adc5485b",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "beb29a45-8b23-49fe-882d-410640b80d42",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "4784068d-d998-403d-aba7-1f1b4374f80b",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "b1ee8830-9af4-4522-9516-fdb697979f7d",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:32:08.929Z"
+      },
+      {
+        "id": "481ed6fd-6e0f-4886-af9b-4f2dff801797",
+        "sessaoId": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "membroId": "f2dd2360-381f-4d16-ab74-aa8ba5671944",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:48.402Z",
+        "dataUltimaAlteracao": "2026-08-12T10:23:25.320Z"
+      },
+      {
+        "id": "48c2d3a3-76da-40c4-9154-d879a8632057",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "7402e56d-a257-4820-a72c-059672a80792",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "49d19899-7a4f-4c29-b9b4-13d256e83f6d",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "4ea21eec-b044-42b9-b568-6a19d62997c2",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:30:17.649Z"
+      },
+      {
+        "id": "4a5b6e0b-6548-43a2-9943-9f7840a300f7",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "90b3cdf9-d65d-4bd1-9086-7ae84e5269a7",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-12T10:26:00.345Z"
+      },
+      {
+        "id": "4abce3e0-bc96-431e-bc7e-1fcfa00da337",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "39e8c18e-e89f-4001-8e95-d4f900712dd1",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-11T17:36:42.417Z"
+      },
+      {
+        "id": "4b03c832-7b76-4ef1-a035-87efbc200d94",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "8dbc04e5-0369-4e05-baf9-c0fb227687c7",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-12T10:24:22.468Z"
+      },
+      {
+        "id": "4b298854-4717-4e94-a911-acd9df067d09",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "6836e126-67c3-4d8c-a996-b32233cd2959",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:30:38.169Z"
+      },
+      {
+        "id": "4b6a8113-65d5-4abc-8877-c0e883e2e726",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "39e8c18e-e89f-4001-8e95-d4f900712dd1",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "4cc2c2a6-588f-428d-9625-2d809decdad3",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "77a97cea-46a3-4f0b-8fab-14862e03514f",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-11T17:34:16.241Z"
+      },
+      {
+        "id": "4d06a55f-8541-4f9a-9417-751c0a903935",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "5898bfca-9a1b-470d-b86b-c2b8dfd05a7f",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "4ec8e910-9c92-4acc-bba5-f93b6b216e94",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "f9316b59-075d-4f1c-854c-d45839d02637",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-12T10:12:20.056Z"
+      },
+      {
+        "id": "50555b19-7190-4d84-aeab-04a7b8af8359",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "ccd534e0-e202-4dca-85d5-5fc3a46b70b6",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-12T10:12:02.032Z"
+      },
+      {
+        "id": "54851101-67d9-4ce3-bdc5-945952d0c48a",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "df382234-7008-4035-ac64-48394280cd4e",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:30:10.209Z"
+      },
+      {
+        "id": "54afd887-70f5-4ebe-ac10-8d233ddd9884",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "39e8c18e-e89f-4001-8e95-d4f900712dd1",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-11T17:34:16.241Z"
+      },
+      {
+        "id": "562d9e3e-1b73-44ec-aec7-bd7a2425dcee",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "bfe9bb3e-8847-48f9-bcac-a25c1e9295b6",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "563add9a-e59b-4623-aab8-c1ccbe7ef0c0",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "1d3657d3-5f54-48ef-98d0-2d2a6cdc59a3",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "56f2b5eb-4161-46ea-bab4-2e1fd3a58177",
+        "sessaoId": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "membroId": "f9316b59-075d-4f1c-854c-d45839d02637",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:48.402Z",
+        "dataUltimaAlteracao": "2026-08-12T10:21:53.440Z"
+      },
+      {
+        "id": "5b7cf0c2-2671-429d-a8f3-9b3f6e0156f8",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "1d3657d3-5f54-48ef-98d0-2d2a6cdc59a3",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-11T17:34:16.241Z"
+      },
+      {
+        "id": "5be78d01-fbcf-4826-8998-89e9cf7ec68c",
+        "sessaoId": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "membroId": "00207b29-393d-479d-a032-e60206767bc4",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:34:48.402Z",
+        "dataUltimaAlteracao": "2026-08-11T17:34:48.402Z"
+      },
+      {
+        "id": "5bf68e79-ab4c-46c3-addf-aadc9065107d",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "93718f0c-236b-45ea-bc03-c6e00740c16b",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-12T10:26:48.297Z"
+      },
+      {
+        "id": "5c72232c-7a9d-41d9-9465-b5c71dde2497",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "240bc1db-8abf-4086-820c-7d2828fc196a",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-11T17:34:16.241Z"
+      },
+      {
+        "id": "5d8e57f4-13b5-4d3a-9aaf-d12e11b58ffb",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "7402e56d-a257-4820-a72c-059672a80792",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:32:47.513Z"
+      },
+      {
+        "id": "60c4dee9-36b6-4aa7-9510-e69f3f137f1f",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "a7e144be-7320-4179-b4d0-3f71c6e9edd9",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "60e352eb-940d-4b5b-bd16-c13fd080fef4",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "1caad501-e3e6-47d0-828d-e6da904f9586",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-11T17:35:46.841Z"
+      },
+      {
+        "id": "62f3c44c-3d4c-4d89-9c51-38acc8f6f668",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "8dbc04e5-0369-4e05-baf9-c0fb227687c7",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-11T17:34:16.241Z"
+      },
+      {
+        "id": "6352fae7-c3aa-49e3-9e60-6898c11f6b0e",
+        "sessaoId": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "membroId": "93718f0c-236b-45ea-bc03-c6e00740c16b",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:48.402Z",
+        "dataUltimaAlteracao": "2026-08-12T10:23:18.761Z"
+      },
+      {
+        "id": "67d4ec6a-6231-4af4-a66b-aadb122b40ff",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "240bc1db-8abf-4086-820c-7d2828fc196a",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-11T17:35:46.841Z"
+      },
+      {
+        "id": "6816422a-ea0e-420c-88d7-0e055db7b8b4",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "c63d5cc6-a0e0-4168-b915-db1157c20497",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-11T17:35:46.841Z"
+      },
+      {
+        "id": "68434ff4-0733-4842-b116-3c885164bafc",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "240bc1db-8abf-4086-820c-7d2828fc196a",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:29:56.377Z"
+      },
+      {
+        "id": "69080413-4cf2-432d-a396-f09a7431be79",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "e3ca2268-dbda-4708-87e2-e90ff219637f",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-11T17:35:46.841Z"
+      },
+      {
+        "id": "69db9b53-3ea7-4cb5-ac80-fb65d6c2ba56",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "f2dd2360-381f-4d16-ab74-aa8ba5671944",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "6f44cd9a-c6e3-41a6-9023-a5a10ae10267",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "39e8c18e-e89f-4001-8e95-d4f900712dd1",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-11T17:35:46.841Z"
+      },
+      {
+        "id": "70deb793-c46a-4356-8c20-27ea366676ad",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "cf45f17b-e806-4559-83fa-816533f247f1",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:32:45.146Z"
+      },
+      {
+        "id": "7269a99d-e2ca-4683-8a81-8728b0f3701d",
+        "sessaoId": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "membroId": "e3ca2268-dbda-4708-87e2-e90ff219637f",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:34:48.402Z",
+        "dataUltimaAlteracao": "2026-08-11T17:34:48.402Z"
+      },
+      {
+        "id": "74b45ed5-06e9-4bcf-8fea-c2c261c1dc7e",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "00207b29-393d-479d-a032-e60206767bc4",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-12T10:27:52.297Z"
+      },
+      {
+        "id": "75b007e8-4c31-4605-ae05-2c59c0ca56e3",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "e22b0631-4c8d-4525-910d-28e86246e479",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-11T17:36:42.417Z"
+      },
+      {
+        "id": "77a85256-d1cb-4645-a5e2-8986a441276c",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "beb29a45-8b23-49fe-882d-410640b80d42",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-12T10:13:32.272Z"
+      },
+      {
+        "id": "78dc226e-5028-4b35-922f-ea646a16bcfe",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "b0c969fb-45ef-43f8-9626-4215e2bbd838",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-11T17:34:16.241Z"
+      },
+      {
+        "id": "7a67d816-3409-4a6d-8149-037dc790b143",
+        "sessaoId": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "membroId": "4ea21eec-b044-42b9-b568-6a19d62997c2",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:48.402Z",
+        "dataUltimaAlteracao": "2026-08-12T10:22:21.520Z"
+      },
+      {
+        "id": "7ab86b29-44bf-4659-a4fe-d1e6b3b89d20",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "b0c969fb-45ef-43f8-9626-4215e2bbd838",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:30:28.193Z"
+      },
+      {
+        "id": "7ae67916-54ea-4f87-9f7e-6e26b62a5359",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "7e6705ce-b9d4-4752-8475-a54b0a245c9d",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "803f5249-94f1-4c42-8470-2e05a0b2c55c",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "a7e144be-7320-4179-b4d0-3f71c6e9edd9",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:32:23.641Z"
+      },
+      {
+        "id": "85434936-fb98-4e4c-92a3-ea526e70f7d7",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "b0c969fb-45ef-43f8-9626-4215e2bbd838",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "8593d2d7-1d34-46ee-ba49-a2c48b700dc8",
+        "sessaoId": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "membroId": "1caad501-e3e6-47d0-828d-e6da904f9586",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:48.402Z",
+        "dataUltimaAlteracao": "2026-08-12T10:21:32.152Z"
+      },
+      {
+        "id": "865bcf22-db33-41d5-83a9-4caeaac15d92",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "ba949bbd-0efa-418c-976e-6d57a8fa7ac1",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-12T10:28:06.145Z"
+      },
+      {
+        "id": "86c2cb4b-cfd5-47b1-bc99-4064adac3a58",
+        "sessaoId": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "membroId": "8dbc04e5-0369-4e05-baf9-c0fb227687c7",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:48.402Z",
+        "dataUltimaAlteracao": "2026-08-12T10:21:14.808Z"
+      },
+      {
+        "id": "8833de55-7d99-4c51-b585-153ca3cd3ee2",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "e22b0631-4c8d-4525-910d-28e86246e479",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-11T17:35:46.841Z"
+      },
+      {
+        "id": "8b69f8f2-4b3c-41f1-8e9b-d40d218b3b8e",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "93718f0c-236b-45ea-bc03-c6e00740c16b",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:31:18.849Z"
+      },
+      {
+        "id": "9007c28b-e1e3-447e-83e1-06ad80b0b6a5",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "beb29a45-8b23-49fe-882d-410640b80d42",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-12T10:25:51.449Z"
+      },
+      {
+        "id": "917b9048-e5bc-4e6b-a6bc-3eaa2ad5a12e",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "f2dd2360-381f-4d16-ab74-aa8ba5671944",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:31:55.842Z"
+      },
+      {
+        "id": "92507620-23bc-419b-bdab-1eb776cda4bf",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "cf45f17b-e806-4559-83fa-816533f247f1",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-12T10:28:08.393Z"
+      },
+      {
+        "id": "9330f4eb-4964-4bbd-a835-8fa316170b58",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "beb29a45-8b23-49fe-882d-410640b80d42",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:30:52.841Z"
+      },
+      {
+        "id": "936f73f9-67f1-475a-bb7f-5ac3313d6c31",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "df2797cc-ebdf-4f77-b3a6-046b42ff3ad8",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:30:47.585Z"
+      },
+      {
+        "id": "96208e66-9a3a-4ff6-b6dc-6519d31026e7",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "4313b298-d493-487e-a720-efece416ee90",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "9b1152a3-fba7-43eb-90a4-23d21d661462",
+        "sessaoId": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "membroId": "5898bfca-9a1b-470d-b86b-c2b8dfd05a7f",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:48.402Z",
+        "dataUltimaAlteracao": "2026-08-12T10:22:59.025Z"
+      },
+      {
+        "id": "9b9dd35f-2e30-4deb-9056-822a003f1030",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "77a97cea-46a3-4f0b-8fab-14862e03514f",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:32:19.161Z"
+      },
+      {
+        "id": "9bcd76f2-1169-4fe1-8009-5eaaf514bd7c",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "bfe9bb3e-8847-48f9-bcac-a25c1e9295b6",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-12T10:13:59.160Z"
+      },
+      {
+        "id": "9bd74e37-4761-4626-aca4-59082770d2ce",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "df382234-7008-4035-ac64-48394280cd4e",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-12T10:12:30.688Z"
+      },
+      {
+        "id": "9c4a9c91-e5c1-447b-bc45-f2e006d0689b",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "021fd214-4b6d-443a-9930-eb57b9c799dd",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-11T17:34:16.241Z"
+      },
+      {
+        "id": "9cd99092-7ac4-44d7-913d-d0bb4f26118b",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "6836e126-67c3-4d8c-a996-b32233cd2959",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "9d5fd43d-89ee-4b57-882c-f3e42c762c55",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "4313b298-d493-487e-a720-efece416ee90",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-11T17:34:16.241Z"
+      },
+      {
+        "id": "9de9a2fb-fdd7-46d2-99a2-fa13ab56091c",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "b1ee8830-9af4-4522-9516-fdb697979f7d",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-11T17:34:16.241Z"
+      },
+      {
+        "id": "a187395e-8237-4a30-9d61-10ef7ac91fbc",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "7a0aec86-08cf-4092-b0e5-993828e96fe8",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "a2eb4716-7d24-4263-ab3a-f7b5b7d5a0ce",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "021fd214-4b6d-443a-9930-eb57b9c799dd",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-11T17:36:42.417Z"
+      },
+      {
+        "id": "a321f522-7762-40df-b601-4b149576bab6",
+        "sessaoId": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "membroId": "ba949bbd-0efa-418c-976e-6d57a8fa7ac1",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:48.402Z",
+        "dataUltimaAlteracao": "2026-08-12T10:24:03.824Z"
+      },
+      {
+        "id": "a35aae80-35db-4299-9cd4-2d03a858b473",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "7a0aec86-08cf-4092-b0e5-993828e96fe8",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-12T10:24:35.017Z"
+      },
+      {
+        "id": "a6c9c5ae-32ec-474a-8047-738d5a5847c9",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "1caad501-e3e6-47d0-828d-e6da904f9586",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:29:27.977Z"
+      },
+      {
+        "id": "ab94bc67-c75f-4b10-96a8-1da2260de84a",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "90b3cdf9-d65d-4bd1-9086-7ae84e5269a7",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "ad1ea6e7-40a6-4245-93ad-0f4bbd9c734c",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "f2dd2360-381f-4d16-ab74-aa8ba5671944",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-12T10:15:01.816Z"
+      },
+      {
+        "id": "af691bd0-c93c-4363-a3f0-46a6709bd2e1",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "59477200-c69d-4acb-a815-bce367fa679c",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:31:42.113Z"
+      },
+      {
+        "id": "b0d14930-bc08-40b1-8018-b15762832d8a",
+        "sessaoId": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "membroId": "7e6705ce-b9d4-4752-8475-a54b0a245c9d",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:48.402Z",
+        "dataUltimaAlteracao": "2026-08-12T10:22:26.273Z"
+      },
+      {
+        "id": "b4053e70-ad3e-4a9e-b363-1d6fdb51548f",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "1caad501-e3e6-47d0-828d-e6da904f9586",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-11T17:34:16.241Z"
+      },
+      {
+        "id": "b803cd9f-f355-4436-9c42-aa4c17055363",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "90b3cdf9-d65d-4bd1-9086-7ae84e5269a7",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:30:57.641Z"
+      },
+      {
+        "id": "b9c35f18-3bb9-4630-8d87-ebcd0e53e8dc",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "7e6705ce-b9d4-4752-8475-a54b0a245c9d",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-12T10:13:01.160Z"
+      },
+      {
+        "id": "c0474d2d-6cb4-4213-922f-4ef4fa6c6b34",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "ba949bbd-0efa-418c-976e-6d57a8fa7ac1",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-12T10:15:59.912Z"
+      },
+      {
+        "id": "c051406f-ce37-429a-b25b-cbe2a7bbb97d",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "b0c969fb-45ef-43f8-9626-4215e2bbd838",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-11T17:35:46.841Z"
+      },
+      {
+        "id": "c086a652-e5c7-4dab-b017-8c7f6fee7e30",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "b1ee8830-9af4-4522-9516-fdb697979f7d",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-11T17:35:46.841Z"
+      },
+      {
+        "id": "c3fbecb2-c910-4a35-b2ba-bfb22854aa95",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "a7e144be-7320-4179-b4d0-3f71c6e9edd9",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-11T17:35:46.841Z"
+      },
+      {
+        "id": "c6902170-c379-477d-acb5-d8c1d2861e1d",
+        "sessaoId": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "membroId": "b1ee8830-9af4-4522-9516-fdb697979f7d",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:48.402Z",
+        "dataUltimaAlteracao": "2026-08-12T10:23:41.937Z"
+      },
+      {
+        "id": "c79ab00c-20ca-475e-b04a-6f74056cffcd",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "31c1bb25-c77f-430f-9459-d9bb3015e1ec",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-11T17:35:46.841Z"
+      },
+      {
+        "id": "c8b19c86-166f-499f-ac93-f8bb36ca4de8",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "bfe9bb3e-8847-48f9-bcac-a25c1e9295b6",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-12T10:26:41.153Z"
+      },
+      {
+        "id": "c8ce2a0f-4cf8-433d-bd62-2bfa73f44183",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "e3ca2268-dbda-4708-87e2-e90ff219637f",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-11T17:36:42.417Z"
+      },
+      {
+        "id": "ca729d4a-c528-4640-9077-9923bd510e40",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "7402e56d-a257-4820-a72c-059672a80792",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-11T17:34:16.241Z"
+      },
+      {
+        "id": "ca9e253f-3b06-4827-9b47-a912ffd1ff99",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "5898bfca-9a1b-470d-b86b-c2b8dfd05a7f",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-12T10:26:26.273Z"
+      },
+      {
+        "id": "cc055792-d047-456a-9799-5aec76706ca0",
+        "sessaoId": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "membroId": "6836e126-67c3-4d8c-a996-b32233cd2959",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:48.402Z",
+        "dataUltimaAlteracao": "2026-08-12T10:22:30.544Z"
+      },
+      {
+        "id": "cc379497-7baa-46a9-babd-0f1f862a70ab",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "59477200-c69d-4acb-a815-bce367fa679c",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-11T17:34:16.241Z"
+      },
+      {
+        "id": "d21e65e1-c697-4c56-88b3-4bc20c1d4dde",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "e3ca2268-dbda-4708-87e2-e90ff219637f",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-11T17:34:16.241Z"
+      },
+      {
+        "id": "d2f37cb4-3830-419d-bb8b-4647bdd716af",
+        "sessaoId": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "membroId": "021fd214-4b6d-443a-9930-eb57b9c799dd",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:34:48.402Z",
+        "dataUltimaAlteracao": "2026-08-11T17:34:48.402Z"
+      },
+      {
+        "id": "d4d198f3-7122-49da-96db-10ac618d229e",
+        "sessaoId": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "membroId": "ccd534e0-e202-4dca-85d5-5fc3a46b70b6",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:48.402Z",
+        "dataUltimaAlteracao": "2026-08-12T10:21:40.224Z"
+      },
+      {
+        "id": "d4d54fe2-b4a8-4fcf-af98-b9bcb2b6615f",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "c63d5cc6-a0e0-4168-b915-db1157c20497",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-11T17:34:16.241Z"
+      },
+      {
+        "id": "d6230154-36b2-44f0-9fd9-40e599a356ba",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "5898bfca-9a1b-470d-b86b-c2b8dfd05a7f",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-12T10:13:51.176Z"
+      },
+      {
+        "id": "d6a9c9fd-73d3-4346-ab57-7dea60da3c75",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "df2797cc-ebdf-4f77-b3a6-046b42ff3ad8",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "dc2741e9-bfbc-4a15-b5ab-dd02c6eb1722",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "c63d5cc6-a0e0-4168-b915-db1157c20497",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:29:36.089Z"
+      },
+      {
+        "id": "df637c7c-fd86-4a47-8bcf-69ce88bd6ee6",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "e22b0631-4c8d-4525-910d-28e86246e479",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-11T17:34:16.241Z"
+      },
+      {
+        "id": "e0795e26-9a20-45f9-bdf6-827d3b941863",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "ccd534e0-e202-4dca-85d5-5fc3a46b70b6",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:29:32.761Z"
+      },
+      {
+        "id": "e1993ba8-6ff2-4da5-82fc-f0aabcf6ffe7",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "31c1bb25-c77f-430f-9459-d9bb3015e1ec",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-11T17:34:16.241Z"
+      },
+      {
+        "id": "e498c251-ee89-4cee-92e4-87e22527dbac",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "6836e126-67c3-4d8c-a996-b32233cd2959",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-12T10:25:35.297Z"
+      },
+      {
+        "id": "e4c47b84-8c96-4264-bfe9-6d6163ac53b5",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "f9316b59-075d-4f1c-854c-d45839d02637",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "e5865688-8340-41bb-9479-895cde1f2d67",
+        "sessaoId": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "membroId": "a7e144be-7320-4179-b4d0-3f71c6e9edd9",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:48.402Z",
+        "dataUltimaAlteracao": "2026-08-12T10:23:46.945Z"
+      },
+      {
+        "id": "e5ba0dd0-62e3-487f-a7a1-f31dd725837b",
+        "sessaoId": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "membroId": "cf45f17b-e806-4559-83fa-816533f247f1",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:48.402Z",
+        "dataUltimaAlteracao": "2026-08-12T10:23:56.649Z"
+      },
+      {
+        "id": "e6b0eabe-f9af-4a07-84df-bd8fbd59c266",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "59477200-c69d-4acb-a815-bce367fa679c",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "e6bb0b97-e5de-4cce-817a-5bdf5ff86372",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "cf45f17b-e806-4559-83fa-816533f247f1",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "eac9c4c7-e44b-4d98-a517-dd45b76e45c9",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "cf45f17b-e806-4559-83fa-816533f247f1",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-12T10:15:51.336Z"
+      },
+      {
+        "id": "eadbbe9f-c916-4811-8460-5ff8e4a412ac",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "e22b0631-4c8d-4525-910d-28e86246e479",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "eb3893d8-af8f-4f70-acd6-e286e9c882d9",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "df382234-7008-4035-ac64-48394280cd4e",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-12T10:24:56.128Z"
+      },
+      {
+        "id": "eb45a9a4-e3c9-4085-bed8-4110cb6a0d5c",
+        "sessaoId": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "membroId": "7a0aec86-08cf-4092-b0e5-993828e96fe8",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:34:48.402Z",
+        "dataUltimaAlteracao": "2026-08-11T17:34:48.402Z"
+      },
+      {
+        "id": "eecd31d3-1c8b-4024-9aba-e544890deeed",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "240bc1db-8abf-4086-820c-7d2828fc196a",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "f078d20d-35ca-44d6-a533-d47095ee49ed",
+        "sessaoId": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "membroId": "df2797cc-ebdf-4f77-b3a6-046b42ff3ad8",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:48.402Z",
+        "dataUltimaAlteracao": "2026-08-12T10:22:37.312Z"
+      },
+      {
+        "id": "f13cd28f-4653-46f4-ab62-a77619e7c4e7",
+        "sessaoId": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "membroId": "39e8c18e-e89f-4001-8e95-d4f900712dd1",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:34:48.402Z",
+        "dataUltimaAlteracao": "2026-08-11T17:34:48.402Z"
+      },
+      {
+        "id": "f202fcf5-38ac-49fe-a2d5-9d2ba3a1b09f",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "ba949bbd-0efa-418c-976e-6d57a8fa7ac1",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "f230a498-539e-464f-9910-8eee65cf35cc",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "c63d5cc6-a0e0-4168-b915-db1157c20497",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "f56ff162-a663-4cd0-b87c-3b7e453d0aee",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "7e6705ce-b9d4-4752-8475-a54b0a245c9d",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:30:04.209Z"
+      },
+      {
+        "id": "f701b2db-1b87-49ff-9446-fb3a95b8f768",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "4ea21eec-b044-42b9-b568-6a19d62997c2",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-12T10:25:15.041Z"
+      },
+      {
+        "id": "f7699023-4af5-49b9-bb22-e2b7e676f01b",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "b1ee8830-9af4-4522-9516-fdb697979f7d",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "f882f356-30da-4493-8329-43ea3194797c",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "7a0aec86-08cf-4092-b0e5-993828e96fe8",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-11T17:36:42.417Z"
+      },
+      {
+        "id": "f89363d4-19a7-43d6-af59-c2f93e089d37",
+        "sessaoId": "e0ff86e3-1234-4894-859f-227a42d6fb3d",
+        "membroId": "df382234-7008-4035-ac64-48394280cd4e",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:48.402Z",
+        "dataUltimaAlteracao": "2026-08-12T10:22:13.472Z"
+      },
+      {
+        "id": "f9cb3cee-5b2c-41fe-848d-17ee37117308",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "00207b29-393d-479d-a032-e60206767bc4",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-12T10:15:38.322Z"
+      },
+      {
+        "id": "fb6e7811-e531-4950-925f-9bdac8c11715",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "8dbc04e5-0369-4e05-baf9-c0fb227687c7",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:28:52.257Z"
+      },
+      {
+        "id": "fb996656-8d09-4bc9-816b-2fa838ae16c3",
+        "sessaoId": "75604477-2415-48a7-a604-79c92acdc0c1",
+        "membroId": "00207b29-393d-479d-a032-e60206767bc4",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:36:42.417Z",
+        "dataUltimaAlteracao": "2026-08-12T10:32:28.913Z"
+      },
+      {
+        "id": "fd67dc31-6159-470c-a858-b7d5a2e5402d",
+        "sessaoId": "4245b9da-fd24-49a9-89fe-9a4911393d34",
+        "membroId": "93718f0c-236b-45ea-bc03-c6e00740c16b",
+        "presente": false,
+        "dataCadastro": "2026-08-11T17:38:47.953Z",
+        "dataUltimaAlteracao": "2026-08-11T17:38:47.953Z"
+      },
+      {
+        "id": "fd9b8e42-83ea-4395-b11a-3965789ed9db",
+        "sessaoId": "dd6ccd0c-6018-4e8c-a742-dbdf09ba876b",
+        "membroId": "df2797cc-ebdf-4f77-b3a6-046b42ff3ad8",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:35:46.841Z",
+        "dataUltimaAlteracao": "2026-08-12T10:25:39.545Z"
+      },
+      {
+        "id": "ffd790c5-a830-4630-ad9c-a6e2e5000967",
+        "sessaoId": "421843c4-6392-432a-89ec-6745e7791745",
+        "membroId": "df2797cc-ebdf-4f77-b3a6-046b42ff3ad8",
+        "presente": true,
+        "dataCadastro": "2026-08-11T17:34:16.241Z",
+        "dataUltimaAlteracao": "2026-08-12T10:13:21.416Z"
+      }
+    ],
+    "historicoGraus": [
+      {
+        "id": "047225be-1589-44ca-9513-8617c3445070",
+        "membroId": "4313b298-d493-487e-a720-efece416ee90",
+        "grau": 9,
+        "dataInicio": "2026-08-12",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:48:51.197Z",
+        "dataUltimaAlteracao": "2026-08-11T16:48:51.197Z"
+      },
+      {
+        "id": "0b2eb632-1039-4eb0-bc8f-bb96f237b982",
+        "membroId": "bfe9bb3e-8847-48f9-bcac-a25c1e9295b6",
+        "grau": 15,
+        "dataInicio": "2026-03-11",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:50:17.718Z",
+        "dataUltimaAlteracao": "2026-08-11T16:50:17.718Z"
+      },
+      {
+        "id": "0e0a3bdd-863b-44fc-85f9-8c40a719b926",
+        "membroId": "90b3cdf9-d65d-4bd1-9086-7ae84e5269a7",
+        "grau": 33,
+        "dataInicio": "2026-08-11",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:48:18.277Z",
+        "dataUltimaAlteracao": "2026-08-11T16:48:18.277Z"
+      },
+      {
+        "id": "14d03293-9277-49de-bfb7-d5d6311e3290",
+        "membroId": "7402e56d-a257-4820-a72c-059672a80792",
+        "grau": 4,
+        "dataInicio": "2026-05-11",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:57:28.598Z",
+        "dataUltimaAlteracao": "2026-08-11T16:57:28.598Z"
+      },
+      {
+        "id": "192059d5-9429-4f63-8b96-7c866079625a",
+        "membroId": "6e2b604b-df8f-4016-8c6e-979187fa3489",
+        "grau": 33,
+        "dataInicio": "2026-08-11",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:03:40.075Z",
+        "dataUltimaAlteracao": "2026-08-11T16:03:40.075Z"
+      },
+      {
+        "id": "1e144643-f4f7-442e-a705-bb68e081bc2a",
+        "membroId": "1caad501-e3e6-47d0-828d-e6da904f9586",
+        "grau": 32,
+        "dataInicio": "2026-08-11",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:41:00.990Z",
+        "dataUltimaAlteracao": "2026-08-11T16:41:00.990Z"
+      },
+      {
+        "id": "1fb91797-d772-465c-945a-7c85e8d8f94c",
+        "membroId": "031f87cc-ff5c-418e-af88-001011d74c25",
+        "grau": 9,
+        "dataInicio": "2025-10-08",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-12T10:17:17.475Z",
+        "dataUltimaAlteracao": "2026-08-12T10:17:17.475Z"
+      },
+      {
+        "id": "2a334563-6100-4c9d-84ed-8d199e8ffc5a",
+        "membroId": "cf45f17b-e806-4559-83fa-816533f247f1",
+        "grau": 32,
+        "dataInicio": "2026-08-11",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:57:01.406Z",
+        "dataUltimaAlteracao": "2026-08-11T16:57:01.406Z"
+      },
+      {
+        "id": "2cc4c7e2-d9a4-40a9-8c9a-bceb63d9d4a7",
+        "membroId": "8dbc04e5-0369-4e05-baf9-c0fb227687c7",
+        "grau": 33,
+        "dataInicio": "2026-08-11",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:31:55.181Z",
+        "dataUltimaAlteracao": "2026-08-11T16:31:55.181Z"
+      },
+      {
+        "id": "2da2898d-b7e4-4400-bd51-4e943cc49747",
+        "membroId": "1d3657d3-5f54-48ef-98d0-2d2a6cdc59a3",
+        "grau": 33,
+        "dataInicio": "2026-08-11",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:39:11.270Z",
+        "dataUltimaAlteracao": "2026-08-11T16:39:11.270Z"
+      },
+      {
+        "id": "3474a20e-84c7-431e-8fee-4b4d4ad329cc",
+        "membroId": "a7e144be-7320-4179-b4d0-3f71c6e9edd9",
+        "grau": 18,
+        "dataInicio": "2025-12-10",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:55:00.110Z",
+        "dataUltimaAlteracao": "2026-08-11T17:30:57.112Z"
+      },
+      {
+        "id": "3b4d243f-b796-4b55-a780-545921f92ac8",
+        "membroId": "df2797cc-ebdf-4f77-b3a6-046b42ff3ad8",
+        "grau": 32,
+        "dataInicio": "2026-08-11",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:47:16.573Z",
+        "dataUltimaAlteracao": "2026-08-11T16:47:16.573Z"
+      },
+      {
+        "id": "3e47a1f7-9c05-4621-9508-9795f7c8683a",
+        "membroId": "021fd214-4b6d-443a-9930-eb57b9c799dd",
+        "grau": 33,
+        "dataInicio": "2026-08-11",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:53:26.838Z",
+        "dataUltimaAlteracao": "2026-08-11T16:53:26.838Z"
+      },
+      {
+        "id": "41e5e9f4-c12c-4fc8-b820-4e5860130378",
+        "membroId": "59477200-c69d-4acb-a815-bce367fa679c",
+        "grau": 9,
+        "dataInicio": "2026-08-12",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:52:16.702Z",
+        "dataUltimaAlteracao": "2026-08-11T16:52:16.702Z"
+      },
+      {
+        "id": "48297349-113d-43c6-88d4-6a5effed51ba",
+        "membroId": "f2dd2360-381f-4d16-ab74-aa8ba5671944",
+        "grau": 33,
+        "dataInicio": "2026-08-11",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:52:49.670Z",
+        "dataUltimaAlteracao": "2026-08-11T16:52:49.670Z"
+      },
+      {
+        "id": "4d673c93-fe1c-42e7-8dd8-69b248567d1a",
+        "membroId": "b0c969fb-45ef-43f8-9626-4215e2bbd838",
+        "grau": 4,
+        "dataInicio": "2026-05-13",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:45:27.757Z",
+        "dataUltimaAlteracao": "2026-08-11T16:45:27.757Z"
+      },
+      {
+        "id": "4f4e4091-2061-4ab2-a57a-90c3a1f4a595",
+        "membroId": "c63d5cc6-a0e0-4168-b915-db1157c20497",
+        "grau": 32,
+        "dataInicio": "2026-08-11",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:42:07.277Z",
+        "dataUltimaAlteracao": "2026-08-11T16:42:07.277Z"
+      },
+      {
+        "id": "5271e2e0-6e51-4233-bf2a-33b80dce0dc4",
+        "membroId": "39e8c18e-e89f-4001-8e95-d4f900712dd1",
+        "grau": 33,
+        "dataInicio": "2026-08-11",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:56:02.590Z",
+        "dataUltimaAlteracao": "2026-08-11T16:56:02.590Z"
+      },
+      {
+        "id": "60a72852-5255-406f-8e84-d6d65cf3e420",
+        "membroId": "4ea21eec-b044-42b9-b568-6a19d62997c2",
+        "grau": 28,
+        "dataInicio": "2026-08-11",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:44:49.653Z",
+        "dataUltimaAlteracao": "2026-08-11T16:44:49.653Z"
+      },
+      {
+        "id": "77dbd5c1-96ac-4cf1-be08-8083f380067e",
+        "membroId": "7e6705ce-b9d4-4752-8475-a54b0a245c9d",
+        "grau": 30,
+        "dataInicio": "2026-03-12",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:46:05.341Z",
+        "dataUltimaAlteracao": "2026-08-11T16:46:05.341Z"
+      },
+      {
+        "id": "7d7cbb6d-82b2-4fe8-a978-e01af3b0c3fb",
+        "membroId": "b1ee8830-9af4-4522-9516-fdb697979f7d",
+        "grau": 18,
+        "dataInicio": "2025-12-10",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:53:55.054Z",
+        "dataUltimaAlteracao": "2026-08-11T17:30:45.000Z"
+      },
+      {
+        "id": "7f4580d0-0efe-418b-8d5e-9290487cad04",
+        "membroId": "ba949bbd-0efa-418c-976e-6d57a8fa7ac1",
+        "grau": 18,
+        "dataInicio": "2025-12-10",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:58:52.574Z",
+        "dataUltimaAlteracao": "2026-08-11T16:58:52.574Z"
+      },
+      {
+        "id": "8bf83b05-6a7c-4062-b1ea-870a436cfdbc",
+        "membroId": "e22b0631-4c8d-4525-910d-28e86246e479",
+        "grau": 9,
+        "dataInicio": "2024-12-11",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:56:36.686Z",
+        "dataUltimaAlteracao": "2026-08-11T16:56:36.686Z"
+      },
+      {
+        "id": "8db027dd-eddf-48ae-82a4-e7486bf9586c",
+        "membroId": "31c1bb25-c77f-430f-9459-d9bb3015e1ec",
+        "grau": 4,
+        "dataInicio": "2026-05-13",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:51:08.278Z",
+        "dataUltimaAlteracao": "2026-08-11T16:51:08.278Z"
+      },
+      {
+        "id": "a63b26d3-e256-45b1-b4bc-5a8f500f6502",
+        "membroId": "ccd534e0-e202-4dca-85d5-5fc3a46b70b6",
+        "grau": 33,
+        "dataInicio": "2026-08-11",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:41:38.085Z",
+        "dataUltimaAlteracao": "2026-08-11T16:41:38.085Z"
+      },
+      {
+        "id": "b1287351-e7aa-46af-aee7-8e3a0e60e618",
+        "membroId": "7a0aec86-08cf-4092-b0e5-993828e96fe8",
+        "grau": 33,
+        "dataInicio": "2026-08-11",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:40:25.957Z",
+        "dataUltimaAlteracao": "2026-08-11T16:40:25.957Z"
+      },
+      {
+        "id": "b25cec87-f911-4c79-a8eb-3584faa41545",
+        "membroId": "6836e126-67c3-4d8c-a996-b32233cd2959",
+        "grau": 33,
+        "dataInicio": "2026-08-11",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:46:39.310Z",
+        "dataUltimaAlteracao": "2026-08-11T16:46:39.310Z"
+      },
+      {
+        "id": "b266e5bb-da2f-43c8-8685-486efd2a4689",
+        "membroId": "240bc1db-8abf-4086-820c-7d2828fc196a",
+        "grau": 4,
+        "dataInicio": "2026-05-13",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:43:46.477Z",
+        "dataUltimaAlteracao": "2026-08-11T16:43:46.477Z"
+      },
+      {
+        "id": "bea3102e-d56c-4e04-b207-48c31a574000",
+        "membroId": "60f90f4c-27ef-4d22-9a58-111387f45137",
+        "grau": 15,
+        "dataInicio": "2026-05-13",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-10T13:55:00.749Z",
+        "dataUltimaAlteracao": "2026-08-10T13:55:00.749Z"
+      },
+      {
+        "id": "bf697021-12ec-42b8-b8c2-594940bd19da",
+        "membroId": "f9316b59-075d-4f1c-854c-d45839d02637",
+        "grau": 30,
+        "dataInicio": "2026-03-12",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:42:47.277Z",
+        "dataUltimaAlteracao": "2026-08-11T16:42:47.277Z"
+      },
+      {
+        "id": "c48cfca8-5b36-447d-b668-80c690adff34",
+        "membroId": "865e13f3-95d3-4062-9777-a276f7468c24",
+        "grau": 33,
+        "dataInicio": "2026-08-11",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:02:37.212Z",
+        "dataUltimaAlteracao": "2026-08-11T16:02:37.212Z"
+      },
+      {
+        "id": "c5586551-05ce-4522-b8ac-598541a1d918",
+        "membroId": "e3ca2268-dbda-4708-87e2-e90ff219637f",
+        "grau": 18,
+        "dataInicio": "2026-08-11",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:39:43.444Z",
+        "dataUltimaAlteracao": "2026-08-11T16:39:43.444Z"
+      },
+      {
+        "id": "cd3dfdcc-fe69-46fe-98cc-a33ce3b0136d",
+        "membroId": "77a97cea-46a3-4f0b-8fab-14862e03514f",
+        "grau": 9,
+        "dataInicio": "2026-08-12",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:54:27.406Z",
+        "dataUltimaAlteracao": "2026-08-11T16:54:27.406Z"
+      },
+      {
+        "id": "d4f62c5c-83cb-4747-9e5f-5e2667c024bd",
+        "membroId": "5898bfca-9a1b-470d-b86b-c2b8dfd05a7f",
+        "grau": 32,
+        "dataInicio": "2026-08-11",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:49:24.837Z",
+        "dataUltimaAlteracao": "2026-08-11T16:49:24.837Z"
+      },
+      {
+        "id": "db0f03c6-7d66-4b3b-b223-42e0b607068e",
+        "membroId": "00207b29-393d-479d-a032-e60206767bc4",
+        "grau": 32,
+        "dataInicio": "2026-08-11",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:55:31.422Z",
+        "dataUltimaAlteracao": "2026-08-11T16:55:31.422Z"
+      },
+      {
+        "id": "e3a98a27-145a-4f2b-b22f-b4c7c5cf346d",
+        "membroId": "60f90f4c-27ef-4d22-9a58-111387f45137",
+        "grau": 12,
+        "dataInicio": "2027-02-10",
+        "dataFim": "2026-05-12",
+        "observacoes": "",
+        "dataCadastro": "2026-08-10T13:54:34.880Z",
+        "dataUltimaAlteracao": "2026-08-10T13:55:00.749Z"
+      },
+      {
+        "id": "f51ce311-bbdc-4abf-a6d9-9fa0eb5bf270",
+        "membroId": "beb29a45-8b23-49fe-882d-410640b80d42",
+        "grau": 32,
+        "dataInicio": "2026-08-11",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:47:50.669Z",
+        "dataUltimaAlteracao": "2026-08-11T16:47:50.669Z"
+      },
+      {
+        "id": "f84a5409-b63a-4013-b8c8-78098fbe5d3b",
+        "membroId": "df382234-7008-4035-ac64-48394280cd4e",
+        "grau": 18,
+        "dataInicio": "2025-12-11",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:44:21.709Z",
+        "dataUltimaAlteracao": "2026-08-11T17:27:44.161Z"
+      },
+      {
+        "id": "f90e075e-6542-4877-96f9-1a8cbf355faa",
+        "membroId": "93718f0c-236b-45ea-bc03-c6e00740c16b",
+        "grau": 33,
+        "dataInicio": "2026-08-11",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-11T16:51:34.869Z",
+        "dataUltimaAlteracao": "2026-08-11T16:51:34.869Z"
+      },
+      {
+        "id": "fffb05ca-8d11-4d9a-b7ee-ea8e695aa0b0",
+        "membroId": "967baea7-b9dd-4df4-ad29-e047e7afab1e",
+        "grau": 33,
+        "dataInicio": "2026-08-09",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-09T18:58:49.802Z",
+        "dataUltimaAlteracao": "2026-08-09T18:58:49.802Z"
+      }
+    ]
+  }
+}
