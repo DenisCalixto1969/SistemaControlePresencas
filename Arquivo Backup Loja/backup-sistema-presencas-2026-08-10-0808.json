@@ -1,0 +1,34 @@
+{
+  "sistema": "Sistema Controle Presenças",
+  "versaoBackup": 1,
+  "dataBackup": "2026-08-10T11:08:24.581Z",
+  "dados": {
+    "membros": [
+      {
+        "id": "3ac1ba85-27df-4969-b4f1-65c88d8faab1",
+        "nome": "teste secretaria",
+        "grau": 30,
+        "cir": "",
+        "cim": "",
+        "observacoes": "",
+        "ativo": true,
+        "dataCadastro": "2026-08-10T11:06:32.557Z",
+        "dataUltimaAlteracao": "2026-08-10T11:06:32.557Z"
+      }
+    ],
+    "sessoes": [],
+    "presencas": [],
+    "historicoGraus": [
+      {
+        "id": "b8dbe0b2-0610-4b18-85a1-48489f378176",
+        "membroId": "3ac1ba85-27df-4969-b4f1-65c88d8faab1",
+        "grau": 30,
+        "dataInicio": "2026-08-10",
+        "dataFim": null,
+        "observacoes": "",
+        "dataCadastro": "2026-08-10T11:06:32.560Z",
+        "dataUltimaAlteracao": "2026-08-10T11:06:32.560Z"
+      }
+    ]
+  }
+}
