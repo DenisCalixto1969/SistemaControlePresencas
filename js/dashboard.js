@@ -852,10 +852,13 @@ async function carregarUltimasSessoes() {
                                     </span>
 
                                     <span>
-                                        Grau ${escaparHTML(
-                                            sessao.grau
-                                        )}
-                                    </span>
+                               ${
+                            Number(sessao.grau) === 0 ||
+                          sessao.tipo === "Não Houve Sessão"
+                           ? "—"
+                          : `Grau ${escaparHTML(sessao.grau)}`
+                             }
+                             </span>
                                 </div>
 
                                 <div class="dashboard-sessao-presencas">
@@ -864,7 +867,7 @@ async function carregarUltimasSessoes() {
                                     </strong>
 
                                     <span>
-                                        de ${totalAptos} presentes
+                                  presentes de ${totalAptos} permitidos
                                     </span>
                                 </div>
 
