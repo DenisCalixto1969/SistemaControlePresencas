@@ -1315,13 +1315,14 @@ if (percentual >= 75) {
                 <small>${escaparHTML(diaSemana)}</small>
             </div>
 
-           <span data-rotulo="Grau">
-    ${
+          <span data-rotulo="Grau">
+          ${
+        sessao.tipo === "Não Houve Sessão" ||
         Number(sessao.grau) === 0
             ? "—"
             : escaparHTML(sessao.grau)
-    }
-</span>
+           }
+        </span>
             <span data-rotulo="Tipo">
                 ${escaparHTML(sessao.tipo)}
             </span>

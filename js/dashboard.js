@@ -445,13 +445,22 @@ async function carregarIndicadores() {
                             item.frequencia.percentual
                     )
                 );
-
-            const melhores =
-                membrosComSessoes.filter(
-                    (item) =>
-                        item.frequencia.percentual ===
-                        maiorPercentual
-                );
+    const melhores =
+    membrosComSessoes
+        .filter(
+            (item) =>
+                item.frequencia.percentual ===
+                maiorPercentual
+        )
+        .sort((a, b) =>
+            a.membro.nome.localeCompare(
+                b.membro.nome,
+                "pt-BR",
+                {
+                    sensitivity: "base"
+                }
+            )
+        );
 
 const elementoAbaixo50 =
     document.getElementById(
