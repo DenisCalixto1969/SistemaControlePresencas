@@ -1,51 +1,17 @@
 "use strict";
 
 let conexaoBanco = null;
+async function abrirBanco() {
+    const sessao = await obterSessaoAtual();
 
-function abrirBanco() {
-    return new Promise((resolve, reject) => {
-        if (conexaoBanco) {
-            resolve(conexaoBanco);
-            return;
-        }
-
-        const requisicao = indexedDB.open(
-            CONFIG.banco.nome,
-            CONFIG.banco.versao
+    if (!sessao) {
+        throw new Error(
+            "Usuário não autenticado."
         );
+    }
 
-        requisicao.onupgradeneeded = (evento) => {
-    const banco = evento.target.result;
-    const transacao = evento.target.transaction;
-
-    criarTabelaMembros(banco);
-    criarTabelaSessoes(banco, transacao);
-    criarTabelaPresencas(banco);
-    criarTabelaHistoricoGraus(banco);
-
-};
-
-        requisicao.onsuccess = (evento) => {
-            conexaoBanco = evento.target.result;
-
-            conexaoBanco.onversionchange = () => {
-                conexaoBanco.close();
-                conexaoBanco = null;
-            };
-
-            resolve(conexaoBanco);
-        };
-
-        requisicao.onerror = () => {
-            reject(
-                new Error(
-                    `Não foi possível abrir o banco: ${requisicao.error}`
-                )
-            );
-        };
-    });
+    return true;
 }
-
 function criarTabelaMembros(banco) {
     if (banco.objectStoreNames.contains("membros")) {
         return;
@@ -445,67 +411,20 @@ async function adicionarSessaoComPresencas(
 
 
 async function excluirSessaoComPresencas(sessaoId) {
-    const banco = await abrirBanco();
+    const { error } =
+        await clienteSupabase
+            .from("sessoes")
+            .delete()
+            .eq("id", sessaoId);
 
-    return new Promise((resolve, reject) => {
-        const transacao = banco.transaction(
-            ["sessoes", "presencas"],
-            "readwrite"
+    if (error) {
+        throw new Error(
+            `Não foi possível excluir a sessão: ${error.message}`
         );
+    }
 
-        const tabelaSessoes = transacao.objectStore("sessoes");
-        const tabelaPresencas = transacao.objectStore("presencas");
-
-        const indiceSessao = tabelaPresencas.index("sessaoId");
-
-        const intervalo = IDBKeyRange.only(sessaoId);
-
-        const requisicaoCursor = indiceSessao.openCursor(intervalo);
-
-        requisicaoCursor.onsuccess = () => {
-            const cursor = requisicaoCursor.result;
-
-            if (cursor) {
-                cursor.delete();
-                cursor.continue();
-                return;
-            }
-
-            tabelaSessoes.delete(sessaoId);
-        };
-
-        requisicaoCursor.onerror = () => {
-            transacao.abort();
-        };
-
-        transacao.oncomplete = () => {
-            resolve(true);
-        };
-
-        transacao.onerror = () => {
-            reject(
-                new Error(
-                    `Não foi possível excluir a sessão: ${
-                        transacao.error?.message ||
-                        "erro desconhecido"
-                    }`
-                )
-            );
-        };
-
-        transacao.onabort = () => {
-            reject(
-                new Error(
-                    `A exclusão foi cancelada: ${
-                        transacao.error?.message ||
-                        "erro desconhecido"
-                    }`
-                )
-            );
-        };
-    });
+    return true;
 }
-
 
 async function restaurarDadosBackup(dadosBackup) {
     const banco = await abrirBanco();
