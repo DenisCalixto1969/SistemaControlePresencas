@@ -174,161 +174,194 @@ function criarTabelaHistoricoGraus(banco) {
     );
 }
 
+function converterRegistroParaSupabase(registro) {
+    const convertido = {};
 
-async function adicionarRegistro(nomeTabela, registro) {
-    const banco = await abrirBanco();
+    Object.entries(registro).forEach(
+        ([chave, valor]) => {
+            const novaChave = chave
+                .replace("sessaoId", "sessao_id")
+                .replace("membroId", "membro_id")
+                .replace("dataInicio", "data_inicio")
+                .replace("dataFim", "data_fim")
+                .replace("dataCadastro", "data_cadastro")
+                .replace(
+                    "dataUltimaAlteracao",
+                    "data_ultima_alteracao"
+                );
 
-    return new Promise((resolve, reject) => {
-        const transacao = banco.transaction(
-            nomeTabela,
-            "readwrite"
-        );
+            convertido[novaChave] = valor;
+        }
+    );
 
-        const tabela = transacao.objectStore(nomeTabela);
-        const requisicao = tabela.add(registro);
-
-        requisicao.onsuccess = () => {
-            resolve(registro);
-        };
-
-        requisicao.onerror = () => {
-            reject(
-                new Error(
-                    `Não foi possível adicionar o registro: ${requisicao.error}`
-                )
-            );
-        };
-    });
+    return convertido;
 }
 
-async function atualizarRegistro(nomeTabela, registro) {
-    const banco = await abrirBanco();
+function converterRegistroDoSupabase(registro) {
+    const convertido = {};
 
-    return new Promise((resolve, reject) => {
-        const transacao = banco.transaction(
-            nomeTabela,
-            "readwrite"
+    Object.entries(registro).forEach(
+        ([chave, valor]) => {
+            const novaChave = chave
+                .replace("sessao_id", "sessaoId")
+                .replace("membro_id", "membroId")
+                .replace("data_inicio", "dataInicio")
+                .replace("data_fim", "dataFim")
+                .replace("data_cadastro", "dataCadastro")
+                .replace(
+                    "data_ultima_alteracao",
+                    "dataUltimaAlteracao"
+                );
+
+            convertido[novaChave] = valor;
+        }
+    );
+
+    return convertido;
+}
+
+
+async function adicionarRegistro(
+    nomeTabela,
+    registro
+) {
+    const nomeTabelaSupabase =
+        nomeTabela === "historicoGraus"
+            ? "historico_graus"
+            : nomeTabela;
+
+    const registroSupabase =
+        converterRegistroParaSupabase(registro);
+
+    const { error } =
+        await clienteSupabase
+            .from(nomeTabelaSupabase)
+            .insert(registroSupabase);
+
+    if (error) {
+        throw new Error(
+            `Não foi possível adicionar o registro: ${error.message}`
         );
+    }
 
-        const tabela = transacao.objectStore(nomeTabela);
-        const requisicao = tabela.put(registro);
+    return registro;
+}
+async function atualizarRegistro(
+    nomeTabela,
+    registro
+) {
+    const nomeTabelaSupabase =
+        nomeTabela === "historicoGraus"
+            ? "historico_graus"
+            : nomeTabela;
 
-        requisicao.onsuccess = () => {
-            resolve(registro);
-        };
+    const registroSupabase =
+        converterRegistroParaSupabase(registro);
 
-        requisicao.onerror = () => {
-            reject(
-                new Error(
-                    `Não foi possível atualizar o registro: ${requisicao.error}`
-                )
-            );
-        };
-    });
+    const { error } =
+        await clienteSupabase
+            .from(nomeTabelaSupabase)
+            .update(registroSupabase)
+            .eq("id", registro.id);
+
+    if (error) {
+        throw new Error(
+            `Não foi possível atualizar o registro: ${error.message}`
+        );
+    }
+
+    return registro;
 }
 
 async function buscarRegistroPorId(nomeTabela, id) {
-    const banco = await abrirBanco();
+    const nomeTabelaSupabase =
+        nomeTabela === "historicoGraus"
+            ? "historico_graus"
+            : nomeTabela;
 
-    return new Promise((resolve, reject) => {
-        const transacao = banco.transaction(
-            nomeTabela,
-            "readonly"
+    const { data, error } =
+        await clienteSupabase
+            .from(nomeTabelaSupabase)
+            .select("*")
+            .eq("id", id)
+            .maybeSingle();
+
+    if (error) {
+        throw new Error(
+            `Não foi possível localizar o registro: ${error.message}`
         );
+    }
 
-        const tabela = transacao.objectStore(nomeTabela);
-        const requisicao = tabela.get(id);
-
-        requisicao.onsuccess = () => {
-            resolve(requisicao.result || null);
-        };
-
-        requisicao.onerror = () => {
-            reject(
-                new Error(
-                    `Não foi possível localizar o registro: ${requisicao.error}`
-                )
-            );
-        };
-    });
+   return data
+    ? converterRegistroDoSupabase(data)
+    : null;
 }
 
 async function listarRegistros(nomeTabela) {
-    const banco = await abrirBanco();
+    const nomeTabelaSupabase =
+        nomeTabela === "historicoGraus"
+            ? "historico_graus"
+            : nomeTabela;
 
-    return new Promise((resolve, reject) => {
-        const transacao = banco.transaction(
-            nomeTabela,
-            "readonly"
+    const { data, error } =
+        await clienteSupabase
+            .from(nomeTabelaSupabase)
+            .select("*");
+
+    if (error) {
+        throw new Error(
+            `Não foi possível listar os registros: ${error.message}`
         );
+    }
 
-        const tabela = transacao.objectStore(nomeTabela);
-        const requisicao = tabela.getAll();
+return (data || []).map(
+    converterRegistroDoSupabase
+);
 
-        requisicao.onsuccess = () => {
-            resolve(requisicao.result);
-        };
-
-        requisicao.onerror = () => {
-            reject(
-                new Error(
-                    `Não foi possível listar os registros: ${requisicao.error}`
-                )
-            );
-        };
-    });
 }
 
 async function excluirRegistro(nomeTabela, id) {
-    const banco = await abrirBanco();
+    const nomeTabelaSupabase =
+        nomeTabela === "historicoGraus"
+            ? "historico_graus"
+            : nomeTabela;
 
-    return new Promise((resolve, reject) => {
-        const transacao = banco.transaction(
-            nomeTabela,
-            "readwrite"
+    const { error } =
+        await clienteSupabase
+            .from(nomeTabelaSupabase)
+            .delete()
+            .eq("id", id);
+
+    if (error) {
+        throw new Error(
+            `Não foi possível excluir o registro: ${error.message}`
         );
+    }
 
-        const tabela = transacao.objectStore(nomeTabela);
-        const requisicao = tabela.delete(id);
-
-        requisicao.onsuccess = () => {
-            resolve(true);
-        };
-
-        requisicao.onerror = () => {
-            reject(
-                new Error(
-                    `Não foi possível excluir o registro: ${requisicao.error}`
-                )
-            );
-        };
-    });
+    return true;
 }
 
 async function contarRegistros(nomeTabela) {
-    const banco = await abrirBanco();
+    const nomeTabelaSupabase =
+        nomeTabela === "historicoGraus"
+            ? "historico_graus"
+            : nomeTabela;
 
-    return new Promise((resolve, reject) => {
-        const transacao = banco.transaction(
-            nomeTabela,
-            "readonly"
+    const { count, error } =
+        await clienteSupabase
+            .from(nomeTabelaSupabase)
+            .select("*", {
+                count: "exact",
+                head: true
+            });
+
+    if (error) {
+        throw new Error(
+            `Não foi possível contar os registros: ${error.message}`
         );
+    }
 
-        const tabela = transacao.objectStore(nomeTabela);
-        const requisicao = tabela.count();
-
-        requisicao.onsuccess = () => {
-            resolve(requisicao.result);
-        };
-
-        requisicao.onerror = () => {
-            reject(
-                new Error(
-                    `Não foi possível contar os registros: ${requisicao.error}`
-                )
-            );
-        };
-    });
+    return count || 0;
 }
 
 async function listarRegistrosPorIndice(
@@ -336,88 +369,80 @@ async function listarRegistrosPorIndice(
     nomeIndice,
     valor
 ) {
-    const banco = await abrirBanco();
+    const nomeTabelaSupabase =
+        nomeTabela === "historicoGraus"
+            ? "historico_graus"
+            : nomeTabela;
 
-    return new Promise((resolve, reject) => {
-        const transacao = banco.transaction(
-            nomeTabela,
-            "readonly"
+    const nomeIndiceSupabase =
+        nomeIndice
+            .replace("sessaoId", "sessao_id")
+            .replace("membroId", "membro_id")
+            .replace("dataInicio", "data_inicio");
+
+    const { data, error } =
+        await clienteSupabase
+            .from(nomeTabelaSupabase)
+            .select("*")
+            .eq(nomeIndiceSupabase, valor);
+
+    if (error) {
+        throw new Error(
+            `Não foi possível consultar os registros: ${error.message}`
         );
+    }
 
-        const tabela = transacao.objectStore(nomeTabela);
-        const indice = tabela.index(nomeIndice);
-        const requisicao = indice.getAll(valor);
-
-        requisicao.onsuccess = () => {
-            resolve(requisicao.result);
-        };
-
-        requisicao.onerror = () => {
-            reject(
-                new Error(
-                    `Não foi possível consultar os registros: ${requisicao.error}`
-                )
-            );
-        };
-    });
+    return (data || []).map(
+        converterRegistroDoSupabase
+    );
 }
-
 async function adicionarSessaoComPresencas(
     sessao,
     presencas
 ) {
-    const banco = await abrirBanco();
+    const sessaoSupabase =
+        converterRegistroParaSupabase(sessao);
 
-    return new Promise((resolve, reject) => {
-        const transacao = banco.transaction(
-            ["sessoes", "presencas"],
-            "readwrite"
+    const presencasSupabase =
+        presencas.map(
+            converterRegistroParaSupabase
         );
 
-        const tabelaSessoes = transacao.objectStore(
-            "sessoes"
+    const { error: erroSessao } =
+        await clienteSupabase
+            .from("sessoes")
+            .insert(sessaoSupabase);
+
+    if (erroSessao) {
+        throw new Error(
+            `Erro ao salvar sessão: ${erroSessao.message}`
         );
+    }
 
-        const tabelaPresencas = transacao.objectStore(
-            "presencas"
-        );
+    if (presencasSupabase.length > 0) {
+        const { error: erroPresencas } =
+            await clienteSupabase
+                .from("presencas")
+                .insert(presencasSupabase);
 
-        tabelaSessoes.add(sessao);
+        if (erroPresencas) {
+            await clienteSupabase
+                .from("sessoes")
+                .delete()
+                .eq("id", sessao.id);
 
-        presencas.forEach((presenca) => {
-            tabelaPresencas.add(presenca);
-        });
-
-        transacao.oncomplete = () => {
-            resolve({
-                sessao,
-                quantidadePresencas: presencas.length
-            });
-        };
-
-        transacao.onerror = () => {
-            reject(
-                new Error(
-                    `Erro ao salvar sessão e presenças: ${
-                        transacao.error?.message ||
-                        "erro desconhecido"
-                    }`
-                )
+            throw new Error(
+                `Erro ao salvar presenças: ${erroPresencas.message}`
             );
-        };
+        }
+    }
 
-        transacao.onabort = () => {
-            reject(
-                new Error(
-                    `A transação foi cancelada: ${
-                        transacao.error?.message ||
-                        "erro desconhecido"
-                    }`
-                )
-            );
-        };
-    });
+    return {
+        sessao,
+        quantidadePresencas: presencas.length
+    };
 }
+
 
 async function excluirSessaoComPresencas(sessaoId) {
     const banco = await abrirBanco();

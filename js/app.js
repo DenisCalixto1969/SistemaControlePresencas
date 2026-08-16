@@ -2,8 +2,27 @@
 
 document.addEventListener(
     "DOMContentLoaded",
-    iniciarSistema
+    iniciarAplicacao
 );
+
+async function iniciarAplicacao() {
+    configurarFormularioLogin();
+
+    const sessao = await obterSessaoAtual();
+
+    if (!sessao) {
+        return;
+    }
+
+    const telaLogin =
+        document.querySelector("#tela-login");
+
+    if (telaLogin) {
+        telaLogin.style.display = "none";
+    }
+
+    await iniciarSistema();
+}
 
 async function iniciarSistema() {
     try {

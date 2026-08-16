@@ -2074,3 +2074,47 @@ body.modal-aberto {
         white-space: normal;
     }
 }
+
+.tela-login {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: #f4f4f5;
+}
+
+.login-caixa {
+    width: 100%;
+    max-width: 420px;
+
+    padding: 30px;
+
+    background: #ffffff;
+    border-radius: 12px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.login-caixa h2 {
+    margin-bottom: 10px;
+}
+
+.login-caixa > p {
+    margin-bottom: 24px;
+}
+
+.login-caixa form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.mensagem-login {
+    min-height: 20px;
+}
