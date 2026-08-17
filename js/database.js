@@ -427,83 +427,154 @@ async function excluirSessaoComPresencas(sessaoId) {
 }
 
 async function restaurarDadosBackup(dadosBackup) {
-    const banco = await abrirBanco();
-
-    const nomesTabelas = [
-        "membros",
-        "sessoes",
-        "presencas",
-        "historicoGraus"
-    ];
-
-    return new Promise((resolve, reject) => {
-        const transacao = banco.transaction(
-            nomesTabelas,
-            "readwrite"
+    const membros =
+        (dadosBackup.membros || []).map(
+            converterRegistroParaSupabase
         );
 
-        const tabelaMembros =
-            transacao.objectStore("membros");
+    const idsMembrosValidos = new Set(
+    (dadosBackup.membros || []).map(
+        (membro) => membro.id
+    )
+);
 
-        const tabelaSessoes =
-            transacao.objectStore("sessoes");
-
-        const tabelaPresencas =
-            transacao.objectStore("presencas");
-
-        const tabelaHistoricoGraus =
-            transacao.objectStore("historicoGraus");
-
-        // Primeiro limpa os dados atuais.
-        tabelaMembros.clear();
-        tabelaSessoes.clear();
-        tabelaPresencas.clear();
-        tabelaHistoricoGraus.clear();
-
-        // Restaura os membros.
-        dadosBackup.membros.forEach((membro) => {
-            tabelaMembros.add(membro);
-        });
-
-        // Restaura as sessões.
-        dadosBackup.sessoes.forEach((sessao) => {
-            tabelaSessoes.add(sessao);
-        });
-
-        // Restaura as presenças.
-        dadosBackup.presencas.forEach((presenca) => {
-            tabelaPresencas.add(presenca);
-        });
-
-        // Restaura o histórico de graus.
-        dadosBackup.historicoGraus.forEach((historico) => {
-            tabelaHistoricoGraus.add(historico);
-        });
-
-        transacao.oncomplete = () => {
-            resolve(true);
-        };
-
-        transacao.onerror = () => {
-            reject(
-                new Error(
-                    `Não foi possível restaurar o backup: ${
-                        transacao.error?.message ||
-                        "erro desconhecido"
-                    }`
+const historicoGraus =
+    (dadosBackup.historicoGraus || [])
+        .filter(
+            (historico) =>
+                idsMembrosValidos.has(
+                    historico.membroId
                 )
-            );
-        };
+        )
+        .map(
+            converterRegistroParaSupabase
+        );
 
-        transacao.onabort = () => {
-            reject(
-                new Error(
-                    `A restauração foi cancelada: ${
-                        transacao.error?.message ||
-                        "erro desconhecido"
-                    }`
+    const sessoes =
+        (dadosBackup.sessoes || []).map(
+            converterRegistroParaSupabase
+        );
+
+    const idsSessoesValidas = new Set(
+    (dadosBackup.sessoes || []).map(
+        (sessao) => sessao.id
+    )
+);
+
+const presencas =
+    (dadosBackup.presencas || [])
+        .filter(
+            (presenca) =>
+                idsMembrosValidos.has(
+                    presenca.membroId
+                ) &&
+                idsSessoesValidas.has(
+                    presenca.sessaoId
                 )
+        )
+        .map(
+            converterRegistroParaSupabase
+        );
+
+    const { error: erroPresencasExcluir } =
+        await clienteSupabase
+            .from("presencas")
+            .delete()
+            .neq("id", "");
+
+    if (erroPresencasExcluir) {
+        throw new Error(
+            `Não foi possível limpar as presenças: ${erroPresencasExcluir.message}`
+        );
+    }
+
+    const { error: erroHistoricoExcluir } =
+        await clienteSupabase
+            .from("historico_graus")
+            .delete()
+            .neq("id", "");
+
+    if (erroHistoricoExcluir) {
+        throw new Error(
+            `Não foi possível limpar o histórico de graus: ${erroHistoricoExcluir.message}`
+        );
+    }
+
+    const { error: erroSessoesExcluir } =
+        await clienteSupabase
+            .from("sessoes")
+            .delete()
+            .neq("id", "");
+
+    if (erroSessoesExcluir) {
+        throw new Error(
+            `Não foi possível limpar as sessões: ${erroSessoesExcluir.message}`
+        );
+    }
+
+    const { error: erroMembrosExcluir } =
+        await clienteSupabase
+            .from("membros")
+            .delete()
+            .neq("id", "");
+
+    if (erroMembrosExcluir) {
+        throw new Error(
+            `Não foi possível limpar os membros: ${erroMembrosExcluir.message}`
+        );
+    }
+
+    if (membros.length > 0) {
+        const { error } =
+            await clienteSupabase
+                .from("membros")
+                .insert(membros);
+
+        if (error) {
+            throw new Error(
+                `Não foi possível restaurar os membros: ${error.message}`
             );
-        };
-    });
+        }
+    }
+
+    if (historicoGraus.length > 0) {
+        const { error } =
+            await clienteSupabase
+                .from("historico_graus")
+                .insert(historicoGraus);
+
+        if (error) {
+            throw new Error(
+                `Não foi possível restaurar o histórico de graus: ${error.message}`
+            );
+        }
+    }
+
+    if (sessoes.length > 0) {
+        const { error } =
+            await clienteSupabase
+                .from("sessoes")
+                .insert(sessoes);
+
+        if (error) {
+            throw new Error(
+                `Não foi possível restaurar as sessões: ${error.message}`
+            );
+        }
+    }
+
+    if (presencas.length > 0) {
+        const { error } =
+            await clienteSupabase
+                .from("presencas")
+                .insert(presencas);
+
+        if (error) {
+            throw new Error(
+                `Não foi possível restaurar as presenças: ${error.message}`
+            );
+        }
+    }
+
+    return true;
 }
