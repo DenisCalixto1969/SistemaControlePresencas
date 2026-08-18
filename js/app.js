@@ -8,20 +8,20 @@ document.addEventListener(
 async function iniciarAplicacao() {
     configurarFormularioLogin();
 
-    const sessao = await obterSessaoAtual();
-
-    if (!sessao) {
-        return;
-    }
+    /*
+     * Ao abrir ou atualizar o sistema,
+     * encerramos qualquer sessão anterior.
+     * Assim o acesso sempre exige
+     * e-mail e senha novamente.
+     */
+    await clienteSupabase.auth.signOut();
 
     const telaLogin =
         document.querySelector("#tela-login");
 
     if (telaLogin) {
-        telaLogin.style.display = "none";
+        telaLogin.style.display = "";
     }
-
-    await iniciarSistema();
 }
 
 async function iniciarSistema() {

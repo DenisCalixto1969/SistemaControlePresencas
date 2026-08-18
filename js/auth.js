@@ -42,6 +42,23 @@ async function entrarNoSistema(email, senha) {
     };
 }
 
+async function sairDoSistema() {
+    const { error } =
+        await clienteSupabase.auth.signOut();
+
+    if (error) {
+        console.error(
+            "Erro ao sair do sistema:",
+            error
+        );
+
+        return;
+    }
+
+    window.location.reload();
+}
+
+
 function configurarFormularioLogin() {
     const formulario =
         document.querySelector("#formulario-login");
@@ -90,5 +107,15 @@ function configurarFormularioLogin() {
 
             await iniciarSistema();
         }
+    );
+}
+
+const botaoSair =
+    document.querySelector("#botao-sair");
+
+if (botaoSair) {
+    botaoSair.addEventListener(
+        "click",
+        sairDoSistema
     );
 }
