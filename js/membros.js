@@ -1292,16 +1292,41 @@ async function corrigirDataInicioGrauAtual(
      * ajustamos seu término para
      * o dia anterior à nova data.
      */
-    if (historicoAnterior) {
-        if (
-            novaDataInicio <=
-            historicoAnterior.dataInicio
-        ) {
-            throw new Error(
-                "A data do grau atual deve ser posterior ao início do grau anterior."
-            );
-        }
+   if (historicoAnterior) {
 
+    /*
+     * Se a nova data for anterior ao início
+     * do grau anterior, não permitimos.
+     */
+    if (
+        novaDataInicio <
+        historicoAnterior.dataInicio
+    ) {
+        throw new Error(
+            "A data do grau atual não pode ser anterior ao início do grau anterior."
+        );
+    }
+
+    /*
+     * Se as duas datas forem iguais,
+     * o grau anterior não possui mais
+     * período válido e deve ser removido.
+     */
+    if (
+        novaDataInicio ===
+        historicoAnterior.dataInicio
+    ) {
+        await excluirRegistro(
+            "historicoGraus",
+            historicoAnterior.id
+        );
+    } else {
+
+        /*
+         * Caso normal:
+         * encerra o grau anterior no
+         * dia anterior ao novo grau.
+         */
         await atualizarRegistro(
             "historicoGraus",
             {
@@ -1315,6 +1340,7 @@ async function corrigirDataInicioGrauAtual(
             }
         );
     }
+}
 
     /*
      * Atualiza o início do grau atual.

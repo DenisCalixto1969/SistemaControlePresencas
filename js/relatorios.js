@@ -296,7 +296,7 @@ const detalhesSessoes = await Promise.all(
                             resumo-relatorio-presente
                         "
                     >
-                        <span>Presentes</span>
+                        <span>Presenças</span>
 
                         <strong>
                             ${frequencia.totalPresentes}
@@ -309,7 +309,7 @@ const detalhesSessoes = await Promise.all(
                             resumo-relatorio-ausente
                         "
                     >
-                        <span>Ausentes</span>
+                        <span>Ausencia</span>
 
                         <strong>
                             ${frequencia.totalAusentes}
@@ -521,8 +521,8 @@ async function gerarRelatorioTodosMembros(
                                     <tr>
                                         <th>Membro</th>
                                         <th>Sessões permitidas</th>
-                                        <th>Presentes</th>
-                                        <th>Ausentes</th>
+                                        <th>Presenças</th>
+                                        <th>Ausências</th>
                                         <th>Frequência</th>
                                     </tr>
                                 </thead>

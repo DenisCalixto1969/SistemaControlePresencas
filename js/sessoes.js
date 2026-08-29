@@ -482,6 +482,7 @@ async function abrirModalNovaSessao() {
     }, 50);
 }
 
+
 async function abrirModalEditarSessao(id) {
     try {
         const sessao = await buscarRegistroPorId(

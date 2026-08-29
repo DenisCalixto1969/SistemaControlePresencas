@@ -306,8 +306,8 @@ resultado.innerHTML = `
                                 <th>Posição</th>
                                 <th>Membro</th>
                                 <th>Sessões permitidas</th>
-                                <th>Presentes</th>
-                                <th>Ausentes</th>
+                                <th>Presenças</th>
+                                <th>Ausências</th>
                                 <th>Frequência</th>
                             </tr>
                         </thead>
