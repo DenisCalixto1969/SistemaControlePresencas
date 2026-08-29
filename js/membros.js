@@ -261,15 +261,69 @@ function criarModalMembro() {
                             ></textarea>
                         </div>
 
-                        <section class="historico-graus">
-                        <h3>Histórico de graus</h3>
+                       <section class="historico-graus">
+    <div class="historico-graus-cabecalho">
+        <h3>Histórico de graus</h3>
 
-                         <div id="historico-graus-membro">
-                        <p class="historico-graus-vazio">
-                         O histórico será exibido ao editar um membro.
-                         </p>
-                        </div>
-                        </section>
+        <button
+            type="button"
+            class="botao-secundario"
+            id="botao-adicionar-grau-historico"
+        >
+            + Adicionar grau histórico
+        </button>
+    </div>
+
+   <div
+    class="historico-grau-formulario oculto"
+    id="formulario-grau-historico"
+>
+    <div class="grupo-campo">
+        <label for="historico-grau">
+            Grau
+        </label>
+
+        <select id="historico-grau">
+            ${opcoesGraus}
+        </select>
+    </div>
+
+    <div class="grupo-campo">
+        <label for="historico-data-inicio">
+            Data de início
+        </label>
+
+        <input
+            type="date"
+            id="historico-data-inicio"
+        >
+    </div>
+
+    <div class="modal-acoes">
+        <button
+            type="button"
+            class="botao-secundario"
+            id="botao-cancelar-grau-historico"
+        >
+            Cancelar
+        </button>
+
+        <button
+            type="button"
+            class="botao-primario"
+            id="botao-salvar-grau-historico"
+        >
+            Adicionar
+        </button>
+    </div>
+</div> 
+
+    <div id="historico-graus-membro">
+        <p class="historico-graus-vazio">
+            O histórico será exibido ao editar um membro.
+        </p>
+    </div>
+</section>
 
                     </div>
 
@@ -414,7 +468,43 @@ const botaoFecharListaSimples = document.querySelector(
         "#botao-confirmar-exclusao-membro"
     );
 
-    botaoNovo.addEventListener("click", abrirModalNovoMembro);
+    const botaoAdicionarGrauHistorico =
+    document.querySelector(
+        "#botao-adicionar-grau-historico"
+    );
+
+const botaoCancelarGrauHistorico =
+    document.querySelector(
+        "#botao-cancelar-grau-historico"
+    );
+
+    const botaoSalvarGrauHistorico =
+    document.querySelector(
+        "#botao-salvar-grau-historico"
+    );
+
+if (botaoAdicionarGrauHistorico) {
+    botaoAdicionarGrauHistorico.addEventListener(
+        "click",
+        abrirFormularioGrauHistorico
+    );
+}
+
+if (botaoCancelarGrauHistorico) {
+    botaoCancelarGrauHistorico.addEventListener(
+        "click",
+        fecharFormularioGrauHistorico
+    );
+}
+
+if (botaoSalvarGrauHistorico) {
+    botaoSalvarGrauHistorico.addEventListener(
+        "click",
+        salvarGrauHistorico
+    );
+}
+
+   botaoNovo.addEventListener("click", abrirModalNovoMembro);
     botaoListaSimples.addEventListener(
     "click",
     abrirListaSimplesMembros
@@ -470,6 +560,267 @@ botaoFecharListaSimples.addEventListener(
 
     document.addEventListener("keydown", tratarTeclaEscapeMembros);
 }
+
+
+
+function abrirFormularioGrauHistorico() {
+    const formulario = document.querySelector(
+        "#formulario-grau-historico"
+    );
+
+    const campoGrau = document.querySelector(
+        "#historico-grau"
+    );
+
+    const campoData = document.querySelector(
+        "#historico-data-inicio"
+    );
+
+    if (!formulario) {
+        return;
+    }
+
+    formulario.classList.remove("oculto");
+
+    if (campoGrau) {
+        campoGrau.value =
+            CONFIG.grausMembros[0];
+    }
+
+    if (campoData) {
+        campoData.value = "";
+    }
+}
+
+function fecharFormularioGrauHistorico() {
+    const formulario = document.querySelector(
+        "#formulario-grau-historico"
+    );
+
+    if (!formulario) {
+        return;
+    }
+
+    formulario.classList.add("oculto");
+}
+
+async function salvarGrauHistorico() {
+    if (!membroEmEdicaoId) {
+        mostrarErroFormularioMembro(
+            "Abra o membro no modo de edição para adicionar um grau histórico."
+        );
+        return;
+    }
+
+    const campoGrau = document.querySelector(
+        "#historico-grau"
+    );
+
+    const campoData = document.querySelector(
+        "#historico-data-inicio"
+    );
+
+    const grau = Number(campoGrau?.value);
+    const dataInicio = campoData?.value;
+
+    if (!CONFIG.grausMembros.includes(grau)) {
+        mostrarErroFormularioMembro(
+            "Selecione um grau válido."
+        );
+        return;
+    }
+
+    if (!dataInicio) {
+        mostrarErroFormularioMembro(
+            "Informe a data de início do grau histórico."
+        );
+        return;
+    }
+
+    const hoje = new Date()
+        .toISOString()
+        .slice(0, 10);
+
+    if (dataInicio > hoje) {
+        mostrarErroFormularioMembro(
+            "A data do grau histórico não pode ser futura."
+        );
+        return;
+    }
+
+    try {
+        const agora = new Date().toISOString();
+
+        const historicoCompleto =
+            await listarRegistros(
+                "historicoGraus"
+            );
+
+        const historicoDoMembro =
+            historicoCompleto
+                .filter(
+                    (registro) =>
+                        registro.membroId ===
+                        membroEmEdicaoId
+                )
+                .sort(
+                    (a, b) =>
+                        a.dataInicio.localeCompare(
+                            b.dataInicio
+                        )
+                );
+
+        /*
+         * Não pode haver dois graus
+         * iniciando na mesma data.
+         */
+        const mesmaData =
+            historicoDoMembro.find(
+                (registro) =>
+                    registro.dataInicio ===
+                    dataInicio
+            );
+
+        if (mesmaData) {
+            mostrarErroFormularioMembro(
+                "Já existe um grau registrado nessa data."
+            );
+            return;
+        }
+
+        /*
+         * Localiza o registro anterior
+         * e o próximo registro cronológico.
+         */
+        const anterior =
+            [...historicoDoMembro]
+                .reverse()
+                .find(
+                    (registro) =>
+                        registro.dataInicio <
+                        dataInicio
+                ) || null;
+
+        const proximo =
+            historicoDoMembro.find(
+                (registro) =>
+                    registro.dataInicio >
+                    dataInicio
+            ) || null;
+
+        /*
+         * Se existir um grau anterior,
+         * encerra-o no dia anterior
+         * ao novo grau.
+         */
+        if (anterior) {
+            await atualizarRegistro(
+                "historicoGraus",
+                {
+                    ...anterior,
+                    dataFim:
+                        calcularDiaAnterior(
+                            dataInicio
+                        ),
+                    dataUltimaAlteracao:
+                        agora
+                }
+            );
+        }
+
+        /*
+         * O novo grau termina no dia
+         * anterior ao próximo grau.
+         *
+         * Se não houver próximo grau,
+         * ele passa a ser o grau atual.
+         */
+        const novoHistorico = {
+            id: crypto.randomUUID(),
+            membroId: membroEmEdicaoId,
+            grau: grau,
+            dataInicio: dataInicio,
+            dataFim: proximo
+                ? calcularDiaAnterior(
+                    proximo.dataInicio
+                )
+                : null,
+            observacoes: "",
+            dataCadastro: agora,
+            dataUltimaAlteracao: agora
+        };
+
+        await adicionarRegistro(
+            "historicoGraus",
+            novoHistorico
+        );
+
+        /*
+         * Se foi inserido depois de todos
+         * os registros existentes, ele se
+         * tornou o grau atualmente vigente.
+         */
+        if (!proximo) {
+            const membro =
+                await buscarRegistroPorId(
+                    "membros",
+                    membroEmEdicaoId
+                );
+
+            if (membro) {
+                membro.grau = grau;
+                membro.dataUltimaAlteracao =
+                    agora;
+
+                await atualizarRegistro(
+                    "membros",
+                    membro
+                );
+
+                grauOriginalMembro = grau;
+
+                document.querySelector(
+                    "#membro-grau"
+                ).value = grau;
+
+                document.querySelector(
+                    "#membro-data-inicio-grau"
+                ).value = dataInicio;
+            }
+        }
+
+        /*
+         * Inclui o membro em sessões antigas
+         * nas quais ele passou a estar apto.
+         */
+        await sincronizarPresencasHistoricasMembro(
+            membroEmEdicaoId
+        );
+
+        fecharFormularioGrauHistorico();
+
+        await carregarHistoricoGraus(
+            membroEmEdicaoId
+        );
+
+        mostrarMensagem(
+            "Grau histórico adicionado com sucesso.",
+            "sucesso"
+        );
+
+    } catch (erro) {
+        console.error(
+            "Erro ao adicionar grau histórico:",
+            erro
+        );
+
+        mostrarErroFormularioMembro(
+            "Não foi possível adicionar o grau histórico."
+        );
+    }
+}
+
+
 async function abrirListaSimplesMembros() {
     const painel = document.querySelector(
         "#painel-lista-simples-membros"
@@ -772,21 +1123,34 @@ async function carregarHistoricoGraus(membroId) {
                 }
             "
         >
-            <div class="historico-grau-cabecalho">
-                <strong>
-                    Grau ${escaparHTML(item.grau)}
-                </strong>
+           <div class="historico-grau-cabecalho">
+    <strong>
+        Grau ${escaparHTML(item.grau)}
+    </strong>
 
-                ${
-                    grauAtual
-                        ? `
-                            <span class="historico-grau-badge">
-                                Atual
-                            </span>
-                        `
-                        : ""
-                }
-            </div>
+    <div class="historico-grau-acoes">
+        ${
+            grauAtual
+                ? `
+                    <span class="historico-grau-badge">
+                        Atual
+                    </span>
+                `
+                : ""
+        }
+
+        <button
+            type="button"
+            class="botao-icone"
+            data-acao-historico="editar"
+            data-historico-id="${item.id}"
+            title="Editar grau histórico"
+            aria-label="Editar grau ${item.grau}"
+        >
+            ✎
+        </button>
+    </div>
+    </div>
 
             <span class="historico-grau-periodo">
                 ${
