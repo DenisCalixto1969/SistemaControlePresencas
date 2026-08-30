@@ -4,6 +4,7 @@ let membrosCarregados = [];
 let membroEmEdicaoId = null;
 let membroEmExclusaoId = null;
 let grauOriginalMembro = null;
+let historicoGrauEmEdicaoId = null;
 
 function carregarModuloMembros() {
     return `
@@ -452,6 +453,11 @@ const botaoFecharListaSimples = document.querySelector(
 
     const listaMembros = document.querySelector("#lista-membros");
 
+    const containerHistoricoGraus =
+    document.querySelector(
+        "#historico-graus-membro"
+    );
+
     const modalExclusao = document.querySelector(
         "#modal-exclusao-membro"
     );
@@ -531,6 +537,13 @@ botaoFecharListaSimples.addEventListener(
 
     listaMembros.addEventListener("click", tratarAcaoMembro);
 
+    if (containerHistoricoGraus) {
+    containerHistoricoGraus.addEventListener(
+        "click",
+        tratarAcaoHistoricoGrau
+    );
+}
+
     modalMembro.addEventListener("click", (evento) => {
         if (evento.target === modalMembro) {
             fecharModalMembro();
@@ -562,8 +575,8 @@ botaoFecharListaSimples.addEventListener(
 }
 
 
-
 function abrirFormularioGrauHistorico() {
+    historicoGrauEmEdicaoId = null;
     const formulario = document.querySelector(
         "#formulario-grau-historico"
     );
@@ -590,6 +603,14 @@ function abrirFormularioGrauHistorico() {
     if (campoData) {
         campoData.value = "";
     }
+
+    const botaoSalvar = document.querySelector(
+    "#botao-salvar-grau-historico"
+);
+
+if (botaoSalvar) {
+    botaoSalvar.textContent = "Adicionar";
+}
 }
 
 function fecharFormularioGrauHistorico() {
@@ -602,12 +623,22 @@ function fecharFormularioGrauHistorico() {
     }
 
     formulario.classList.add("oculto");
+
+    historicoGrauEmEdicaoId = null;
+
+const botaoSalvar = document.querySelector(
+    "#botao-salvar-grau-historico"
+);
+
+if (botaoSalvar) {
+    botaoSalvar.textContent = "Adicionar";
+}
 }
 
 async function salvarGrauHistorico() {
     if (!membroEmEdicaoId) {
         mostrarErroFormularioMembro(
-            "Abra o membro no modo de edição para adicionar um grau histórico."
+            "Abra o membro no modo de edição para alterar o histórico."
         );
         return;
     }
@@ -671,11 +702,45 @@ async function salvarGrauHistorico() {
                 );
 
         /*
-         * Não pode haver dois graus
+         * Se estivermos editando,
+         * localiza o registro original.
+         */
+        const registroEmEdicao =
+            historicoGrauEmEdicaoId
+                ? historicoDoMembro.find(
+                    (registro) =>
+                        registro.id ===
+                        historicoGrauEmEdicaoId
+                )
+                : null;
+
+        if (
+            historicoGrauEmEdicaoId &&
+            !registroEmEdicao
+        ) {
+            throw new Error(
+                "Registro histórico em edição não encontrado."
+            );
+        }
+
+        /*
+         * Para calcular a nova posição,
+         * retiramos temporariamente
+         * o próprio registro em edição.
+         */
+        const historicoSemRegistroAtual =
+            historicoDoMembro.filter(
+                (registro) =>
+                    registro.id !==
+                    historicoGrauEmEdicaoId
+            );
+
+        /*
+         * Não pode existir outro grau
          * iniciando na mesma data.
          */
         const mesmaData =
-            historicoDoMembro.find(
+            historicoSemRegistroAtual.find(
                 (registro) =>
                     registro.dataInicio ===
                     dataInicio
@@ -683,17 +748,17 @@ async function salvarGrauHistorico() {
 
         if (mesmaData) {
             mostrarErroFormularioMembro(
-                "Já existe um grau registrado nessa data."
+                "Já existe outro grau registrado nessa data."
             );
             return;
         }
 
         /*
          * Localiza o registro anterior
-         * e o próximo registro cronológico.
+         * e o próximo pela nova data.
          */
         const anterior =
-            [...historicoDoMembro]
+            [...historicoSemRegistroAtual]
                 .reverse()
                 .find(
                     (registro) =>
@@ -702,16 +767,65 @@ async function salvarGrauHistorico() {
                 ) || null;
 
         const proximo =
-            historicoDoMembro.find(
+            historicoSemRegistroAtual.find(
                 (registro) =>
                     registro.dataInicio >
                     dataInicio
             ) || null;
 
         /*
-         * Se existir um grau anterior,
-         * encerra-o no dia anterior
-         * ao novo grau.
+         * Se a edição deslocou um registro,
+         * primeiro recompomos o período
+         * que ele ocupava anteriormente.
+         */
+        if (registroEmEdicao) {
+            const indiceAntigo =
+                historicoDoMembro.findIndex(
+                    (registro) =>
+                        registro.id ===
+                        registroEmEdicao.id
+                );
+
+            const anteriorAntigo =
+                indiceAntigo > 0
+                    ? historicoDoMembro[
+                        indiceAntigo - 1
+                    ]
+                    : null;
+
+            const proximoAntigo =
+                indiceAntigo <
+                historicoDoMembro.length - 1
+                    ? historicoDoMembro[
+                        indiceAntigo + 1
+                    ]
+                    : null;
+
+            if (
+                anteriorAntigo &&
+                anteriorAntigo.id !==
+                    anterior?.id
+            ) {
+                await atualizarRegistro(
+                    "historicoGraus",
+                    {
+                        ...anteriorAntigo,
+                        dataFim:
+                            proximoAntigo
+                                ? calcularDiaAnterior(
+                                    proximoAntigo.dataInicio
+                                )
+                                : null,
+                        dataUltimaAlteracao:
+                            agora
+                    }
+                );
+            }
+        }
+
+        /*
+         * Ajusta o registro anterior
+         * à nova posição.
          */
         if (anterior) {
             await atualizarRegistro(
@@ -729,38 +843,88 @@ async function salvarGrauHistorico() {
         }
 
         /*
-         * O novo grau termina no dia
-         * anterior ao próximo grau.
-         *
-         * Se não houver próximo grau,
-         * ele passa a ser o grau atual.
+         * Calcula o término do registro
+         * conforme o próximo grau.
          */
-        const novoHistorico = {
-            id: crypto.randomUUID(),
-            membroId: membroEmEdicaoId,
-            grau: grau,
-            dataInicio: dataInicio,
-            dataFim: proximo
+        const dataFim =
+            proximo
                 ? calcularDiaAnterior(
                     proximo.dataInicio
                 )
-                : null,
-            observacoes: "",
-            dataCadastro: agora,
-            dataUltimaAlteracao: agora
-        };
+                : null;
 
-        await adicionarRegistro(
-            "historicoGraus",
-            novoHistorico
-        );
+        if (registroEmEdicao) {
+            /*
+             * MODO EDIÇÃO
+             */
+            await atualizarRegistro(
+                "historicoGraus",
+                {
+                    ...registroEmEdicao,
+                    grau: grau,
+                    dataInicio: dataInicio,
+                    dataFim: dataFim,
+                    dataUltimaAlteracao:
+                        agora
+                }
+            );
+        } else {
+            /*
+             * MODO INCLUSÃO
+             */
+            const novoHistorico = {
+                id: crypto.randomUUID(),
+                membroId:
+                    membroEmEdicaoId,
+                grau: grau,
+                dataInicio: dataInicio,
+                dataFim: dataFim,
+                observacoes: "",
+                dataCadastro: agora,
+                dataUltimaAlteracao:
+                    agora
+            };
+
+            await adicionarRegistro(
+                "historicoGraus",
+                novoHistorico
+            );
+        }
 
         /*
-         * Se foi inserido depois de todos
-         * os registros existentes, ele se
-         * tornou o grau atualmente vigente.
+         * Descobre qual registro ficou
+         * como grau atual após a operação.
          */
-        if (!proximo) {
+        const historicoAtualizado =
+            await listarRegistros(
+                "historicoGraus"
+            );
+
+        const registrosDoMembro =
+            historicoAtualizado
+                .filter(
+                    (registro) =>
+                        registro.membroId ===
+                        membroEmEdicaoId
+                )
+                .sort(
+                    (a, b) =>
+                        a.dataInicio.localeCompare(
+                            b.dataInicio
+                        )
+                );
+
+        const grauAtual =
+            registrosDoMembro.find(
+                (registro) =>
+                    registro.dataFim == null
+            );
+
+        /*
+         * Mantém o cadastro principal
+         * sincronizado com o grau vigente.
+         */
+        if (grauAtual) {
             const membro =
                 await buscarRegistroPorId(
                     "membros",
@@ -768,7 +932,9 @@ async function salvarGrauHistorico() {
                 );
 
             if (membro) {
-                membro.grau = grau;
+                membro.grau =
+                    Number(grauAtual.grau);
+
                 membro.dataUltimaAlteracao =
                     agora;
 
@@ -777,25 +943,43 @@ async function salvarGrauHistorico() {
                     membro
                 );
 
-                grauOriginalMembro = grau;
+                grauOriginalMembro =
+                    Number(grauAtual.grau);
 
-                document.querySelector(
-                    "#membro-grau"
-                ).value = grau;
+                const campoGrauAtual =
+                    document.querySelector(
+                        "#membro-grau"
+                    );
 
-                document.querySelector(
-                    "#membro-data-inicio-grau"
-                ).value = dataInicio;
+                const campoDataAtual =
+                    document.querySelector(
+                        "#membro-data-inicio-grau"
+                    );
+
+                if (campoGrauAtual) {
+                    campoGrauAtual.value =
+                        grauAtual.grau;
+                }
+
+                if (campoDataAtual) {
+                    campoDataAtual.value =
+                        grauAtual.dataInicio;
+                }
             }
         }
 
         /*
-         * Inclui o membro em sessões antigas
-         * nas quais ele passou a estar apto.
+         * Reavalia sessões históricas
+         * nas quais o membro pode participar.
          */
         await sincronizarPresencasHistoricasMembro(
             membroEmEdicaoId
         );
+
+        const estavaEditando =
+            Boolean(
+                historicoGrauEmEdicaoId
+            );
 
         fecharFormularioGrauHistorico();
 
@@ -804,22 +988,306 @@ async function salvarGrauHistorico() {
         );
 
         mostrarMensagem(
-            "Grau histórico adicionado com sucesso.",
+            estavaEditando
+                ? "Grau histórico atualizado com sucesso."
+                : "Grau histórico adicionado com sucesso.",
             "sucesso"
         );
 
     } catch (erro) {
         console.error(
-            "Erro ao adicionar grau histórico:",
+            "Erro ao salvar grau histórico:",
             erro
         );
 
         mostrarErroFormularioMembro(
-            "Não foi possível adicionar o grau histórico."
+            "Não foi possível salvar o grau histórico."
         );
     }
 }
 
+async function tratarAcaoHistoricoGrau(evento) {
+    const botao = evento.target.closest(
+        "[data-acao-historico]"
+    );
+
+    if (!botao) {
+        return;
+    }
+
+    const acao =
+        botao.dataset.acaoHistorico;
+
+    const historicoId =
+        botao.dataset.historicoId;
+
+    if (
+        acao === "editar" &&
+        historicoId
+    ) {
+        await abrirEdicaoGrauHistorico(
+            historicoId
+        );
+    }
+
+    if (
+    acao === "excluir" &&
+    historicoId
+) {
+    await excluirGrauHistorico(
+        historicoId
+    );
+}
+}
+
+
+async function abrirEdicaoGrauHistorico(
+    historicoId
+) {
+    const registro =
+        await buscarRegistroPorId(
+            "historicoGraus",
+            historicoId
+        );
+
+    if (!registro) {
+        mostrarErroFormularioMembro(
+            "O grau histórico não foi encontrado."
+        );
+        return;
+    }
+
+    historicoGrauEmEdicaoId =
+        historicoId;
+
+    const formulario =
+        document.querySelector(
+            "#formulario-grau-historico"
+        );
+
+    const campoGrau =
+        document.querySelector(
+            "#historico-grau"
+        );
+
+    const campoData =
+        document.querySelector(
+            "#historico-data-inicio"
+        );
+
+    const botaoSalvar =
+        document.querySelector(
+            "#botao-salvar-grau-historico"
+        );
+
+    formulario.classList.remove(
+        "oculto"
+    );
+
+    campoGrau.value =
+        registro.grau;
+
+    campoData.value =
+        registro.dataInicio;
+
+    botaoSalvar.textContent =
+        "Salvar alteração";
+}
+
+
+async function excluirGrauHistorico(
+    historicoId
+) {
+    try {
+        const registro =
+            await buscarRegistroPorId(
+                "historicoGraus",
+                historicoId
+            );
+
+        if (!registro) {
+            mostrarErroFormularioMembro(
+                "O grau histórico não foi encontrado."
+            );
+
+            return;
+        }
+
+        const historicoCompleto =
+            await listarRegistros(
+                "historicoGraus"
+            );
+
+        const historicoDoMembro =
+            historicoCompleto
+                .filter(
+                    (item) =>
+                        item.membroId ===
+                        registro.membroId
+                )
+                .sort(
+                    (a, b) =>
+                        a.dataInicio.localeCompare(
+                            b.dataInicio
+                        )
+                );
+
+        /*
+         * Não deixamos o membro
+         * completamente sem histórico.
+         */
+        if (
+            historicoDoMembro.length === 1
+        ) {
+            mostrarErroFormularioMembro(
+                "O único grau do histórico não pode ser excluído."
+            );
+
+            return;
+        }
+
+        const confirmou =
+            window.confirm(
+                `Deseja realmente excluir o Grau ${registro.grau} iniciado em ${formatarData(registro.dataInicio)}?`
+            );
+
+        if (!confirmou) {
+            return;
+        }
+
+        const indice =
+            historicoDoMembro.findIndex(
+                (item) =>
+                    item.id === registro.id
+            );
+
+        const anterior =
+            indice > 0
+                ? historicoDoMembro[
+                    indice - 1
+                ]
+                : null;
+
+        const proximo =
+            indice <
+            historicoDoMembro.length - 1
+                ? historicoDoMembro[
+                    indice + 1
+                ]
+                : null;
+
+        const agora =
+            new Date().toISOString();
+
+        /*
+         * Primeiro excluímos o registro.
+         */
+        await excluirRegistro(
+            "historicoGraus",
+            registro.id
+        );
+
+        /*
+         * Se existe grau anterior,
+         * recompomos seu período.
+         */
+        if (anterior) {
+            await atualizarRegistro(
+                "historicoGraus",
+                {
+                    ...anterior,
+
+                    /*
+                     * Se houver um próximo grau,
+                     * termina no dia anterior a ele.
+                     *
+                     * Caso contrário, o anterior
+                     * passa a ser o grau atual.
+                     */
+                    dataFim: proximo
+                        ? calcularDiaAnterior(
+                            proximo.dataInicio
+                        )
+                        : null,
+
+                    dataUltimaAlteracao:
+                        agora
+                }
+            );
+        }
+
+        /*
+         * Caso tenhamos excluído o grau atual,
+         * o grau anterior passa a ser o vigente
+         * também no cadastro do membro.
+         */
+        if (
+            registro.dataFim == null &&
+            anterior
+        ) {
+            const membro =
+                await buscarRegistroPorId(
+                    "membros",
+                    registro.membroId
+                );
+
+            if (membro) {
+                membro.grau =
+                    Number(anterior.grau);
+
+                membro.dataUltimaAlteracao =
+                    agora;
+
+                await atualizarRegistro(
+                    "membros",
+                    membro
+                );
+
+                grauOriginalMembro =
+                    Number(anterior.grau);
+
+                const campoGrau =
+                    document.querySelector(
+                        "#membro-grau"
+                    );
+
+                const campoData =
+                    document.querySelector(
+                        "#membro-data-inicio-grau"
+                    );
+
+                if (campoGrau) {
+                    campoGrau.value =
+                        anterior.grau;
+                }
+
+                if (campoData) {
+                    campoData.value =
+                        anterior.dataInicio;
+                }
+            }
+        }
+
+        await carregarHistoricoGraus(
+            registro.membroId
+        );
+
+        mostrarMensagem(
+            "Grau histórico excluído com sucesso.",
+            "sucesso"
+        );
+
+    } catch (erro) {
+        console.error(
+            "Erro ao excluir grau histórico:",
+            erro
+        );
+
+        mostrarErroFormularioMembro(
+            "Não foi possível excluir o grau histórico."
+        );
+    }
+}
 
 async function abrirListaSimplesMembros() {
     const painel = document.querySelector(
@@ -1148,6 +1616,17 @@ async function carregarHistoricoGraus(membroId) {
             aria-label="Editar grau ${item.grau}"
         >
             ✎
+
+            <button
+            type="button"
+            class="botao-icone botao-perigo"
+            data-acao-historico="excluir"
+            data-historico-id="${item.id}"
+            title="Excluir grau histórico"
+            aria-label="Excluir grau ${item.grau}"
+        >
+         ×
+        </button>
         </button>
     </div>
     </div>
