@@ -36,17 +36,26 @@
             </div>
 
             <div class="grupo-campo">
-                <label for="login-senha">Senha</label>
+    <label for="login-senha">Senha</label>
 
-                <input
-                type="password"
-                id="login-senha"
-                required
-                autocomplete="new-password"
-            >
-            </div>
+    <div class="campo-senha">
+        <input
+            type="password"
+            id="login-senha"
+            required
+            autocomplete="new-password"
+        >
 
-            <p
+      <button
+    type="button"
+    id="mostrar-senha"
+    class="botao-olho"
+    aria-label="Mostrar senha"
+>
+    👁️
+</button>
+</div>
+              <p
                 id="mensagem-login"
                 class="mensagem-login"
             ></p>
