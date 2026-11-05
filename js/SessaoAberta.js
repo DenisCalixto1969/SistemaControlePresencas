@@ -410,11 +410,10 @@ if (botaoEncerrarSessao) {
         }
 
         const sessaoAtualizada = {
-            ...sessao,
-            status: "Encerrada",
-            dataEncerramento: new Date().toISOString(),
-            dataUltimaAlteracao: new Date().toISOString()
-        };
+    ...sessao,
+    status: "Encerrada",
+    dataUltimaAlteracao: new Date().toISOString()
+    };
 
         await atualizarRegistro(
             "sessoes",
