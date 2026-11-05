@@ -1814,7 +1814,9 @@ function configurarModoVisualizacaoMembro(somenteLeitura) {
         "#membro-cir",
         "#membro-cim",
         "#membro-observacoes",
-        "#membro-ativo"
+        "#membro-ativo",
+        "#membro-data-inicio-grau",
+        "#membro-data-mudanca-grau"
     ];
 
     campos.forEach((seletor) => {
@@ -1894,6 +1896,33 @@ async function abrirModalVisualizarMembro(id) {
             "oculto"
         );
     }
+
+    // Preenche a data de início do grau vigente.
+const grupoDataInicioGrau =
+    document.querySelector("#grupo-data-inicio-grau");
+
+const campoDataInicioGrau =
+    document.querySelector("#membro-data-inicio-grau");
+
+// Limpa qualquer data deixada pelo membro anterior.
+campoDataInicioGrau.value = "";
+
+// Garante que o campo esteja visível.
+grupoDataInicioGrau.classList.remove("oculto");
+
+// Busca o histórico do membro selecionado.
+const historicoCompleto =
+    await listarRegistros("historicoGraus");
+
+const historicoAtual = historicoCompleto.find(
+    (registro) =>
+        registro.membroId === id &&
+        registro.dataFim == null
+);
+
+// Preenche somente com a data do grau vigente.
+campoDataInicioGrau.value =
+    historicoAtual?.dataInicio || "";
 
     await carregarHistoricoGrausMembro(id);
 
