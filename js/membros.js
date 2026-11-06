@@ -152,117 +152,178 @@ function criarModalMembro() {
                         ×
                     </button>
                 </header>
+                
+   <form id="formulario-membro">
 
-                <form id="formulario-membro">
-                    <div class="formulario-grid">
-                        <div class="grupo-campo campo-largura-total">
-                            <label for="membro-nome">
-                                Nome <span class="obrigatorio">*</span>
-                            </label>
+    <!-- INSTRUÇÕES E ELEVAÇÕES -->
+    <section class="secao-instrucoes-elevacoes">
+        <h3>Instruções e Elevações</h3>
 
-                            <input
-                                type="text"
-                                id="membro-nome"
-                                maxlength="150"
-                                autocomplete="off"
-                                required
-                            >
-                        </div>
+        <div class="formulario-grid">
 
-                        <div class="grupo-campo">
-                            <label for="membro-grau">
-                                Grau <span class="obrigatorio">*</span>
-                            </label>
+            <div class="grupo-campo">
+                <label for="membro-instrucoes-graus">
+                    Instruções Grau(s)
+                </label>
 
-                            <select id="membro-grau" required>
-                                ${opcoesGraus}
-                            </select>
-                        </div>
+                <input
+                    type="text"
+                    id="membro-instrucoes-graus"
+                    maxlength="100"
+                    placeholder="Ex.: 5, 6, 7, 8 e 9"
+                >
+            </div>
 
-                        <div
-    class="grupo-campo"
-    id="grupo-data-inicio-grau"
->
-    <label for="membro-data-inicio-grau">
-        Data de início no grau
-        <span class="obrigatorio">*</span>
-    </label>
+            <div class="grupo-campo">
+                <label for="membro-sessao-instrucoes">
+                    Sessão
+                </label>
 
-    <input
-        type="date"
-        id="membro-data-inicio-grau"
-    >
-</div>
-                        <div
-                        class="grupo-campo oculto"
-                        id="grupo-data-mudanca-grau"
-                    >
-                        <label for="membro-data-mudanca-grau">
-                            Data da mudança de grau
-                        </label>
+                <input
+                    type="date"
+                    id="membro-sessao-instrucoes"
+                >
+            </div>
 
-                        <input
-                            type="date"
-                            id="membro-data-mudanca-grau"
-                        >
-                    </div>
+            <div class="grupo-campo">
+                <label for="membro-aprovacao-elevacao-grau">
+                    Aprovação processo Elevação Grau
+                </label>
 
-                        
-                        <div class="grupo-campo grupo-checkbox">
-                            <label for="membro-ativo">
-                                Situação
-                            </label>
+                <input
+                    type="number"
+                    id="membro-aprovacao-elevacao-grau"
+                    min="1"
+                    max="33"
+                    step="1"
+                    placeholder="Grau"
+                >
+            </div>
 
-                            <label class="controle-checkbox">
-                                <input
-                                    type="checkbox"
-                                    id="membro-ativo"
-                                    checked
-                                >
+            <div class="grupo-campo">
+                <label for="membro-sessao-aprovacao-elevacao">
+                    Sessão
+                </label>
 
-                                <span>Membro ativo</span>
-                            </label>
-                        </div>
+                <input
+                    type="date"
+                    id="membro-sessao-aprovacao-elevacao"
+                >
+            </div>
 
-                        <div class="grupo-campo">
-                            <label for="membro-cir">
-                                CIR
-                            </label>
+        </div>
+    </section>
 
-                            <input
-                                type="text"
-                                id="membro-cir"
-                                maxlength="50"
-                                autocomplete="off"
-                            >
-                        </div>
+    <!-- DADOS CADASTRAIS -->
+    <div class="formulario-grid">
 
-                        <div class="grupo-campo">
-                            <label for="membro-cim">
-                                CIM
-                            </label>
+        <div class="grupo-campo campo-largura-total">
+            <label for="membro-nome">
+                Nome <span class="obrigatorio">*</span>
+            </label>
 
-                            <input
-                                type="text"
-                                id="membro-cim"
-                                maxlength="50"
-                                autocomplete="off"
-                            >
-                        </div>
+            <input
+                type="text"
+                id="membro-nome"
+                maxlength="150"
+                autocomplete="off"
+                required
+            >
+        </div>
 
-                        <div class="grupo-campo campo-largura-total">
-                            <label for="membro-observacoes">
-                                Observações
-                            </label>
+        <div class="grupo-campo">
+            <label for="membro-grau">
+                Grau <span class="obrigatorio">*</span>
+            </label>
 
-                            <textarea
-                                id="membro-observacoes"
-                                rows="4"
-                                maxlength="1000"
-                            ></textarea>
-                        </div>
+            <select id="membro-grau" required>
+                ${opcoesGraus}
+            </select>
+        </div>
 
-                       <section class="historico-graus">
+        <div
+            class="grupo-campo"
+            id="grupo-data-inicio-grau"
+        >
+            <label for="membro-data-inicio-grau">
+                Data de início no grau
+                <span class="obrigatorio">*</span>
+            </label>
+
+            <input
+                type="date"
+                id="membro-data-inicio-grau"
+            >
+        </div>
+
+        <div
+            class="grupo-campo oculto"
+            id="grupo-data-mudanca-grau"
+        >
+            <label for="membro-data-mudanca-grau">
+                Data da mudança de grau
+            </label>
+
+            <input
+                type="date"
+                id="membro-data-mudanca-grau"
+            >
+        </div>
+
+        <div class="grupo-campo grupo-checkbox">
+            <label for="membro-ativo">
+                Situação
+            </label>
+
+            <label class="controle-checkbox">
+                <input
+                    type="checkbox"
+                    id="membro-ativo"
+                    checked
+                >
+
+                <span>Membro ativo</span>
+            </label>
+        </div>
+
+        <div class="grupo-campo">
+            <label for="membro-cir">CIR</label>
+
+            <input
+                type="text"
+                id="membro-cir"
+                maxlength="50"
+                autocomplete="off"
+            >
+        </div>
+
+        <div class="grupo-campo">
+            <label for="membro-cim">CIM</label>
+
+            <input
+                type="text"
+                id="membro-cim"
+                maxlength="50"
+                autocomplete="off"
+            >
+        </div>
+
+        <div class="grupo-campo campo-largura-total">
+            <label for="membro-observacoes">
+                Observações
+            </label>
+
+            <textarea
+                id="membro-observacoes"
+                rows="4"
+                maxlength="1000"
+            ></textarea>
+        </div>
+
+    </div>
+</form>
+
+    <section class="historico-graus">
     <div class="historico-graus-cabecalho">
         <h3>Histórico de graus</h3>
 
@@ -1763,6 +1824,22 @@ async function abrirModalEditarMembro(id) {
     ).value = membro.cim || "";
 
     document.querySelector(
+    "#membro-instrucoes-graus"
+).value = membro.instrucoesGraus || "";
+
+document.querySelector(
+    "#membro-sessao-instrucoes"
+).value = membro.sessaoInstrucoes || "";
+
+document.querySelector(
+    "#membro-aprovacao-elevacao-grau"
+).value = membro.aprovacaoElevacaoGrau ?? "";
+
+document.querySelector(
+    "#membro-sessao-aprovacao-elevacao"
+).value = membro.sessaoAprovacaoElevacao || "";
+
+    document.querySelector(
         "#membro-observacoes"
     ).value = membro.observacoes || "";
 
@@ -1816,7 +1893,12 @@ function configurarModoVisualizacaoMembro(somenteLeitura) {
         "#membro-observacoes",
         "#membro-ativo",
         "#membro-data-inicio-grau",
-        "#membro-data-mudanca-grau"
+        "#membro-data-mudanca-grau",
+        "#membro-instrucoes-graus",
+        "#membro-sessao-instrucoes",
+        "#membro-aprovacao-elevacao-grau",
+        "#membro-sessao-aprovacao-elevacao"
+
     ];
 
     campos.forEach((seletor) => {
@@ -1877,6 +1959,22 @@ async function abrirModalVisualizarMembro(id) {
     document.querySelector(
         "#membro-cim"
     ).value = membro.cim || "";
+
+    document.querySelector(
+    "#membro-instrucoes-graus"
+).value = membro.instrucoesGraus || "";
+
+document.querySelector(
+    "#membro-sessao-instrucoes"
+).value = membro.sessaoInstrucoes || "";
+
+document.querySelector(
+    "#membro-aprovacao-elevacao-grau"
+).value = membro.aprovacaoElevacaoGrau ?? "";
+
+document.querySelector(
+    "#membro-sessao-aprovacao-elevacao"
+).value = membro.sessaoAprovacaoElevacao || "";
 
     document.querySelector(
         "#membro-observacoes"
@@ -2610,26 +2708,26 @@ function obterDadosFormularioMembro() {
             .trim(),
 
         instrucoesGraus: document
-            .querySelector("#membro-instrucoes-graus")
-            .value
-            .trim() || null,
+    .querySelector("#membro-instrucoes-graus")
+    .value
+    .trim(),
 
-        sessaoInstrucoes: document
-            .querySelector("#membro-sessao-instrucoes")
-            .value || null,
+sessaoInstrucoes: document
+    .querySelector("#membro-sessao-instrucoes")
+    .value,
 
-        aprovacaoElevacaoGrau: document
-            .querySelector("#membro-aprovacao-elevacao-grau")
-            .value
-            ? Number(document.querySelector(
-                "#membro-aprovacao-elevacao-grau"
-            ).value)
-            : null,
+aprovacaoElevacaoGrau: document
+    .querySelector("#membro-aprovacao-elevacao-grau")
+    .value
+    ? Number(document.querySelector(
+        "#membro-aprovacao-elevacao-grau"
+    ).value)
+    : null,
 
-        sessaoAprovacaoElevacao: document
-            .querySelector("#membro-sessao-aprovacao-elevacao")
-            .value || null,
-
+sessaoAprovacaoElevacao: document
+    .querySelector("#membro-sessao-aprovacao-elevacao")
+    .value,
+    
         observacoes: document
             .querySelector(
                 "#membro-observacoes"
