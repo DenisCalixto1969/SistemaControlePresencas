@@ -217,7 +217,7 @@ function criarModalMembro() {
     <!-- DADOS CADASTRAIS -->
     <div class="formulario-grid">
 
-        <div class="grupo-campo campo-largura-total">
+        <div class="grupo-campo">
             <label for="membro-nome">
                 Nome <span class="obrigatorio">*</span>
             </label>
@@ -229,6 +229,22 @@ function criarModalMembro() {
                 autocomplete="off"
                 required
             >
+        </div>
+
+         <div class="grupo-campo grupo-checkbox">
+            <label for="membro-ativo">
+                Situação
+            </label>
+
+            <label class="controle-checkbox">
+                <input
+                    type="checkbox"
+                    id="membro-ativo"
+                    checked
+                >
+
+                <span>Membro ativo</span>
+            </label>
         </div>
 
         <div class="grupo-campo">
@@ -270,21 +286,7 @@ function criarModalMembro() {
             >
         </div>
 
-        <div class="grupo-campo grupo-checkbox">
-            <label for="membro-ativo">
-                Situação
-            </label>
-
-            <label class="controle-checkbox">
-                <input
-                    type="checkbox"
-                    id="membro-ativo"
-                    checked
-                >
-
-                <span>Membro ativo</span>
-            </label>
-        </div>
+       
 
         <div class="grupo-campo">
             <label for="membro-cir">CIR</label>
