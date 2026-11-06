@@ -9,6 +9,15 @@ class Membro {
         this.grau = Number(dados.grau) || 4;
         this.cir = dados.cir || "";
         this.cim = dados.cim || "";
+        this.instrucoesGraus = dados.instrucoesGraus || null;
+        this.sessaoInstrucoes = dados.sessaoInstrucoes || null;
+        this.aprovacaoElevacaoGrau =
+        dados.aprovacaoElevacaoGrau != null
+        ? Number(dados.aprovacaoElevacaoGrau)
+        : null;
+
+       this.sessaoAprovacaoElevacao =
+       dados.sessaoAprovacaoElevacao || null;
         this.observacoes = dados.observacoes || "";
         this.ativo = dados.ativo ?? true;
         this.dataCadastro = dados.dataCadastro || agora;

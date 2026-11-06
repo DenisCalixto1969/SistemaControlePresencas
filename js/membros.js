@@ -2609,6 +2609,27 @@ function obterDadosFormularioMembro() {
             .value
             .trim(),
 
+        instrucoesGraus: document
+            .querySelector("#membro-instrucoes-graus")
+            .value
+            .trim() || null,
+
+        sessaoInstrucoes: document
+            .querySelector("#membro-sessao-instrucoes")
+            .value || null,
+
+        aprovacaoElevacaoGrau: document
+            .querySelector("#membro-aprovacao-elevacao-grau")
+            .value
+            ? Number(document.querySelector(
+                "#membro-aprovacao-elevacao-grau"
+            ).value)
+            : null,
+
+        sessaoAprovacaoElevacao: document
+            .querySelector("#membro-sessao-aprovacao-elevacao")
+            .value || null,
+
         observacoes: document
             .querySelector(
                 "#membro-observacoes"

@@ -154,7 +154,11 @@ function converterRegistroParaSupabase(registro) {
                 .replace(
                     "dataUltimaAlteracao",
                     "data_ultima_alteracao"
-                );
+                )
+                .replace("instrucoesGraus", "instrucoes_graus")
+                .replace("sessaoInstrucoes", "sessao_instrucoes")
+                .replace("aprovacaoElevacaoGrau", "aprovacao_elevacao_grau")
+                .replace("sessaoAprovacaoElevacao", "sessao_aprovacao_elevacao");  
 
             convertido[novaChave] = valor;
         }
@@ -177,7 +181,11 @@ function converterRegistroDoSupabase(registro) {
                 .replace(
                     "data_ultima_alteracao",
                     "dataUltimaAlteracao"
-                );
+                )
+                .replace("instrucoes_graus", "instrucoesGraus")
+                .replace("sessao_instrucoes", "sessaoInstrucoes")
+                .replace("aprovacao_elevacao_grau", "aprovacaoElevacaoGrau")
+                .replace("sessao_aprovacao_elevacao", "sessaoAprovacaoElevacao");
 
             convertido[novaChave] = valor;
         }
