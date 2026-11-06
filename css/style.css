@@ -457,6 +457,10 @@ body.modal-aberto {
     gap: 18px;
 }
 
+.secao-instrucoes-elevacoes {
+    grid-column: 1 / -1;
+}
+
 .campo-largura-total {
     grid-column: 1 / -1;
 }

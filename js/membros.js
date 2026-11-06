@@ -155,7 +155,108 @@ function criarModalMembro() {
                 
    <form id="formulario-membro">
 
-    <!-- INSTRUÇÕES E ELEVAÇÕES -->
+   
+    <!-- DADOS CADASTRAIS -->
+    <div class="formulario-grid">
+
+        <div class="grupo-campo">
+            <label for="membro-nome">
+                Nome <span class="obrigatorio">*</span>
+            </label>
+
+            <input
+                type="text"
+                id="membro-nome"
+                maxlength="150"
+                autocomplete="off"
+                required
+            >
+        </div>
+
+         <div class="grupo-campo grupo-checkbox">
+            <label for="membro-ativo">
+                Situação
+            </label>
+
+            <label class="controle-checkbox">
+                <input
+                    type="checkbox"
+                    id="membro-ativo"
+                    checked
+                >
+
+                <span>Membro ativo</span>
+            </label>
+        </div>
+
+
+        <div class="grupo-campo">
+            <label for="membro-cir">CIR</label>
+
+            <input
+                type="text"
+                id="membro-cir"
+                maxlength="50"
+                autocomplete="off"
+            >
+        </div>
+
+        <div class="grupo-campo">
+            <label for="membro-cim">CIM</label>
+
+            <input
+                type="text"
+                id="membro-cim"
+                maxlength="50"
+                autocomplete="off"
+            >
+        </div>
+
+
+
+        <div class="grupo-campo">
+            <label for="membro-grau">
+                Grau <span class="obrigatorio">*</span>
+            </label>
+
+            <select id="membro-grau" required>
+                ${opcoesGraus}
+            </select>
+        </div>
+
+        <div
+            class="grupo-campo"
+            id="grupo-data-inicio-grau"
+        >
+            <label for="membro-data-inicio-grau">
+                Data de início no grau
+                <span class="obrigatorio">*</span>
+            </label>
+
+            <input
+                type="date"
+                id="membro-data-inicio-grau"
+            >
+        </div>
+
+        <div
+            class="grupo-campo oculto"
+            id="grupo-data-mudanca-grau"
+        >
+            <label for="membro-data-mudanca-grau">
+                Data da mudança de grau
+            </label>
+
+            <input
+                type="date"
+                id="membro-data-mudanca-grau"
+            >
+        </div>
+
+       
+
+
+         <!-- INSTRUÇÕES E ELEVAÇÕES -->
     <section class="secao-instrucoes-elevacoes">
         <h3>Instruções e Elevações</h3>
 
@@ -214,101 +315,6 @@ function criarModalMembro() {
         </div>
 </section>
 
-    <!-- DADOS CADASTRAIS -->
-    <div class="formulario-grid">
-
-        <div class="grupo-campo">
-            <label for="membro-nome">
-                Nome <span class="obrigatorio">*</span>
-            </label>
-
-            <input
-                type="text"
-                id="membro-nome"
-                maxlength="150"
-                autocomplete="off"
-                required
-            >
-        </div>
-
-         <div class="grupo-campo grupo-checkbox">
-            <label for="membro-ativo">
-                Situação
-            </label>
-
-            <label class="controle-checkbox">
-                <input
-                    type="checkbox"
-                    id="membro-ativo"
-                    checked
-                >
-
-                <span>Membro ativo</span>
-            </label>
-        </div>
-
-        <div class="grupo-campo">
-            <label for="membro-grau">
-                Grau <span class="obrigatorio">*</span>
-            </label>
-
-            <select id="membro-grau" required>
-                ${opcoesGraus}
-            </select>
-        </div>
-
-        <div
-            class="grupo-campo"
-            id="grupo-data-inicio-grau"
-        >
-            <label for="membro-data-inicio-grau">
-                Data de início no grau
-                <span class="obrigatorio">*</span>
-            </label>
-
-            <input
-                type="date"
-                id="membro-data-inicio-grau"
-            >
-        </div>
-
-        <div
-            class="grupo-campo oculto"
-            id="grupo-data-mudanca-grau"
-        >
-            <label for="membro-data-mudanca-grau">
-                Data da mudança de grau
-            </label>
-
-            <input
-                type="date"
-                id="membro-data-mudanca-grau"
-            >
-        </div>
-
-       
-
-        <div class="grupo-campo">
-            <label for="membro-cir">CIR</label>
-
-            <input
-                type="text"
-                id="membro-cir"
-                maxlength="50"
-                autocomplete="off"
-            >
-        </div>
-
-        <div class="grupo-campo">
-            <label for="membro-cim">CIM</label>
-
-            <input
-                type="text"
-                id="membro-cim"
-                maxlength="50"
-                autocomplete="off"
-            >
-        </div>
 
         <div class="grupo-campo campo-largura-total">
             <label for="membro-observacoes">
