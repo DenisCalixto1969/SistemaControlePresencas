@@ -212,7 +212,7 @@ function criarModalMembro() {
             </div>
 
         </div>
-    </section>
+</section>
 
     <!-- DADOS CADASTRAIS -->
     <div class="formulario-grid">
@@ -321,9 +321,8 @@ function criarModalMembro() {
         </div>
 
     </div>
-</form>
 
-    <section class="historico-graus">
+           <section class="historico-graus">
     <div class="historico-graus-cabecalho">
         <h3>Histórico de graus</h3>
 
@@ -385,11 +384,7 @@ function criarModalMembro() {
             O histórico será exibido ao editar um membro.
         </p>
     </div>
-</section>
-
-                    </div>
-
-
+         </section>
 
                     <p
                         class="mensagem-formulario oculto"
@@ -413,10 +408,9 @@ function criarModalMembro() {
                             Salvar membro
                         </button>
                     </footer>
-                </form>
-            </section>
-        </div>
-    `;
+       </form>
+</section>
+ </div>  `;
 }
 
 function criarModalExclusaoMembro() {
