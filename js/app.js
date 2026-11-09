@@ -1,5 +1,7 @@
 "use strict";
 
+
+
 document.addEventListener(
     "DOMContentLoaded",
     iniciarAplicacao
@@ -48,34 +50,48 @@ async function iniciarSistema() {
 }
 
 function configurarMenu() {
-    const botoesMenu = document.querySelectorAll(
-        ".menu-botao"
-    );
+
+    const botoesMenu =
+        document.querySelectorAll(".menu-botao");
 
     botoesMenu.forEach((botao) => {
-        botao.addEventListener(
-            "click",
-            async () => {
-                const nomeModulo =
-                    botao.dataset.modulo;
 
-                atualizarBotaoAtivo(botao);
+        const perfilNecessario =
+            botao.dataset.perfil;
 
-                try {
-                    await abrirModulo(nomeModulo);
-                } catch (erro) {
-                    console.error(
-                        `Erro ao abrir o módulo ${nomeModulo}:`,
-                        erro
-                    );
+        // Controlar visibilidade conforme o perfil
+        if (
+            perfilNecessario &&
+            perfilUsuarioAtual !== perfilNecessario
+        ) {
+            botao.hidden = true;
+        } else {
+            botao.hidden = false;
+        }
 
-                    mostrarMensagem(
-                        "Não foi possível abrir o módulo.",
-                        "erro"
-                    );
-                }
+        botao.addEventListener("click", async () => {
+
+            const nomeModulo =
+                botao.dataset.modulo;
+
+            atualizarBotaoAtivo(botao);
+
+            try {
+                await abrirModulo(nomeModulo);
+
+            } catch (erro) {
+
+                console.error(
+                    `Erro ao abrir o módulo ${nomeModulo}:`,
+                    erro
+                );
+
+                mostrarMensagem(
+                    "Não foi possível abrir o módulo.",
+                    "erro"
+                );
             }
-        );
+        });
     });
 }
 

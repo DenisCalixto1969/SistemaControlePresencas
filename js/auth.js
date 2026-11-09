@@ -1,5 +1,9 @@
 "use strict";
 
+let usuarioAutenticadoAtual = null;
+let perfilUsuarioAtual = null;
+let membroVinculadoAtual = null;
+
 async function obterSessaoAtual() {
     const { data, error } =
         await clienteSupabase.auth.getSession();
@@ -40,6 +44,39 @@ async function entrarNoSistema(email, senha) {
         sessao: data.session,
         usuario: data.user
     };
+}
+
+// Identificar o perfil do usuário
+function identificarPerfilUsuario(usuario) {
+
+    const email = usuario.email.toLowerCase();
+
+    if (CONFIG.administradores.includes(email)) {
+        return "administrador";
+    }
+
+    return "membro";
+}
+
+// Localizar o membro vinculado ao usuário autenticado
+async function carregarVinculoMembro(usuario) {
+
+    const { data, error } = await clienteSupabase
+        .from("usuarios_membros")
+        .select("membro_id")
+        .eq("user_id", usuario.id)
+        .maybeSingle();
+
+    if (error) {
+        console.error(
+            "Erro ao consultar vínculo do membro:",
+            error
+        );
+
+        return null;
+    }
+
+    return data;
 }
 
 async function sairDoSistema() {
@@ -96,7 +133,37 @@ function configurarFormularioLogin() {
                 return;
             }
 
-            mensagem.textContent = "";
+            usuarioAutenticadoAtual = resultado.usuario;
+
+perfilUsuarioAtual =
+    identificarPerfilUsuario(resultado.usuario);
+
+membroVinculadoAtual = null;
+
+// Administradores não precisam de vínculo com membros
+if (perfilUsuarioAtual === "membro") {
+
+    const vinculo =
+        await carregarVinculoMembro(resultado.usuario);
+
+    if (!vinculo) {
+
+        await clienteSupabase.auth.signOut();
+
+        usuarioAutenticadoAtual = null;
+        perfilUsuarioAtual = null;
+        membroVinculadoAtual = null;
+
+        mensagem.textContent =
+            "Usuário ainda não vinculado a um membro. Procure o administrador.";
+
+        return;
+    }
+
+    membroVinculadoAtual = vinculo.membro_id;
+}
+
+mensagem.textContent = "";
 
             const telaLogin =
                 document.querySelector("#tela-login");
@@ -124,7 +191,9 @@ if (botaoSair) {
 const botaoMostrarSenha = document.getElementById("mostrar-senha");
 const campoSenha = document.getElementById("login-senha");
 
-botaoMostrarSenha.addEventListener("click", function () {
+if (botaoMostrarSenha && campoSenha) {
+
+    botaoMostrarSenha.addEventListener("click", function () {
 
     if (campoSenha.type === "password") {
         campoSenha.type = "text";
@@ -137,3 +206,4 @@ botaoMostrarSenha.addEventListener("click", function () {
     }
 
 });
+}

@@ -293,27 +293,50 @@ function carregarUltimoBackup() {
 }
 
 async function carregarIndicadores() {
-    const membros =
-        await listarRegistros("membros");
 
-    const sessoes =
-        await listarRegistros("sessoes");
+    const { data, error } =
+        await clienteSupabase.rpc(
+            "obter_indicadores_dashboard"
+        );
 
-    const presencas =
-        await listarRegistros("presencas");
+    if (error) {
+        console.error(
+            "Erro ao carregar indicadores:",
+            error
+        );
 
-    let totalAbaixo50 = 0;
+        mostrarMensagem(
+            "Não foi possível carregar os indicadores.",
+            "erro"
+        );
 
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        console.error(
+            "Nenhum indicador foi retornado."
+        );
+        return;
+    }
+
+    const indicadores = data[0];
+
+    const { data: melhorPercentual, error: erroMelhor } =
+    await clienteSupabase.rpc(
+        "obter_melhor_percentual_dashboard"
+    );
+
+if (erroMelhor) {
+    console.error(
+        "Erro ao consultar melhor percentual:",
+        erroMelhor
+    );
+}
 
     /*
      * MEMBROS ATIVOS
      */
-
-    const membrosAtivos =
-        membros.filter(
-            (membro) =>
-                membro.ativo === true
-        ).length;
 
     const elementoMembros =
         document.getElementById(
@@ -322,16 +345,12 @@ async function carregarIndicadores() {
 
     if (elementoMembros) {
         elementoMembros.textContent =
-            membrosAtivos;
+            indicadores.total_membros_ativos;
     }
 
-
     /*
-     * TOTAL DE SESSÕES
+     * TOTAL DE SESSÕES ENCERRADAS
      */
-
-    const totalSessoes =
-        sessoes.length;
 
     const elementoSessoes =
         document.getElementById(
@@ -340,30 +359,15 @@ async function carregarIndicadores() {
 
     if (elementoSessoes) {
         elementoSessoes.textContent =
-            totalSessoes;
+            indicadores.total_sessoes;
     }
-
 
     /*
      * FREQUÊNCIA MÉDIA
      */
 
-    const totalPresentes =
-        presencas.filter(
-            (presenca) =>
-                presenca.presente === true
-        ).length;
-
-    const totalPresencas =
-        presencas.length;
-
     const frequenciaMedia =
-        totalPresencas > 0
-            ? (
-                totalPresentes /
-                totalPresencas
-            ) * 100
-            : 0;
+        Number(indicadores.frequencia_media);
 
     const elementoFrequenciaMedia =
         document.getElementById(
@@ -377,7 +381,6 @@ async function carregarIndicadores() {
                 .replace(".", ",") + "%";
     }
 
-
     /*
      * MELHOR FREQUÊNCIA
      */
@@ -387,163 +390,73 @@ async function carregarIndicadores() {
             "dashboard-melhor-frequencia"
         );
 
-    if (
-        elementoMelhorFrequencia &&
-        sessoes.length > 0
-    ) {
-        const sessoesOrdenadas = [
-            ...sessoes
-        ].sort(
-            (a, b) =>
-                a.data.localeCompare(b.data)
-        );
-
-        const dataInicial =
-            sessoesOrdenadas[0].data;
-
-        const dataFinal =
-            sessoesOrdenadas[
-                sessoesOrdenadas.length - 1
-            ].data;
-
-        const membrosAtivosLista =
-            membros.filter(
-                (membro) =>
-                    membro.ativo === true
-            );
-
-        const frequenciasMembros =
-            await Promise.all(
-                membrosAtivosLista.map(
-                    async (membro) => {
-                        const frequencia =
-                            await calcularFrequenciaMembro(
-                                membro,
-                                dataInicial,
-                                dataFinal
-                            );
-
-                        return {
-                            membro,
-                            frequencia
-                        };
-                    }
-                )
-            );
-
-        const membrosComSessoes =
-            frequenciasMembros.filter(
-                (item) =>
-                    item.frequencia.totalSessoes > 0
-            );
-
-        if (membrosComSessoes.length > 0) {
-            const maiorPercentual =
-                Math.max(
-                    ...membrosComSessoes.map(
-                        (item) =>
-                            item.frequencia.percentual
-                    )
-                );
-    const melhores =
-    membrosComSessoes
-        .filter(
-            (item) =>
-                item.frequencia.percentual ===
-                maiorPercentual
+    if (elementoMelhorFrequencia) {
+        const nomes = String(
+            indicadores.melhores_frequencias || "—"
         )
-        .sort((a, b) =>
-            a.membro.nome.localeCompare(
-                b.membro.nome,
-                "pt-BR",
-                {
-                    sensitivity: "base"
-                }
-            )
-        );
+            .split("\n")
+            .map(nome => escaparHTML(nome))
+            .join("<br>");
 
-const elementoAbaixo50 =
-    document.getElementById(
-        "dashboard-abaixo-50"
-    );
-
-    totalAbaixo50 =
-    membrosComSessoes.filter(
-        (item) =>
-            item.frequencia.percentual < 50
-    ).length;
-
-if (elementoAbaixo50) {
-    elementoAbaixo50.textContent =
-        totalAbaixo50;
-}    
-
-const elementoUltimaSessao =
-    document.getElementById(
-        "dashboard-ultima-sessao"
-    );
-
-if (
-    elementoUltimaSessao &&
-    sessoes.length > 0
-) {
-
-    const ultimaSessao =
-        [...sessoes].sort(
-            (a, b) =>
-                b.data.localeCompare(a.data)
-        )[0];
-
-    elementoUltimaSessao.innerHTML = `
-        Sessão ${ultimaSessao.numero}<br>
-        ${formatarData(ultimaSessao.data)}
-    `;
-
-}
-
-
-            elementoMelhorFrequencia.innerHTML = `
-                ${melhores
-                    .map(
-                        (item) =>
-                            escaparHTML(
-                                item.membro.nome
-                            )
-                    )
-                    .join("<br>")}
-
-                <br>
-
-                <span>
-                    ${maiorPercentual
-                        .toFixed(2)
-                        .replace(".", ",")}%
-                </span>
-            `;
-        } else {
-            elementoMelhorFrequencia.textContent =
-                "—";
-        }
+        elementoMelhorFrequencia.innerHTML = `
+            ${nomes}
+            <br>
+            <span>
+    ${Number(melhorPercentual ?? 0)
+        .toFixed(2)
+        .replace(".", ",")}%
+</span>
+        `;
     }
 
-  /*
+    /*
+     * MEMBROS ABAIXO DE 50%
+     */
+
+    const elementoAbaixo50 =
+        document.getElementById(
+            "dashboard-abaixo-50"
+        );
+
+    if (elementoAbaixo50) {
+        elementoAbaixo50.textContent =
+            indicadores.membros_abaixo_50;
+    }
+
+    /*
+     * ÚLTIMA SESSÃO ENCERRADA
+     */
+
+    const elementoUltimaSessao =
+        document.getElementById(
+            "dashboard-ultima-sessao"
+        );
+
+    if (
+        elementoUltimaSessao &&
+        indicadores.ultima_sessao_numero !== null
+    ) {
+        elementoUltimaSessao.innerHTML = `
+            Sessão ${indicadores.ultima_sessao_numero}<br>
+            ${formatarData(
+                indicadores.ultima_sessao_data
+            )}
+        `;
+    }
+
+    /*
      * CONFERÊNCIA NO CONSOLE
      */
 
     console.log(
-    "Indicadores do Dashboard:",
-    {
-        membrosAtivos,
-        totalSessoes,
-        totalPresencas,
-        totalPresentes,
-        frequenciaMedia,
-        totalAbaixo50
-    }
-);
+        "Indicadores do Dashboard:",
+        indicadores
+    );
 }
 
+
 async function carregarRankingRapido() {
+
     const areaRanking =
         document.getElementById(
             "dashboard-ranking"
@@ -553,39 +466,29 @@ async function carregarRankingRapido() {
         return;
     }
 
-    const membros =
-        await listarRegistros("membros");
+    /*
+     * PERÍODO DAS SESSÕES
+     */
 
     const sessoes =
         await listarRegistros("sessoes");
-
-    const membrosAtivos =
-        membros.filter(
-            (membro) =>
-                membro.ativo === true
-        );
-
-    if (
-        membrosAtivos.length === 0 ||
-        sessoes.length === 0
-    ) {
-        areaRanking.innerHTML = `
-            <h3>Ranking rápido</h3>
-
-            <p class="dashboard-sem-dados">
-                Ainda não há dados suficientes
-                para gerar o ranking.
-            </p>
-        `;
-
-        return;
-    }
 
     const sessoesOrdenadas =
         [...sessoes].sort(
             (a, b) =>
                 a.data.localeCompare(b.data)
         );
+
+    if (sessoesOrdenadas.length === 0) {
+        areaRanking.innerHTML = `
+            <h3>Ranking rápido</h3>
+            <p class="dashboard-sem-dados">
+                Ainda não há dados suficientes
+                para gerar o ranking.
+            </p>
+        `;
+        return;
+    }
 
     const dataInicial =
         sessoesOrdenadas[0].data;
@@ -595,90 +498,93 @@ async function carregarRankingRapido() {
             sessoesOrdenadas.length - 1
         ].data;
 
+    /*
+     * CONSULTA DO RANKING NO SUPABASE
+     */
+
+    const { data: dadosRanking, error } =
+        await clienteSupabase.rpc(
+            "obter_ranking_frequencia",
+            {
+                p_data_inicial: dataInicial,
+                p_data_final: dataFinal
+            }
+        );
+
+    if (error) {
+        console.error(
+            "Erro ao consultar ranking rápido:",
+            error
+        );
+
+        mostrarMensagem(
+            "Não foi possível carregar o ranking rápido.",
+            "erro"
+        );
+
+        return;
+    }
+
+    /*
+     * CONVERSÃO DOS DADOS
+     */
+
     const ranking =
-        await Promise.all(
-            membrosAtivos.map(
-                async (membro) => {
-                    const frequencia =
-                        await calcularFrequenciaMembro(
-                            membro,
-                            dataInicial,
-                            dataFinal
-                        );
+        (dadosRanking || [])
+            .map(item => ({
+                membro: {
+                    id: item.membro_id,
+                    nome: item.nome
+                },
 
-                    return {
-                        membro,
-                        frequencia
-                    };
+                frequencia: {
+                    totalSessoes:
+                        Number(item.total_sessoes),
+
+                    totalPresentes:
+                        Number(item.total_presentes),
+
+                    totalAusentes:
+                        Number(item.total_ausentes),
+
+                    percentual:
+                        Number(item.percentual)
                 }
-            )
-        );
-
-    const rankingComSessoes =
-        ranking.filter(
-            (item) =>
-                item.frequencia.totalSessoes > 0
-        );
-
-    rankingComSessoes.sort(
-        (a, b) => {
-            if (
-                b.frequencia.percentual !==
-                a.frequencia.percentual
-            ) {
-                return (
-                    b.frequencia.percentual -
-                    a.frequencia.percentual
-                );
-            }
-
-            if (
-                b.frequencia.totalPresentes !==
-                a.frequencia.totalPresentes
-            ) {
-                return (
-                    b.frequencia.totalPresentes -
-                    a.frequencia.totalPresentes
-                );
-            }
-
-            return a.membro.nome.localeCompare(
-                b.membro.nome,
-                "pt-BR",
-                {
-                    sensitivity: "base"
-                }
+            }))
+            .filter(
+                item =>
+                    item.frequencia.totalSessoes > 0
             );
+
+    /*
+     * CLASSIFICAÇÃO
+     */
+
+    ranking.forEach((item, indice) => {
+
+        if (indice === 0) {
+            item.posicao = 1;
+            return;
         }
-    );
 
-    rankingComSessoes.forEach(
-        (item, indice) => {
-            if (indice === 0) {
-                item.posicao = 1;
-                return;
-            }
+        const anterior =
+            ranking[indice - 1];
 
-            const anterior =
-                rankingComSessoes[indice - 1];
+        const empate =
+            item.frequencia.percentual ===
+                anterior.frequencia.percentual &&
+            item.frequencia.totalPresentes ===
+                anterior.frequencia.totalPresentes;
 
-            const empate =
-                item.frequencia.percentual ===
-                    anterior.frequencia.percentual &&
-                item.frequencia.totalPresentes ===
-                    anterior.frequencia.totalPresentes;
-
-            item.posicao =
-                empate
-                    ? anterior.posicao
-                    : indice + 1;
-        }
-    );
+        item.posicao =
+            empate
+                ? anterior.posicao
+                : indice + 1;
+    });
 
     const primeiros =
-        rankingComSessoes.filter(
-            (item) =>
-                item.posicao <= 3
+        ranking.filter(
+            item => item.posicao <= 3
         );
 
     if (primeiros.length === 0) {
@@ -693,6 +599,10 @@ async function carregarRankingRapido() {
 
         return;
     }
+
+    /*
+     * EXIBIÇÃO DO RANKING
+     */
 
     areaRanking.innerHTML = `
         <div class="dashboard-secao-cabecalho">
@@ -710,7 +620,8 @@ async function carregarRankingRapido() {
         <div class="dashboard-ranking-lista">
 
             ${primeiros
-                .map((item) => {
+                .map(item => {
+
                     const medalha =
                         item.posicao === 1
                             ? "🥇"
@@ -753,9 +664,11 @@ async function carregarRankingRapido() {
 
         </div>
     `;
-}
-  
+}  
+
+
 async function carregarUltimasSessoes() {
+
     const areaSessoes =
         document.getElementById(
             "dashboard-ultimas-sessoes"
@@ -767,9 +680,6 @@ async function carregarUltimasSessoes() {
 
     const sessoes =
         await listarRegistros("sessoes");
-
-    const presencas =
-        await listarRegistros("presencas");
 
     if (sessoes.length === 0) {
         areaSessoes.innerHTML = `
@@ -791,30 +701,48 @@ async function carregarUltimasSessoes() {
             )
             .slice(0, 3);
 
-    const sessoesComResumo =
-        ultimasSessoes.map(
-            (sessao) => {
-                const presencasSessao =
-                    presencas.filter(
-                        (presenca) =>
-                            presenca.sessaoId ===
-                            sessao.id
-                    );
-
-                const presentes =
-                    presencasSessao.filter(
-                        (presenca) =>
-                            presenca.presente === true
-                    ).length;
-
-                return {
-                    sessao,
-                    presentes,
-                    totalAptos:
-                        presencasSessao.length
-                };
-            }
+    const { data: resumos, error } =
+        await clienteSupabase.rpc(
+            "obter_resumo_ultimas_sessoes"
         );
+
+    if (error) {
+        console.error(
+            "Erro ao consultar resumo das sessões:",
+            error
+        );
+
+        mostrarMensagem(
+            "Não foi possível carregar o resumo das sessões.",
+            "erro"
+        );
+
+        return;
+    }
+
+    const mapaResumos = new Map(
+        (resumos || []).map(item => [
+            item.sessao_id,
+            item
+        ])
+    );
+
+    const sessoesComResumo =
+        ultimasSessoes.map(sessao => {
+
+            const resumo =
+                mapaResumos.get(sessao.id);
+
+            return {
+                sessao,
+                presentes: Number(
+                    resumo?.total_presentes ?? 0
+                ),
+                totalAptos: Number(
+                    resumo?.total_aptos ?? 0
+                )
+            };
+        });
 
     areaSessoes.innerHTML = `
         <div class="dashboard-secao-cabecalho">
@@ -835,54 +763,48 @@ async function carregarUltimasSessoes() {
                         sessao,
                         presentes,
                         totalAptos
-                    }) => {
-                        return `
-                            <div class="dashboard-sessao-item">
+                    }) => `
+                        <div class="dashboard-sessao-item">
 
-                                <div class="dashboard-sessao-principal">
-                                    <strong>
-                                        Sessão ${formatarNumeroSessao(
-                                            sessao.numero
-                                        )}
-                                    </strong>
+                            <div class="dashboard-sessao-principal">
+                                <strong>
+                                    Sessão ${formatarNumeroSessao(
+                                        sessao.numero
+                                    )}
+                                </strong>
 
-                                    <span>
-                                        ${formatarData(
-                                            sessao.data
-                                        )}
-                                    </span>
-                                </div>
-
-                                <div class="dashboard-sessao-detalhes">
-                                    <span>
-                                        ${escaparHTML(
-                                            sessao.tipo
-                                        )}
-                                    </span>
-
-                                    <span>
-                               ${
-                            Number(sessao.grau) === 0 ||
-                          sessao.tipo === "Não Houve Sessão"
-                           ? "—"
-                          : `Grau ${escaparHTML(sessao.grau)}`
-                             }
-                             </span>
-                                </div>
-
-                                <div class="dashboard-sessao-presencas">
-                                    <strong>
-                                        ${presentes}
-                                    </strong>
-
-                                    <span>
-                                  presentes de ${totalAptos} permitidos
-                                    </span>
-                                </div>
-
+                                <span>
+                                    ${formatarData(sessao.data)}
+                                </span>
                             </div>
-                        `;
-                    }
+
+                            <div class="dashboard-sessao-detalhes">
+                                <span>
+                                    ${escaparHTML(sessao.tipo)}
+                                </span>
+
+                                <span>
+                                    ${
+                                        Number(sessao.grau) === 0 ||
+                                        sessao.tipo === "Não Houve Sessão"
+                                            ? "—"
+                                            : `Grau ${escaparHTML(sessao.grau)}`
+                                    }
+                                </span>
+                            </div>
+
+                            <div class="dashboard-sessao-presencas">
+                                <strong>
+                                    ${presentes}
+                                </strong>
+
+                                <span>
+                                    presentes de ${totalAptos} permitidos
+                                </span>
+                            </div>
+
+                        </div>
+                    `
                 )
                 .join("")}
 

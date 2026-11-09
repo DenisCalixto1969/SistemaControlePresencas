@@ -148,54 +148,43 @@ membros.sort((a, b) =>
     )
 );
 
-const ranking = await Promise.all(
-    membros.map(async (membro) => {
-
-        const frequencia =
-            await calcularFrequenciaMembro(
-                membro,
-                dados.dataInicial,
-                dados.dataFinal
-            );
-
-        return {
-            membro,
-            frequencia
-        };
-
-    })
-);
-ranking.sort((a, b) => {
-
-    if (
-        b.frequencia.percentual !==
-        a.frequencia.percentual
-    ) {
-        return (
-            b.frequencia.percentual -
-            a.frequencia.percentual
-        );
-    }
-
-    if (
-        b.frequencia.totalPresentes !==
-        a.frequencia.totalPresentes
-    ) {
-        return (
-            b.frequencia.totalPresentes -
-            a.frequencia.totalPresentes
-        );
-    }
-
-    return a.membro.nome.localeCompare(
-        b.membro.nome,
-        "pt-BR",
+const { data: dadosRanking, error } =
+    await clienteSupabase.rpc(
+        "obter_ranking_frequencia",
         {
-            sensitivity: "base"
+            p_data_inicial: dados.dataInicial,
+            p_data_final: dados.dataFinal
         }
     );
 
-});
+if (error) {
+    console.error(
+        "Erro ao consultar ranking:",
+        error
+    );
+
+    mostrarMensagem(
+        "Não foi possível carregar o ranking.",
+        "erro"
+    );
+
+    return;
+}
+
+const ranking = (dadosRanking || []).map(item => ({
+    membro: {
+        id: item.membro_id,
+        nome: item.nome
+    },
+
+    frequencia: {
+        totalSessoes: Number(item.total_sessoes),
+        totalPresentes: Number(item.total_presentes),
+        totalAusentes: Number(item.total_ausentes),
+        percentual: Number(item.percentual)
+    }
+}));
+
 
 let posicaoAtual = 1;
 

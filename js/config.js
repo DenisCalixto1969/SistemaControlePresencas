@@ -6,6 +6,11 @@ const CONFIG = {
         versao: "0.1.0"
     },
 
+    administradores: [
+        "capituloagabriel@gmail.com",
+        "deniscalixto04@gmail.com"
+    ],
+
     banco: {
         nome: "SistemaControlePresencasDB",
         versao: 3
