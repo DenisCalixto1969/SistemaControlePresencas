@@ -292,6 +292,7 @@ return (data || []).map(
     converterRegistroDoSupabase
 );
 
+
 }
 
 async function excluirRegistro(nomeTabela, id) {

@@ -43,16 +43,17 @@ function carregarModuloRelatorios() {
 
 </div>
 
-<div class="grupo-campo">
-    <label for="relatorio-membro">
-        Membro
-    </label>
+${perfilUsuarioAtual === "administrador" ? `
+    <div class="grupo-campo">
+        <label for="relatorio-membro">
+            Membro
+        </label>
 
-    <select id="relatorio-membro">
-        <option value="">Todos os membros</option>
-    </select>
-</div>
-
+        <select id="relatorio-membro">
+            <option value="">Todos os membros</option>
+        </select>
+    </div>
+` : ""}
 <div class="grupo-botoes">
     <button
         type="submit"
@@ -174,6 +175,8 @@ async function gerarRelatorio(evento) {
     const erroValidacao =
         validarDadosRelatorio(dados);
 
+   
+
     if (erroValidacao) {
         mostrarMensagem(
             erroValidacao,
@@ -182,6 +185,21 @@ async function gerarRelatorio(evento) {
 
         return;
     }
+
+     // Restringir membros ao próprio relatório
+if (perfilUsuarioAtual === "membro") {
+
+    if (!membroVinculadoAtual) {
+        mostrarMensagem(
+            "Não foi possível identificar seu cadastro.",
+            "erro"
+        );
+
+        return;
+    }
+
+    dados.membroId = membroVinculadoAtual;
+}    
 
     
     const botaoGerar = document.querySelector(
@@ -201,7 +219,17 @@ async function gerarRelatorio(evento) {
 
     try {
         
-        if (!dados.membroId) {
+    if (!dados.membroId) {
+
+    if (perfilUsuarioAtual !== "administrador") {
+        mostrarMensagem(
+            "Você não tem permissão para gerar relatórios gerais.",
+            "erro"
+        );
+
+        return;
+    }
+
     await gerarRelatorioTodosMembros(
         dados,
         resultado
@@ -209,6 +237,8 @@ async function gerarRelatorio(evento) {
 
     return;
 }
+
+
         const membro = await buscarRegistroPorId(
             "membros",
             dados.membroId

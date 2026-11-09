@@ -231,6 +231,12 @@ async function calcularFrequenciaMembro(
             "presencas"
         );
 
+     console.log("REGISTROS DE PRESENÇA:", todasPresencas);
+console.log(
+    "TIPO DO CAMPO PRESENTE:",
+    typeof todasPresencas[0]?.presente
+);   
+
     const idsSessoesPermitidas =
         new Set(
             sessoesPermitidas.map(

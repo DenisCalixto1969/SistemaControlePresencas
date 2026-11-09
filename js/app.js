@@ -128,6 +128,20 @@ if (moduloSessaoAberta) {
         );
     }
 
+  // Bloquear acesso de membros ao módulo Presenças
+if (
+    nomeModulo === "presencas" &&
+    perfilUsuarioAtual !== "administrador"
+) {
+    mostrarMensagem(
+        "Você não tem permissão para acessar este módulo.",
+        "erro"
+    );
+
+    await abrirModulo("inicio");
+    return;
+}  
+
     switch (nomeModulo) {
         case "membros":
             conteudoPrincipal.innerHTML =
