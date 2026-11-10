@@ -282,6 +282,11 @@ async function listarRegistros(nomeTabela) {
             .from(nomeTabelaSupabase)
             .select("*");
 
+            console.log("Tabela consultada:", nomeTabelaSupabase);
+console.log("Erro da consulta:", error);
+console.log("Dados recebidos:", data);       
+
+
     if (error) {
         throw new Error(
             `Não foi possível listar os registros: ${error.message}`
@@ -361,6 +366,8 @@ async function listarRegistrosPorIndice(
             .select("*")
             .eq(nomeIndiceSupabase, valor);
 
+            
+     
     if (error) {
         throw new Error(
             `Não foi possível consultar os registros: ${error.message}`

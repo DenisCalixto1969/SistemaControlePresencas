@@ -26,6 +26,7 @@ function carregarModuloMembros() {
         📋 Lista de membros
     </button>
 
+   ${perfilUsuarioAtual === "administrador" ? `
     <button
         type="button"
         class="botao-primario"
@@ -33,6 +34,8 @@ function carregarModuloMembros() {
     >
         + Novo membro
     </button>
+` : ""}
+
 </div>
         </section>
 
@@ -573,7 +576,12 @@ if (botaoSalvarGrauHistorico) {
     );
 }
 
-   botaoNovo.addEventListener("click", abrirModalNovoMembro);
+  if (botaoNovo) {
+    botaoNovo.addEventListener(
+        "click",
+        abrirModalNovoMembro
+    );
+}
     botaoListaSimples.addEventListener(
     "click",
     abrirListaSimplesMembros
@@ -1562,6 +1570,12 @@ async function carregarHistoricoGraus(membroId) {
 
     const historico = await listarRegistros("historicoGraus");
 
+    console.log("ID recebido pela função:", membroId);
+
+console.log("Total de registros recebidos:", historico.length);
+
+console.log("Primeiro registro recebido:", historico[0]);
+
     const registros = historico
         .filter(item => item.membroId === membroId)
         .sort((a, b) =>
@@ -1849,7 +1863,7 @@ document.querySelector(
         "#membro-ativo"
     ).checked = membro.ativo;
 
-    await carregarHistoricoGrausMembro(id);
+    await carregarHistoricoGraus(id);
 
     const mensagem =
         document.querySelector(
@@ -2020,13 +2034,13 @@ const historicoAtual = historicoCompleto.find(
         registro.dataFim == null
 );
 
-// Preenche somente com a data do grau vigente.
-campoDataInicioGrau.value =
-    historicoAtual?.dataInicio || "";
 
-    await carregarHistoricoGrausMembro(id);
 
     await carregarHistoricoGraus(id);
+
+    // Preenche somente com a data do grau vigente.
+campoDataInicioGrau.value =
+    historicoAtual?.dataInicio || "";
 
     configurarModoVisualizacaoMembro(true);
 
@@ -2091,9 +2105,12 @@ async function registrarHistoricoGrau(
         dataMudanca ||
         agora.slice(0, 10);
 
-    const historicoCompleto = await listarRegistros(
-        "historicoGraus"
+    const historicoCompleto = 
+    await listarRegistros( "historicoGraus"
     );
+
+    console.log("ID do membro selecionado:", id);
+console.log("Histórico completo recebido:", historicoCompleto);
 
     const historicoDoMembro = historicoCompleto
         .filter(
@@ -2603,57 +2620,6 @@ async function sincronizarPresencasHistoricasMembro(
 }
 
 
-async function carregarHistoricoGrausMembro(membroId) {
-    const areaHistorico = document.querySelector(
-        "#historico-graus-membro"
-    );
-
-    if (!areaHistorico) {
-        return;
-    }
-
-    const todosRegistros = await listarRegistros(
-        "historicoGraus"
-    );
-
-    const historico = todosRegistros
-        .filter(
-            (registro) => registro.membroId === membroId
-        )
-        .sort(
-            (registroA, registroB) =>
-                registroB.dataInicio.localeCompare(
-                    registroA.dataInicio
-                )
-        );
-
-    if (historico.length === 0) {
-        areaHistorico.innerHTML = `
-            <p class="historico-graus-vazio">
-                Nenhum histórico de grau registrado.
-            </p>
-        `;
-
-        return;
-    }
-
-    areaHistorico.innerHTML = historico
-        .map((registro) => {
-            return `
-                <div class="historico-grau-item">
-                    <strong>
-                        Grau ${escaparHTML(registro.grau)}
-                    </strong>
-
-                    <span>
-                        ${formatarData(registro.dataInicio)}
-                    </span>
-                </div>
-            `;
-        })
-        .join("");
-}
-
 
 async function atualizarMembroExistente(dados) {
     const membroAtual = await buscarRegistroPorId(
@@ -2911,38 +2877,44 @@ function criarLinhaMembro(membro) {
                 👁
             </button>
 
-                <button
-                    type="button"
-                    class="botao-icone"
-                    data-acao="editar"
-                    data-id="${membro.id}"
-                    title="Editar membro"
-                    aria-label="Editar ${escaparHTML(membro.nome)}"
-                >
-                    ✎
-                </button>
+               ${
+    perfilUsuarioAtual === "administrador"
+        ? `
+            <button
+                type="button"
+                class="botao-icone"
+                data-acao="editar"
+                data-id="${membro.id}"
+                title="Editar membro"
+                aria-label="Editar ${escaparHTML(membro.nome)}"
+            >
+                ✎
+            </button>
 
-                <button
-                    type="button"
-                    class="botao-icone"
-                    data-acao="alternar-status"
-                    data-id="${membro.id}"
-                    title="${textoAcaoStatus}"
-                    aria-label="${textoAcaoStatus}"
-                >
-                    ${simboloStatus}
-                </button>
+            <button
+                type="button"
+                class="botao-icone"
+                data-acao="alternar-status"
+                data-id="${membro.id}"
+                title="${textoAcaoStatus}"
+                aria-label="${textoAcaoStatus}"
+            >
+                ${simboloStatus}
+            </button>
 
-                <button
-                    type="button"
-                    class="botao-icone botao-perigo"
-                    data-acao="excluir"
-                    data-id="${membro.id}"
-                    title="Excluir membro"
-                    aria-label="Excluir ${escaparHTML(membro.nome)}"
-                >
-                    ×
-                </button>
+            <button
+                type="button"
+                class="botao-icone botao-perigo"
+                data-acao="excluir"
+                data-id="${membro.id}"
+                title="Excluir membro"
+                aria-label="Excluir ${escaparHTML(membro.nome)}"
+            >
+                ×
+            </button>
+        `
+        : ""
+}
             </div>
         </article>
     `;

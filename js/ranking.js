@@ -186,42 +186,43 @@ const ranking = (dadosRanking || []).map(item => ({
 }));
 
 
-let posicaoAtual = 1;
+ranking.sort((a, b) => {
 
-ranking.forEach((item, indice) => {
-
-    if (indice === 0) {
-
-        item.posicao = 1;
-        return;
-
+    // 1º critério: maior percentual
+    if (b.frequencia.percentual !== a.frequencia.percentual) {
+        return b.frequencia.percentual - a.frequencia.percentual;
     }
 
-    const anterior = ranking[indice - 1];
-
-    const empate =
-
-        item.frequencia.percentual ===
-        anterior.frequencia.percentual
-
-        &&
-
-        item.frequencia.totalPresentes ===
-        anterior.frequencia.totalPresentes;
-
-    if (empate) {
-
-        item.posicao =
-            anterior.posicao;
-
-    } else {
-
-        item.posicao =
-            indice + 1;
-
+    // 2º critério: maior número de sessões permitidas
+    if (b.frequencia.totalSessoes !== a.frequencia.totalSessoes) {
+        return b.frequencia.totalSessoes - a.frequencia.totalSessoes;
     }
 
+    // 3º critério: maior número de presenças
+    if (b.frequencia.totalPresentes !== a.frequencia.totalPresentes) {
+        return b.frequencia.totalPresentes - a.frequencia.totalPresentes;
+    }
+
+    // 4º critério: ordem alfabética
+    return a.membro.nome.localeCompare(
+        b.membro.nome,
+        "pt-BR",
+        { sensitivity: "base" }
+    );
 });
+
+// Posição conforme a classificação final
+ranking.forEach((item, indice) => {
+    item.posicao = indice + 1;
+});
+
+// Definir os membros visíveis conforme o perfil
+const rankingExibido =
+    perfilUsuarioAtual === "membro"
+        ? ranking.filter(
+            item => item.frequencia.percentual === 100
+        )
+        : ranking;
 
 /*const primeiro = ranking[0];
 const segundo = ranking[1];
@@ -246,26 +247,34 @@ resultado.innerHTML = `
 
         <p>
             <strong>Membros classificados:</strong>
-            ${ranking.length}
+          ${rankingExibido.length}
         </p>
+
+        ${perfilUsuarioAtual === "membro" ? `
+    
+    <p class="aviso-ranking-membro">
+    
+    ℹ️ Este ranking apresenta somente os membros
+        com 100% de frequência no período consultado.
+        Critério: nº Sessões e ordem alfabética.
+
+    </p>
+` : ""}
 
     </div>
 
    <div class="podio-ranking">
 
-    ${ranking
-        .filter(
-            (item) =>
-                item.posicao <= 3
-        )
+  ${rankingExibido
+    .filter(
+        item =>
+            perfilUsuarioAtual === "membro" ||
+            item.posicao <= 3
+    )
         .map((item) => {
 
-            const medalha =
-                item.posicao === 1
-                    ? "🥇"
-                    : item.posicao === 2
-                        ? "🥈"
-                        : "🥉";
+         const medalha =
+    item.frequencia.percentual === 100 ? "🥇" : "";
 
             return criarCartaoPodio(
                 item,
@@ -302,8 +311,8 @@ resultado.innerHTML = `
                         </thead>
 
                         <tbody>
-                            ${ranking
-                                .map((item, indice) => {
+                           ${rankingExibido
+                           .map((item, indice) => {
                                    const posicao =
                                    item.posicao;
                                     const percentual =
@@ -316,14 +325,8 @@ resultado.innerHTML = `
                                             item.frequencia.percentual
                                         );
 
-                                    const medalha =
-                                        posicao === 1
-                                            ? "🥇"
-                                            : posicao === 2
-                                                ? "🥈"
-                                                : posicao === 3
-                                                    ? "🥉"
-                                                    : "";
+                                  const medalha =
+    item.frequencia.percentual === 100 ? "🥇" : "";
 
                                     return `
                                         <tr
@@ -334,8 +337,8 @@ resultado.innerHTML = `
                                         >
                                             <td>
                                                 <strong>
-                                             ${medalha}         
-                              ${posicao}º${posicao <= 3 ? " Lugar" : ""}                  
+
+                                             ${medalha} ${posicao}
 
                                                 </strong>
                                             </td>
@@ -425,7 +428,7 @@ function criarCartaoPodio(
             </span>
 
             <span class="posicao-podio">
-                ${posicao}º lugar
+               ${posicao}
             </span>
 
             <strong class="nome-podio">

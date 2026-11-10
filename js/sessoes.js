@@ -15,6 +15,9 @@ function carregarModuloSessoes() {
                 </p>
             </div>
 
+            ${
+    perfilUsuarioAtual === "administrador"
+        ? `
             <button
                 type="button"
                 class="botao-primario"
@@ -22,6 +25,9 @@ function carregarModuloSessoes() {
             >
                 + Nova sessão
             </button>
+        `
+        : ""
+}
         </section>
 
         <section class="barra-ferramentas">
@@ -332,20 +338,25 @@ const botaoConfirmarExclusao = document.querySelector(
     "#botao-confirmar-exclusao-sessao"
 );
 
+   if (botaoNovaSessao) {
     botaoNovaSessao.addEventListener(
         "click",
         abrirModalNovaSessao
     );
-
+}
+    if (botaoFechar) {
     botaoFechar.addEventListener(
         "click",
         fecharModalSessao
     );
+}
 
+   if (botaoCancelar) {
     botaoCancelar.addEventListener(
         "click",
         fecharModalSessao
     );
+}
 
     formulario.addEventListener(
         "submit",
@@ -356,10 +367,12 @@ const botaoConfirmarExclusao = document.querySelector(
     "#sessao-tipo"
 );
 
-campoTipo.addEventListener(
-    "change",
-    controlarGrauPorTipoSessao
-);
+if (campoTipo) {
+    campoTipo.addEventListener(
+        "change",
+        controlarGrauPorTipoSessao
+    );
+}
 
     campoPesquisa.addEventListener("input", () => {
         filtrarSessoes(campoPesquisa.value);
@@ -1347,59 +1360,64 @@ if (percentual >= 75) {
     </small>
 </div>
 
-            <div class="acoes-linha" data-rotulo="Ações">
-
-    <button
-    type="button"
-    class="botao-icone"
-    data-acao="visualizar"
-    data-id="${sessao.id}"
-    title="Visualizar sessão"
-    aria-label="Visualizar sessão ${numero}"
-    >
-    👁
-    </button>
-
-
-
-    <button
-    type="button"
-    data-acao="editar"
-    data-id="${sessao.id}"
-    title="${
-        sessao.status === "Encerrada"
-            ? "Sessão encerrada não pode ser editada"
-            : "Editar sessão"
-    }"
->
-    ✎
-</button>
-
-   <button
-    type="button"
-    class="botao-icone"
-    data-acao="abrir"
-    data-id="${sessao.id}"
-    title="Abrir sessão"
-    aria-label="Abrir sessão ${numero}"
->
-    ◉
-    </button>
+           <div class="acoes-linha" data-rotulo="Ações">
 
     <button
         type="button"
-        class="botao-icone botao-perigo"
-        data-acao="excluir"
+        class="botao-icone"
+        data-acao="visualizar"
         data-id="${sessao.id}"
-        title="Excluir sessão"
-        aria-label="Excluir sessão ${numero}"
+        title="Visualizar sessão"
+        aria-label="Visualizar sessão ${numero}"
     >
-        ×
+        👁
     </button>
 
+    ${
+        perfilUsuarioAtual === "administrador"
+            ? `
+                <button
+                    type="button"
+                    class="botao-icone"
+                    data-acao="editar"
+                    data-id="${sessao.id}"
+                    title="${
+                        sessao.status === "Encerrada"
+                            ? "Sessão encerrada não pode ser editada"
+                            : "Editar sessão"
+                    }"
+                >
+                    ✎
+                </button>
+
+                <button
+                    type="button"
+                    class="botao-icone"
+                    data-acao="abrir"
+                    data-id="${sessao.id}"
+                    title="Abrir sessão"
+                    aria-label="Abrir sessão ${numero}"
+                >
+                    ◉
+                </button>
+
+                <button
+                    type="button"
+                    class="botao-icone botao-perigo"
+                    data-acao="excluir"
+                    data-id="${sessao.id}"
+                    title="Excluir sessão"
+                    aria-label="Excluir sessão ${numero}"
+                >
+                    ×
+                </button>
+            `
+            : ""
+    }
+
 </div>
-        </article>
-    `;
+</article>
+`;
 }
 
 function formatarQuantidadeSessoes(quantidade) {

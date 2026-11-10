@@ -160,41 +160,47 @@ function carregarModuloDashboard() {
    <section class="painel dashboard-secao">
     <div class="dashboard-secao-cabecalho">
         <div>
+        
+           ${
+    perfilUsuarioAtual === "administrador"
+        ? `
             <h3>💾 Backup do sistema</h3>
 
             <p>
                 Gere uma cópia de segurança dos dados cadastrados.
             </p>
-        </div>
-    </div>
 
-    <button
-        type="button"
-        class="botao botao-primario"
-        id="botao-exportar-backup"
-    >
-        Exportar Backup
-    </button>
+            <button
+                type="button"
+                class="botao botao-primario"
+                id="botao-exportar-backup"
+            >
+                Exportar Backup
+            </button>
 
-    <input
-        type="file"
-        id="arquivo-restaurar-backup"
-        accept=".json,application/json"
-    >
-<button
-    type="button"
-    class="botao botao-perigo"
-    id="botao-restaurar-backup"
->
-    Restaurar Backup
-</button>
+            <input
+                type="file"
+                id="arquivo-restaurar-backup"
+                accept=".json,application/json"
+            >
 
-<p
-    id="ultimo-backup-sistema"
-    class="ultimo-backup-sistema"
->
-    Último backup realizado: nenhum backup registrado.
-</p>
+            <button
+                type="button"
+                class="botao botao-perigo"
+                id="botao-restaurar-backup"
+            >
+                Restaurar Backup
+            </button>
+
+            <p
+                id="ultimo-backup-sistema"
+                class="ultimo-backup-sistema"
+            >
+                Último backup realizado: nenhum backup registrado.
+            </p>
+        `
+        : ""
+}
 
 </section>
 

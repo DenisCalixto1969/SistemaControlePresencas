@@ -137,9 +137,13 @@ function obterDadosFormularioRelatorio() {
         "#relatorio-data-final"
     ).value;
 
-    const membroId = document.querySelector(
+    const campoMembro = document.querySelector(
         "#relatorio-membro"
-    ).value;
+    );
+
+    const membroId = campoMembro
+        ? campoMembro.value
+        : "";
 
     return {
         dataInicial,
