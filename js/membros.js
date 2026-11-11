@@ -216,23 +216,80 @@ function criarModalMembro() {
         </div>
 
 
+      <div class="linha-ingresso">
+
+    <div class="grupo-campo">
+        <label for="membro-tipo-ingresso">
+            Tipo de ingresso *
+        </label>
+
+        <select id="membro-tipo-ingresso" required>
+            <option value="">Selecione</option>
+            <option value="Iniciação">Iniciação</option>
+            <option value="Regularização">Regularização</option>
+        </select>
+    </div>
+
+    <div
+        class="grupo-campo oculto"
+        id="grupo-data-iniciacao"
+    >
+        <label for="membro-data-iniciacao">
+            Data de iniciação *
+        </label>
+
+        <input
+            type="date"
+            id="membro-data-iniciacao"
+        >
+    </div>
+
+    <div
+        class="grupo-campo oculto"
+        id="grupo-data-regularizacao"
+    >
+        <label for="membro-data-regularizacao">
+            Data de regularização *
+        </label>
+
+        <input
+            type="date"
+            id="membro-data-regularizacao"
+        >
+    </div>
+
+
+
+<div class="grupo-campo">
+    <label for="membro-grau-ingresso">
+        Grau de ingresso no Capítulo *
+    </label>
+
+    <select id="membro-grau-ingresso" required>
+        <option value="">Selecione</option>
+        ${opcoesGraus}
+    </select>
+</div>
+  </div>
+
 
         <div class="grupo-campo">
             <label for="membro-grau">
-                Grau <span class="obrigatorio">*</span>
+                Grau Atual <span class="obrigatorio">*</span>
             </label>
 
             <select id="membro-grau" required>
                 ${opcoesGraus}
             </select>
         </div>
+      
 
         <div
             class="grupo-campo"
             id="grupo-data-inicio-grau"
         >
             <label for="membro-data-inicio-grau">
-                Data de início no grau
+                Data de início no Grau Atual
                 <span class="obrigatorio">*</span>
             </label>
 
@@ -600,6 +657,13 @@ botaoFecharListaSimples.addEventListener(
     .addEventListener(
         "change",
         controlarCampoDataMudancaGrau
+    );
+
+    document
+    .querySelector("#membro-tipo-ingresso")
+    .addEventListener(
+        "change",
+        controlarCamposTipoIngresso
     );
 
     campoPesquisa.addEventListener("input", () => {
@@ -1460,6 +1524,8 @@ function abrirModalNovoMembro() {
 
     formulario.reset();
 
+    controlarCamposTipoIngresso();
+
     /*
      * Limpa o histórico que possa ter ficado
      * da visualização ou edição anterior.
@@ -1771,6 +1837,10 @@ async function abrirModalEditarMembro(id) {
         "#membro-grau"
     ).value = membro.grau;
 
+    document.querySelector(
+    "#membro-grau-ingresso"
+).value = membro.grauIngresso ?? membro.grau;
+
     grauOriginalMembro = Number(
         membro.grau
     );
@@ -1836,10 +1906,32 @@ async function abrirModalEditarMembro(id) {
     ).value = membro.cir || "";
 
     document.querySelector(
-        "#membro-cim"
-    ).value = membro.cim || "";
+    "#membro-cim"
+).value = membro.cim || "";
 
-    document.querySelector(
+document.querySelector(
+    "#membro-tipo-ingresso"
+).value = membro.tipoIngresso || "";
+
+document.querySelector(
+    "#membro-data-iniciacao"
+).value =
+    membro.dataIniciacaoCapitulo ||
+    (membro.tipoIngresso === "Iniciação"
+        ? membro.dataIngresso || ""
+        : "");
+
+document.querySelector(
+    "#membro-data-regularizacao"
+).value =
+    membro.dataRegularizacaoCapitulo ||
+    (membro.tipoIngresso === "Regularização"
+        ? membro.dataIngresso || ""
+        : "");
+
+controlarCamposTipoIngresso();
+
+       document.querySelector(
     "#membro-instrucoes-graus"
 ).value = membro.instrucoesGraus || "";
 
@@ -1906,6 +1998,9 @@ function configurarModoVisualizacaoMembro(somenteLeitura) {
         "#membro-grau",
         "#membro-cir",
         "#membro-cim",
+         "#membro-tipo-ingresso",
+        "#membro-data-iniciacao",
+        "#membro-data-regularizacao",
         "#membro-observacoes",
         "#membro-ativo",
         "#membro-data-inicio-grau",
@@ -1913,7 +2008,9 @@ function configurarModoVisualizacaoMembro(somenteLeitura) {
         "#membro-instrucoes-graus",
         "#membro-sessao-instrucoes",
         "#membro-aprovacao-elevacao-grau",
-        "#membro-sessao-aprovacao-elevacao"
+        "#membro-sessao-aprovacao-elevacao",
+        "#membro-grau-ingresso",
+       
 
     ];
 
@@ -1969,12 +2066,37 @@ async function abrirModalVisualizarMembro(id) {
     ).value = membro.grau;
 
     document.querySelector(
+    "#membro-grau-ingresso"
+).value = membro.grauIngresso ?? membro.grau;
+
+    document.querySelector(
         "#membro-cir"
     ).value = membro.cir || "";
 
     document.querySelector(
         "#membro-cim"
     ).value = membro.cim || "";
+
+    document.querySelector(
+    "#membro-tipo-ingresso"
+).value = membro.tipoIngresso || "";
+
+document.querySelector(
+    "#membro-data-iniciacao"
+).value = membro.dataIniciacaoCapitulo ||
+    (membro.tipoIngresso === "Iniciação"
+        ? membro.dataIngresso || ""
+        : "");
+
+document.querySelector(
+    "#membro-data-regularizacao"
+).value = membro.dataRegularizacaoCapitulo ||
+    (membro.tipoIngresso === "Regularização"
+        ? membro.dataIngresso || ""
+        : "");
+
+controlarCamposTipoIngresso();
+
 
     document.querySelector(
     "#membro-instrucoes-graus"
@@ -2409,6 +2531,42 @@ function controlarCampoDataMudancaGrau() {
         campoData.value = "";
     }
 }
+
+function controlarCamposTipoIngresso() {
+    const tipo = document.querySelector(
+        "#membro-tipo-ingresso"
+    ).value;
+
+    const grupoIniciacao = document.querySelector(
+        "#grupo-data-iniciacao"
+    );
+
+    const campoIniciacao = document.querySelector(
+        "#membro-data-iniciacao"
+    );
+
+    const grupoRegularizacao = document.querySelector(
+        "#grupo-data-regularizacao"
+    );
+
+    const campoRegularizacao = document.querySelector(
+        "#membro-data-regularizacao"
+    );
+
+    const mostrarIniciacao = tipo === "Iniciação";
+    const mostrarRegularizacao = tipo === "Regularização";
+
+    grupoIniciacao.classList.toggle("oculto", !mostrarIniciacao);
+    grupoRegularizacao.classList.toggle("oculto", !mostrarRegularizacao);
+
+    campoIniciacao.required = mostrarIniciacao;
+    campoRegularizacao.required = mostrarRegularizacao;
+
+    if (!mostrarIniciacao) campoIniciacao.value = "";
+    if (!mostrarRegularizacao) campoRegularizacao.value = "";
+}
+
+
     async function salvarMembro(evento) {
     evento.preventDefault();
 
@@ -2486,7 +2644,16 @@ await atualizarMembroExistente(dados);
             "sucesso"
         );
    } else {
-    const novoMembro = new Membro(dados);
+  const dataIngresso =
+    dados.tipoIngresso === "Iniciação"
+        ? dados.dataIniciacaoCapitulo
+        : dados.dataRegularizacaoCapitulo;
+
+const novoMembro = new Membro({
+    ...dados,
+    dataIngresso: dataIngresso,
+    grauIngresso: dados.grauIngresso
+});
 
     await adicionarRegistro(
         "membros",
@@ -2631,17 +2798,29 @@ async function atualizarMembroExistente(dados) {
         throw new Error("Membro não encontrado.");
     }
 
+    const dataIngresso =
+        dados.tipoIngresso === "Iniciação"
+            ? dados.dataIniciacaoCapitulo
+            : dados.tipoIngresso === "Regularização"
+                ? dados.dataRegularizacaoCapitulo
+                : membroAtual.dataIngresso;
+
     const membroAtualizado = new Membro({
         ...membroAtual,
         ...dados,
 
         id: membroAtual.id,
 
+        dataIngresso:
+            dataIngresso || membroAtual.dataIngresso,
+
+       grauIngresso:
+    dados.grauIngresso || membroAtual.grauIngresso || membroAtual.grau,
+
         dataCadastro: membroAtual.dataCadastro,
 
         dataUltimaAlteracao: new Date().toISOString()
     });
-
 
     await atualizarRegistro("membros", membroAtualizado);
 }
@@ -2659,6 +2838,12 @@ function obterDadosFormularioMembro() {
             ).value
         ),
 
+       grauIngresso: Number(
+    document.querySelector(
+        "#membro-grau-ingresso"
+    ).value
+), 
+
         dataInicioGrau: document
             .querySelector(
                 "#membro-data-inicio-grau"
@@ -2674,6 +2859,18 @@ function obterDadosFormularioMembro() {
             .querySelector("#membro-cim")
             .value
             .trim(),
+
+        tipoIngresso: document
+    .querySelector("#membro-tipo-ingresso")
+    .value,
+
+dataIniciacaoCapitulo: document
+    .querySelector("#membro-data-iniciacao")
+    .value || null,
+
+dataRegularizacaoCapitulo: document
+    .querySelector("#membro-data-regularizacao")
+    .value || null,   
 
         instrucoesGraus: document
     .querySelector("#membro-instrucoes-graus")
@@ -2721,6 +2918,31 @@ function validarDadosMembro(dados) {
    if (!CONFIG.grausMembros.includes(dados.grau))  {
         return "Selecione um grau válido.";
     }
+
+    if (
+    !dados.grauIngresso ||
+    !CONFIG.grausMembros.includes(dados.grauIngresso)
+) {
+    return "Selecione o grau de ingresso no Capítulo.";
+}
+
+    if (!dados.tipoIngresso) {
+    return "Selecione o tipo de ingresso.";
+}
+
+if (
+    dados.tipoIngresso === "Iniciação" &&
+    !dados.dataIniciacaoCapitulo
+) {
+    return "Informe a data de iniciação.";
+}
+
+if (
+    dados.tipoIngresso === "Regularização" &&
+    !dados.dataRegularizacaoCapitulo
+) {
+    return "Informe a data de regularização.";
+}
 
     if (
     !membroEmEdicaoId &&

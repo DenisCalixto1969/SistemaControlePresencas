@@ -2148,3 +2148,34 @@ body.modal-aberto {
     font-size: 18px;
     padding: 4px;
 }
+
+/* Organização dos campos de ingresso */
+.linha-ingresso {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: 1fr 1.2fr 1.3fr;
+    gap: 15px;
+    align-items: start;
+}
+
+.linha-ingresso .grupo-campo {
+    min-width: 0;
+}
+
+/* Ajuste para telas menores */
+@media (max-width: 600px) {
+    .linha-ingresso {
+        grid-template-columns: 1fr;
+    }
+}
+
+.linha-ingresso .grupo-campo {
+    min-width: 0;
+}
+
+/* Ajuste para telas menores */
+@media (max-width: 600px) {
+    .linha-ingresso {
+        grid-template-columns: 1fr;
+    }
+}
