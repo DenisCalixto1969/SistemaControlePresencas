@@ -150,6 +150,11 @@ function converterRegistroParaSupabase(registro) {
                 .replace("membroId", "membro_id")
                 .replace("dataInicio", "data_inicio")
                 .replace("dataFim", "data_fim")
+                .replace("dataIngresso", "data_ingresso")
+.replace("tipoIngresso", "tipo_ingresso")
+.replace("grauIngresso", "grau_ingresso")
+.replace("dataIniciacaoCapitulo", "data_iniciacao_capitulo")
+.replace("dataRegularizacaoCapitulo", "data_regularizacao_capitulo")
                 .replace("dataCadastro", "data_cadastro")
                 .replace(
                     "dataUltimaAlteracao",
@@ -176,9 +181,17 @@ function converterRegistroDoSupabase(registro) {
                 .replace("sessao_id", "sessaoId")
                 .replace("membro_id", "membroId")
                 .replace("data_inicio", "dataInicio")
-                .replace("data_fim", "dataFim")
-                .replace("data_cadastro", "dataCadastro")
-                .replace(
+               .replace("data_fim", "dataFim")
+               .replace("data_ingresso", "dataIngresso")
+.replace("tipo_ingresso", "tipoIngresso")
+.replace("grau_ingresso", "grauIngresso")
+.replace("data_iniciacao_capitulo", "dataIniciacaoCapitulo")
+.replace("data_regularizacao_capitulo", "dataRegularizacaoCapitulo")
+
+
+.replace("data_cadastro", "dataCadastro")
+               
+               .replace(
                     "data_ultima_alteracao",
                     "dataUltimaAlteracao"
                 )

@@ -149,18 +149,18 @@ async function membroEstavaAptoNaSessao(
         return false;
     }
 
-    const grauNaData = await buscarGrauMembroNaData(
-        membro.id,
-        sessao.data
-    );
+    const dataIngresso = membro.dataIngresso;
 
-    const grauConsiderado =
-        grauNaData !== null
-            ? grauNaData
-            : Number(membro.grau);
+    if (
+        !dataIngresso ||
+        sessao.data < dataIngresso
+    ) {
+        return false;
+    }
 
     return (
-        grauConsiderado >= Number(sessao.grau)
+        Number(membro.grau) >=
+        Number(sessao.grau)
     );
 }
 
@@ -181,25 +181,18 @@ async function listarSessoesPermitidas(
         "sessoes"
     );
 
-    const sessoesDoPeriodo = todasSessoes.filter(
-        (sessao) =>
-            sessao.data >= dataInicial &&
-            sessao.data <= dataFinal
-    );
-
-    const resultados = await Promise.all(
-        sessoesDoPeriodo.map(async (sessao) => {
-            const apto = await membroEstavaAptoNaSessao(
-                membro,
-                sessao
+    return todasSessoes
+        .filter((sessao) => {
+            return (
+                sessao.data >= dataInicial &&
+                sessao.data <= dataFinal &&
+                sessao.status === "Encerrada" &&
+                sessao.tipo !== "Não Houve Sessão" &&
+                Number(sessao.grau) <= Number(membro.grau) &&
+                sessao.data >= membro.dataIngresso &&
+                membro.ativo === true
             );
-
-            return apto ? sessao : null;
         })
-    );
-
-    return resultados
-        .filter(Boolean)
         .sort(
             (sessaoA, sessaoB) =>
                 sessaoA.data.localeCompare(
@@ -207,7 +200,6 @@ async function listarSessoesPermitidas(
                 )
         );
 }
-
 async function calcularFrequenciaMembro(
     membro,
     dataInicial,
