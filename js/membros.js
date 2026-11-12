@@ -394,13 +394,19 @@ function criarModalMembro() {
     <div class="historico-graus-cabecalho">
         <h3>Histórico de graus</h3>
 
-        <button
-            type="button"
-            class="botao-secundario"
-            id="botao-adicionar-grau-historico"
-        >
-            + Adicionar grau histórico
-        </button>
+       ${
+    perfilUsuarioAtual === "administrador"
+        ? `
+            <button
+                type="button"
+                class="botao-secundario"
+                id="botao-adicionar-grau-historico"
+            >
+                + Adicionar grau histórico
+            </button>
+        `
+        : ""
+}
     </div>
 
    <div
@@ -771,6 +777,14 @@ if (botaoSalvar) {
 }
 
 async function salvarGrauHistorico() {
+
+    if (perfilUsuarioAtual !== "administrador") {
+        mostrarErroFormularioMembro(
+            "Acesso permitido somente ao administrador."
+        );
+        return;
+    }
+
     if (!membroEmEdicaoId) {
         mostrarErroFormularioMembro(
             "Abra o membro no modo de edição para alterar o histórico."
@@ -1142,6 +1156,14 @@ async function salvarGrauHistorico() {
 }
 
 async function tratarAcaoHistoricoGrau(evento) {
+
+      if (perfilUsuarioAtual !== "administrador") {
+        mostrarErroFormularioMembro(
+            "Acesso permitido somente ao administrador."
+        );
+        return;
+    }
+
     const botao = evento.target.closest(
         "[data-acao-historico]"
     );
@@ -1179,6 +1201,13 @@ async function tratarAcaoHistoricoGrau(evento) {
 async function abrirEdicaoGrauHistorico(
     historicoId
 ) {
+ if (perfilUsuarioAtual !== "administrador") {
+        mostrarErroFormularioMembro(
+            "Acesso permitido somente ao administrador."
+        );
+        return;
+    }
+
     const registro =
         await buscarRegistroPorId(
             "historicoGraus",
@@ -1233,6 +1262,14 @@ async function abrirEdicaoGrauHistorico(
 async function excluirGrauHistorico(
     historicoId
 ) {
+
+if (perfilUsuarioAtual !== "administrador") {
+        mostrarErroFormularioMembro(
+            "Acesso permitido somente ao administrador."
+        );
+        return;
+    }
+    
     try {
         const registro =
             await buscarRegistroPorId(
@@ -1740,40 +1777,45 @@ console.log("Primeiro registro recebido:", historico[0]);
     </strong>
 
     <div class="historico-grau-acoes">
-        ${
-            grauAtual
-                ? `
-                    <span class="historico-grau-badge">
-                        Atual
-                    </span>
-                `
-                : ""
-        }
+    ${
+        grauAtual
+            ? `
+                <span class="historico-grau-badge">
+                    Atual
+                </span>
+            `
+            : ""
+    }
 
-        <button
-            type="button"
-            class="botao-icone"
-            data-acao-historico="editar"
-            data-historico-id="${item.id}"
-            title="Editar grau histórico"
-            aria-label="Editar grau ${item.grau}"
-        >
-            ✎
+    ${
+        perfilUsuarioAtual === "administrador"
+            ? `
+                <button
+                    type="button"
+                    class="botao-icone"
+                    data-acao-historico="editar"
+                    data-historico-id="${item.id}"
+                    title="Editar grau histórico"
+                    aria-label="Editar grau ${item.grau}"
+                >
+                    ✎
+                </button>
 
-            <button
-            type="button"
-            class="botao-icone botao-perigo"
-            data-acao-historico="excluir"
-            data-historico-id="${item.id}"
-            title="Excluir grau histórico"
-            aria-label="Excluir grau ${item.grau}"
-        >
-         ×
-        </button>
-        </button>
-    </div>
-    </div>
-
+                <button
+                    type="button"
+                    class="botao-icone botao-perigo"
+                    data-acao-historico="excluir"
+                    data-historico-id="${item.id}"
+                    title="Excluir grau histórico"
+                    aria-label="Excluir grau ${item.grau}"
+                >
+                    ×
+                </button>
+            `
+            : ""
+    }
+</div>
+</div>
             <span class="historico-grau-periodo">
                 ${
                     grauAtual
