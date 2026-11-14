@@ -305,6 +305,16 @@ if (botaoSalvarNovaSenha) {
 
         mensagem.textContent = "Salvando nova senha...";
 
+        // VERIFICAR SESSÃO ANTES DE ALTERAR A SENHA
+const { data: dadosSessao, error: erroSessao } =
+    await clienteSupabase.auth.getSession();
+
+console.log("SESSÃO ANTES DE SALVAR:", {
+    existe: !!dadosSessao.session,
+    usuario: dadosSessao.session?.user?.email,
+    erro: erroSessao?.message
+});
+
         const { error } = await clienteSupabase.auth.updateUser({
             password: novaSenha
         });
