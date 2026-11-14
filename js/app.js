@@ -16,9 +16,7 @@ async function iniciarAplicacao() {
      * Assim o acesso sempre exige
      * e-mail e senha novamente.
      */
-    if (!window.recuperacaoSenhaEmAndamento) {
-    await clienteSupabase.auth.signOut();
-}
+    
 
     const telaLogin =
         document.querySelector("#tela-login");
