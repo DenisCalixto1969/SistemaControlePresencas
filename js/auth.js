@@ -80,6 +80,9 @@ async function carregarVinculoMembro(usuario) {
 }
 
 async function sairDoSistema() {
+
+    console.trace("SIGNOUT EXECUTADO: SAIR DO SISTEMA");
+
     const { error } =
         await clienteSupabase.auth.signOut();
 
@@ -94,7 +97,6 @@ async function sairDoSistema() {
 
     window.location.reload();
 }
-
 
 function configurarFormularioLogin() {
     const formulario =
@@ -135,35 +137,37 @@ function configurarFormularioLogin() {
 
             usuarioAutenticadoAtual = resultado.usuario;
 
-perfilUsuarioAtual =
-    identificarPerfilUsuario(resultado.usuario);
+            perfilUsuarioAtual =
+                identificarPerfilUsuario(resultado.usuario);
 
-membroVinculadoAtual = null;
+            membroVinculadoAtual = null;
 
-// Administradores não precisam de vínculo com membros
-if (perfilUsuarioAtual === "membro") {
+            // Administradores não precisam de vínculo com membros
+            if (perfilUsuarioAtual === "membro") {
 
-    const vinculo =
-        await carregarVinculoMembro(resultado.usuario);
+                const vinculo =
+                    await carregarVinculoMembro(resultado.usuario);
 
-    if (!vinculo) {
+                if (!vinculo) {
 
-        await clienteSupabase.auth.signOut();
+                    console.trace("SIGNOUT EXECUTADO: MEMBRO SEM VINCULO");
 
-        usuarioAutenticadoAtual = null;
-        perfilUsuarioAtual = null;
-        membroVinculadoAtual = null;
+                    await clienteSupabase.auth.signOut();
 
-        mensagem.textContent =
-            "Usuário ainda não vinculado a um membro. Procure o administrador.";
+                    usuarioAutenticadoAtual = null;
+                    perfilUsuarioAtual = null;
+                    membroVinculadoAtual = null;
 
-        return;
-    }
+                    mensagem.textContent =
+                        "Usuário ainda não vinculado a um membro. Procure o administrador.";
 
-    membroVinculadoAtual = vinculo.membro_id;
-}
+                    return;
+                }
 
-mensagem.textContent = "";
+                membroVinculadoAtual = vinculo.membro_id;
+            }
+
+            mensagem.textContent = "";
 
             const telaLogin =
                 document.querySelector("#tela-login");
@@ -195,18 +199,19 @@ if (botaoMostrarSenha && campoSenha) {
 
     botaoMostrarSenha.addEventListener("click", function () {
 
-    if (campoSenha.type === "password") {
-        campoSenha.type = "text";
-        botaoMostrarSenha.textContent = "🙈";
-        botaoMostrarSenha.setAttribute("aria-label", "Ocultar senha");
-    } else {
-        campoSenha.type = "password";
-        botaoMostrarSenha.textContent = "👁️";
-        botaoMostrarSenha.setAttribute("aria-label", "Mostrar senha");
-    }
+        if (campoSenha.type === "password") {
+            campoSenha.type = "text";
+            botaoMostrarSenha.textContent = "🙈";
+            botaoMostrarSenha.setAttribute("aria-label", "Ocultar senha");
+        } else {
+            campoSenha.type = "password";
+            botaoMostrarSenha.textContent = "👁️";
+            botaoMostrarSenha.setAttribute("aria-label", "Mostrar senha");
+        }
 
-});
+    });
 }
+
 // Mostrar a área de recuperação de senha
 const botaoEsqueciSenha =
     document.getElementById("botao-esqueci-senha");
@@ -246,10 +251,11 @@ if (botaoEnviarRecuperacao) {
 
         mensagem.textContent = "Enviando link...";
 
-      const { error } =
-    await clienteSupabase.auth.resetPasswordForEmail(email, {
-        redirectTo: "https://deniscalixto1969.github.io/SistemaControlePresencas/"
-    });
+        const { error } =
+            await clienteSupabase.auth.resetPasswordForEmail(email, {
+                redirectTo: "https://deniscalixto1969.github.io/SistemaControlePresencas/"
+            });
+
         if (error) {
             console.error("Erro ao solicitar recuperação:", error);
             mensagem.textContent =
@@ -306,14 +312,14 @@ if (botaoSalvarNovaSenha) {
         mensagem.textContent = "Salvando nova senha...";
 
         // VERIFICAR SESSÃO ANTES DE ALTERAR A SENHA
-const { data: dadosSessao, error: erroSessao } =
-    await clienteSupabase.auth.getSession();
+        const { data: dadosSessao, error: erroSessao } =
+            await clienteSupabase.auth.getSession();
 
-console.log("SESSÃO ANTES DE SALVAR:", {
-    existe: !!dadosSessao.session,
-    usuario: dadosSessao.session?.user?.email,
-    erro: erroSessao?.message
-});
+        console.log("SESSÃO ANTES DE SALVAR:", {
+            existe: !!dadosSessao.session,
+            usuario: dadosSessao.session?.user?.email,
+            erro: erroSessao?.message
+        });
 
         const { error } = await clienteSupabase.auth.updateUser({
             password: novaSenha
@@ -325,6 +331,8 @@ console.log("SESSÃO ANTES DE SALVAR:", {
         }
 
         mensagem.textContent = "Senha alterada com sucesso! Faça login com sua nova senha.";
+
+        console.trace("SIGNOUT EXECUTADO: APOS ALTERAR SENHA");
 
         await clienteSupabase.auth.signOut();
 
