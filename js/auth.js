@@ -265,6 +265,10 @@ if (botaoEnviarRecuperacao) {
 // Detectar acesso pelo link de recuperação de senha
 clienteSupabase.auth.onAuthStateChange((evento, sessao) => {
 
+    console.log("EVENTO AUTH:", evento);
+    console.log("SESSÃO RECEBIDA:", !!sessao);
+    console.log("USUÁRIO:", sessao?.user?.email);
+
     if (evento === "PASSWORD_RECOVERY") {
 
         window.recuperacaoSenhaEmAndamento = true;
