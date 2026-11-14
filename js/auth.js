@@ -207,3 +207,113 @@ if (botaoMostrarSenha && campoSenha) {
 
 });
 }
+// Mostrar a área de recuperação de senha
+const botaoEsqueciSenha =
+    document.getElementById("botao-esqueci-senha");
+
+const areaRecuperacao =
+    document.getElementById("area-recuperacao");
+
+if (botaoEsqueciSenha && areaRecuperacao) {
+    botaoEsqueciSenha.addEventListener("click", () => {
+        areaRecuperacao.style.display = "block";
+
+        const emailLogin =
+            document.getElementById("login-email").value.trim();
+
+        document.getElementById("email-recuperacao").value =
+            emailLogin;
+    });
+}
+
+// Enviar link de recuperação
+const botaoEnviarRecuperacao =
+    document.getElementById("botao-enviar-recuperacao");
+
+if (botaoEnviarRecuperacao) {
+    botaoEnviarRecuperacao.addEventListener("click", async () => {
+        const email = document
+            .getElementById("email-recuperacao")
+            .value.trim();
+
+        const mensagem =
+            document.getElementById("mensagem-recuperacao");
+
+        if (!email) {
+            mensagem.textContent = "Informe seu e-mail.";
+            return;
+        }
+
+        mensagem.textContent = "Enviando link...";
+
+      const { error } =
+    await clienteSupabase.auth.resetPasswordForEmail(email, {
+        redirectTo: "https://deniscalixto1969.github.io/SistemaControlePresencas/"
+    });
+        if (error) {
+            console.error("Erro ao solicitar recuperação:", error);
+            mensagem.textContent =
+                "Não foi possível enviar o link. Tente novamente.";
+            return;
+        }
+
+        mensagem.textContent =
+            "Link enviado! Verifique seu e-mail.";
+    });
+}
+
+// Detectar acesso pelo link de recuperação de senha
+clienteSupabase.auth.onAuthStateChange((evento, sessao) => {
+
+    if (evento === "PASSWORD_RECOVERY") {
+
+        document.getElementById("formulario-login").style.display = "none";
+        document.getElementById("botao-esqueci-senha").style.display = "none";
+        document.getElementById("area-recuperacao").style.display = "none";
+
+        document.getElementById("area-nova-senha").style.display = "block";
+    }
+
+});
+
+// Salvar a nova senha
+const botaoSalvarNovaSenha = document.getElementById("botao-salvar-nova-senha");
+
+if (botaoSalvarNovaSenha) {
+    botaoSalvarNovaSenha.addEventListener("click", async () => {
+
+        const novaSenha = document.getElementById("nova-senha").value;
+        const confirmarSenha = document.getElementById("confirmar-nova-senha").value;
+        const mensagem = document.getElementById("mensagem-nova-senha");
+
+        if (novaSenha.length < 6) {
+            mensagem.textContent = "A senha deve ter pelo menos 6 caracteres.";
+            return;
+        }
+
+        if (novaSenha !== confirmarSenha) {
+            mensagem.textContent = "As senhas não coincidem.";
+            return;
+        }
+
+        mensagem.textContent = "Salvando nova senha...";
+
+        const { error } = await clienteSupabase.auth.updateUser({
+            password: novaSenha
+        });
+
+        if (error) {
+            mensagem.textContent = "Erro ao salvar senha: " + error.message;
+            return;
+        }
+
+        mensagem.textContent = "Senha alterada com sucesso! Faça login com sua nova senha.";
+
+        await clienteSupabase.auth.signOut();
+
+        document.getElementById("area-nova-senha").style.display = "none";
+        document.getElementById("formulario-login").style.display = "block";
+        document.getElementById("botao-esqueci-senha").style.display = "block";
+
+    });
+}

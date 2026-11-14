@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -14,61 +14,143 @@
 </head>
 
 <body>
-     
+
     <section id="tela-login" class="tela-login">
-    <div class="login-caixa">
-        <h2>Controle de Presenças</h2>
+        <div class="login-caixa">
 
-        <p>
-            Informe seu e-mail e senha para acessar o sistema.
-        </p>
+            <h2>Controle de Presenças</h2>
 
-        <form id="formulario-login">
-            <div class="grupo-campo">
-                <label for="login-email">E-mail</label>
+            <p>
+                Informe seu e-mail e senha para acessar o sistema.
+            </p>
 
-               <input
-               type="email"
-               id="login-email"
-               required
-               autocomplete="off"
-            >
-            </div>
+            <form id="formulario-login">
 
-            <div class="grupo-campo">
-    <label for="login-senha">Senha</label>
+                <div class="grupo-campo">
+                    <label for="login-email">E-mail</label>
 
-    <div class="campo-senha">
-        <input
-            type="password"
-            id="login-senha"
-            required
-            autocomplete="new-password"
-        >
+                    <input
+                        type="email"
+                        id="login-email"
+                        required
+                        autocomplete="off"
+                    >
+                </div>
 
-      <button
-    type="button"
-    id="mostrar-senha"
-    class="botao-olho"
-    aria-label="Mostrar senha"
->
-    👁️
-</button>
-</div>
-              <p
-                id="mensagem-login"
-                class="mensagem-login"
-            ></p>
+                <div class="grupo-campo">
+                    <label for="login-senha">Senha</label>
+
+                    <div class="campo-senha">
+                        <input
+                            type="password"
+                            id="login-senha"
+                            required
+                            autocomplete="new-password"
+                        >
+
+                        <button
+                            type="button"
+                            id="mostrar-senha"
+                            class="botao-olho"
+                            aria-label="Mostrar senha"
+                        >
+                            👁️
+                        </button>
+                    </div>
+                </div>
+
+                <p
+                    id="mensagem-login"
+                    class="mensagem-login"
+                ></p>
+
+                <button
+                    type="submit"
+                    class="botao-primario"
+                >
+                    Entrar
+                </button>
+
+            </form>
+
+            <!-- Recuperação de senha -->
 
             <button
-                type="submit"
-                class="botao-primario"
+                type="button"
+                id="botao-esqueci-senha"
+                class="botao-link"
             >
-                Entrar
+                Esqueci minha senha
             </button>
-        </form>
-    </div>
-</section>
+
+            <div
+                id="area-recuperacao"
+                style="display:none;"
+            >
+                <h3>Recuperar senha</h3>
+
+                <p>
+                    Informe seu e-mail para receber o link de recuperação.
+                </p>
+
+                <input
+                    type="email"
+                    id="email-recuperacao"
+                    placeholder="Seu e-mail"
+                >
+
+                <button
+                    type="button"
+                    id="botao-enviar-recuperacao"
+                    class="botao-primario"
+                >
+                    Enviar link
+                </button>
+
+                <p id="mensagem-recuperacao"></p>
+            </div>
+
+            <!-- Cadastro de nova senha -->
+
+            <div
+                id="area-nova-senha"
+                style="display:none;"
+            >
+                <h3>Cadastrar nova senha</h3>
+
+                <label for="nova-senha">
+                    Nova senha
+                </label>
+
+                <input
+                    type="password"
+                    id="nova-senha"
+                    autocomplete="new-password"
+                >
+
+                <label for="confirmar-nova-senha">
+                    Confirmar nova senha
+                </label>
+
+                <input
+                    type="password"
+                    id="confirmar-nova-senha"
+                    autocomplete="new-password"
+                >
+
+                <button
+                    type="button"
+                    id="botao-salvar-nova-senha"
+                    class="botao-primario"
+                >
+                    Salvar nova senha
+                </button>
+
+                <p id="mensagem-nova-senha"></p>
+            </div>
+
+        </div>
+    </section>
 
 
     <header class="cabecalho">
@@ -78,84 +160,93 @@
         </div>
     </header>
 
-   <nav class="menu-principal">
-    <button
-        type="button"
-        class="menu-botao ativo"
-        data-modulo="inicio"
+
+    <nav class="menu-principal">
+
+        <button
+            type="button"
+            class="menu-botao ativo"
+            data-modulo="inicio"
+        >
+            Início
+        </button>
+
+        <button
+            type="button"
+            class="menu-botao"
+            data-modulo="membros"
+        >
+            Membros
+        </button>
+
+        <button
+            type="button"
+            class="menu-botao"
+            data-modulo="sessoes"
+        >
+            Sessões
+        </button>
+
+        <button
+            type="button"
+            class="menu-botao"
+            data-modulo="presencas"
+            data-perfil="administrador"
+        >
+            Presenças
+        </button>
+
+        <button
+            type="button"
+            class="menu-botao"
+            data-modulo="relatorios"
+        >
+            Relatórios
+        </button>
+
+        <button
+            type="button"
+            class="menu-botao"
+            data-modulo="ranking"
+        >
+            Ranking
+        </button>
+
+        <button
+            type="button"
+            id="botao-sair"
+            class="botao-secundario"
+        >
+            Sair
+        </button>
+
+    </nav>
+
+
+    <main
+        class="conteudo-principal"
+        id="conteudo-principal"
     >
-        Início
-    </button>
 
-    <button
-        type="button"
-        class="menu-botao"
-        data-modulo="membros"
+    </main>
+
+
+    <section
+        id="modulo-sessao-aberta"
+        style="display:none;"
     >
-        Membros
-    </button>
+    </section>
 
-    <button
-        type="button"
-        class="menu-botao"
-        data-modulo="sessoes"
-    >
-        Sessões
-    </button>
-
-    <button
-        type="button"
-        class="menu-botao"
-        data-modulo="presencas"
-         data-perfil="administrador"
-    >
-        Presenças
-    </button>
-
-    <button
-        type="button"
-        class="menu-botao"
-        data-modulo="relatorios"
-    >
-        Relatórios
-    </button>
-
-    <button
-        type="button"
-        class="menu-botao"
-        data-modulo="ranking"
-    >
-        Ranking
-    </button>
-
-    <button
-    type="button"
-    id="botao-sair"
-    class="botao-secundario"
->
-    Sair
-</button>
-</nav>
-
-   <main
-    class="conteudo-principal"
-    id="conteudo-principal"
->
-
-</main>
-<section
-    id="modulo-sessao-aberta"
-    style="display:none;"
->
-</section>
 
     <footer class="rodape">
         <p>
-          Sub.'. Cap.'. CCav.'. Rosa Cruz "Alfredo Gabriel" - Guaraçai/SP - "Desenvolvido por DenisCalixto & ChatGPT"
+            Sub.'. Cap.'. CCav.'. Rosa Cruz "Alfredo Gabriel" - Guaraçai/SP - "Desenvolvido por DenisCalixto & ChatGPT"
         </p>
     </footer>
 
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <script src="js/config.js"></script>
     <script src="js/supabase.js"></script>
     <script src="js/auth.js"></script>
