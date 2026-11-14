@@ -267,7 +267,10 @@ clienteSupabase.auth.onAuthStateChange((evento, sessao) => {
 
     if (evento === "PASSWORD_RECOVERY") {
 
+        window.recuperacaoSenhaEmAndamento = true;
+
         document.getElementById("formulario-login").style.display = "none";
+
         document.getElementById("botao-esqueci-senha").style.display = "none";
         document.getElementById("area-recuperacao").style.display = "none";
 
