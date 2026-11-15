@@ -268,23 +268,54 @@ if (botaoEnviarRecuperacao) {
     });
 }
 
-// Detectar acesso pelo link de recuperação de senha
+
+// Detectar primeiro acesso por convite ou recuperação de senha
 clienteSupabase.auth.onAuthStateChange((evento, sessao) => {
 
     console.log("EVENTO AUTH:", evento);
     console.log("SESSÃO RECEBIDA:", !!sessao);
     console.log("USUÁRIO:", sessao?.user?.email);
 
-    if (evento === "PASSWORD_RECOVERY") {
+    if (!sessao?.user) {
+        return;
+    }
 
-        window.recuperacaoSenhaEmAndamento = true;
+    const usuario = sessao.user;
 
-        document.getElementById("formulario-login").style.display = "none";
+    const primeiroAcessoConvite =
+        usuario.invited_at &&
+        usuario.user_metadata?.senha_inicial_definida !== true;
 
-        document.getElementById("botao-esqueci-senha").style.display = "none";
-        document.getElementById("area-recuperacao").style.display = "none";
+    if (
+        evento === "PASSWORD_RECOVERY" ||
+        primeiroAcessoConvite
+    ) {
 
-        document.getElementById("area-nova-senha").style.display = "block";
+        window.recuperacaoSenhaEmAndamento =
+            evento === "PASSWORD_RECOVERY";
+
+        document.getElementById(
+            "formulario-login"
+        ).style.display = "none";
+
+        document.getElementById(
+            "botao-esqueci-senha"
+        ).style.display = "none";
+
+        document.getElementById(
+            "area-recuperacao"
+        ).style.display = "none";
+
+        document.getElementById(
+            "area-nova-senha"
+        ).style.display = "block";
+
+        if (primeiroAcessoConvite) {
+            document.getElementById(
+                "mensagem-nova-senha"
+            ).textContent =
+                "Bem-vindo! Crie sua senha para acessar o sistema.";
+        }
     }
 
 });
@@ -321,9 +352,12 @@ if (botaoSalvarNovaSenha) {
             erro: erroSessao?.message
         });
 
-        const { error } = await clienteSupabase.auth.updateUser({
-            password: novaSenha
-        });
+     const { error } = await clienteSupabase.auth.updateUser({
+    password: novaSenha,
+    data: {
+        senha_inicial_definida: true
+    }
+});
 
         if (error) {
             mensagem.textContent = "Erro ao salvar senha: " + error.message;
