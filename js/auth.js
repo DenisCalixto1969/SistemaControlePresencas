@@ -135,6 +135,39 @@ function configurarFormularioLogin() {
                 return;
             }
 
+            // Verificar se é o primeiro acesso por convite
+const usuario = resultado.usuario;
+
+const primeiroAcessoConvite =
+    usuario.invited_at &&
+    usuario.user_metadata?.senha_inicial_definida !== true;
+
+if (primeiroAcessoConvite) {
+
+    document.getElementById(
+        "formulario-login"
+    ).style.display = "none";
+
+    document.getElementById(
+        "botao-esqueci-senha"
+    ).style.display = "none";
+
+    document.getElementById(
+        "area-recuperacao"
+    ).style.display = "none";
+
+    document.getElementById(
+        "area-nova-senha"
+    ).style.display = "block";
+
+    document.getElementById(
+        "mensagem-nova-senha"
+    ).textContent =
+        "Bem-vindo! Crie sua senha para acessar o sistema.";
+
+    return;
+}
+
             usuarioAutenticadoAtual = resultado.usuario;
 
             perfilUsuarioAtual =
