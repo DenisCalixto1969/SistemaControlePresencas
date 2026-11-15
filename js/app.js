@@ -1,7 +1,5 @@
 "use strict";
 
-
-
 document.addEventListener(
     "DOMContentLoaded",
     iniciarAplicacao
@@ -32,8 +30,18 @@ async function iniciarSistema() {
 
         configurarMenu();
 
-        await abrirModulo("inicio");
+      await abrirModulo("inicio");
 
+// Registra a tela inicial como ponto de partida
+// da navegação entre os módulos.
+history.replaceState(
+    {
+        sistemaModulo: true,
+        modulo: "inicio"
+    },
+    "",
+    window.location.href
+);
         console.log(
             "Sistema Controle Presenças iniciado."
         );
@@ -69,30 +77,98 @@ function configurarMenu() {
             botao.hidden = false;
         }
 
-        botao.addEventListener("click", async () => {
+       botao.addEventListener("click", async () => {
 
-            const nomeModulo =
-                botao.dataset.modulo;
+    const nomeModulo = botao.dataset.modulo;
 
-            atualizarBotaoAtivo(botao);
+    // Evita criar histórico ao clicar no módulo já aberto.
+    if (history.state?.modulo === nomeModulo) {
+        return;
+    }
 
-            try {
-                await abrirModulo(nomeModulo);
+    // Registra a navegação no histórico do navegador.
+    history.pushState(
+        {
+            sistemaModulo: true,
+            modulo: nomeModulo
+        },
+        "",
+        window.location.href
+    );
 
-            } catch (erro) {
+    try {
+        await abrirModulo(nomeModulo);
 
-                console.error(
-                    `Erro ao abrir o módulo ${nomeModulo}:`,
-                    erro
-                );
+        atualizarBotaoAtivo(botao);
 
-                mostrarMensagem(
-                    "Não foi possível abrir o módulo.",
-                    "erro"
-                );
-            }
-        });
+    } catch (erro) {
+
+        console.error(
+            `Erro ao abrir o módulo ${nomeModulo}:`,
+            erro
+        );
+
+        mostrarMensagem(
+            "Não foi possível abrir o módulo.",
+            "erro"
+        );
+    }
+});
+
     });
+
+    window.removeEventListener(
+    "popstate",
+    tratarNavegacaoHistorico
+);
+
+window.addEventListener(
+    "popstate",
+    tratarNavegacaoHistorico
+);
+}
+
+function tratarNavegacaoHistorico(evento) {
+
+    const estado = evento.state;
+
+    // Só tratamos os registros criados pelo sistema.
+    if (
+        !estado ||
+        !estado.sistemaModulo ||
+        !estado.modulo
+    ) {
+        return;
+    }
+
+    const nomeModulo = estado.modulo;
+
+    // Atualiza o conteúdo do módulo sem criar
+    // uma nova entrada no histórico.
+    abrirModulo(nomeModulo)
+        .then(() => {
+
+            const botao = document.querySelector(
+                `.menu-botao[data-modulo="${nomeModulo}"]`
+            );
+
+            if (botao) {
+                atualizarBotaoAtivo(botao);
+            }
+
+        })
+        .catch((erro) => {
+
+            console.error(
+                "Erro ao recuperar módulo pelo histórico:",
+                erro
+            );
+
+            mostrarMensagem(
+                "Não foi possível recuperar o módulo.",
+                "erro"
+            );
+        });
 }
 
 function atualizarBotaoAtivo(botaoSelecionado) {
