@@ -8,7 +8,7 @@ const CONFIG = {
 
     administradores: [
         "capituloagabriel@gmail.com",
-        "deniscalixto04@gmail.com"
+       "deniscalixto04@gmail.com",
     ],
 
     banco: {
